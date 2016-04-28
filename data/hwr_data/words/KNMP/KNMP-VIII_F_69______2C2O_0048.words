@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Image name="KNMP-VIII_F_69______2C2O_0048">
+    <TextLine no="1" top="270" bottom="353" left="785" right="1108" shear="0">
+        <Word no="1" top="273" bottom="333" left="933" right="1108" shear="0" text="multa"/>
+        <Word no="2" top="270" bottom="353" left="785" right="935" shear="0" text="Quid"/>
+    </TextLine>
+    <TextLine no="2" top="429" bottom="523" left="473" right="592" shear="0">
+        <Word no="1" top="429" bottom="523" left="473" right="592" shear="0" text="Post"/>
+    </TextLine>
+    <TextLine no="3" top="532" bottom="591" left="723" right="755" shear="0">
+        <Word no="1" top="532" bottom="591" left="723" right="755" shear="0" text="h"/>
+    </TextLine>
+    <TextLine no="4" top="852" bottom="909" left="340" right="478" shear="0">
+        <Word no="1" top="855" bottom="909" left="340" right="396" shear="0" text="ex"/>
+        <Word no="2" top="852" bottom="908" left="389" right="478" shear="0" text="hac"/>
+    </TextLine>
+    <TextLine no="5" top="904" bottom="985" left="1039" right="1684" shear="0">
+        <Word no="1" top="933" bottom="975" left="1645" right="1684" shear="0" text="x"/>
+        <Word no="2" top="929" bottom="976" left="1388" right="1425" shear="0" text="e"/>
+        <Word no="3" top="926" bottom="985" left="1039" right="1134" shear="0" text="hoc"/>
+        <Word no="4" top="904" bottom="981" left="1434" right="1533" shear="0" text="Hac"/>
+        <Word no="5" top="926" bottom="985" left="1039" right="1077" shear="0" text="h"/>
+    </TextLine>
+    <TextLine no="6" top="1089" bottom="1157" left="635" right="1457" shear="0">
+        <Word no="1" top="1089" bottom="1148" left="1290" right="1457" shear="0" text="@valde_ualde"/>
+        <Word no="2" top="1097" bottom="1157" left="635" right="759" shear="0" text="alta"/>
+    </TextLine>
+    <TextLine no="7" top="1180" bottom="1252" left="1019" right="1190" shear="0">
+        <Word no="1" top="1180" bottom="1252" left="1019" right="1190" shear="0" text="studi"/>
+    </TextLine>
+    <TextLine no="8" top="1291" bottom="1340" left="745" right="1191" shear="0">
+        <Word no="1" top="1291" bottom="1336" left="1125" right="1191" shear="0" text="ex"/>
+        <Word no="2" top="1294" bottom="1340" left="745" right="811" shear="0" text="ex"/>
+    </TextLine>
+    <TextLine no="9" top="1513" bottom="1603" left="888" right="1206" shear="0">
+        <Word no="1" top="1518" bottom="1598" left="1056" right="1206" shear="0" text="longe"/>
+        <Word no="2" top="1513" bottom="1603" left="888" right="937" shear="0" text="Q"/>
+    </TextLine>
+    <TextLine no="10" top="1648" bottom="1735" left="1136" right="1722" shear="0">
+        <Word no="1" top="1648" bottom="1718" left="1634" right="1722" shear="0" text="cui"/>
+        <Word no="2" top="1670" bottom="1735" left="1136" right="1301" shear="0" text="medio"/>
+    </TextLine>
+    <TextLine no="11" top="1748" bottom="1822" left="919" right="1025" shear="0">
+        <Word no="1" top="1748" bottom="1822" left="919" right="1025" shear="0" text="duo"/>
+    </TextLine>
+    <TextLine no="12" top="1855" bottom="1940" left="362" right="1560" shear="0">
+        <Word no="1" top="1867" bottom="1925" left="362" right="485" shear="0" text="pars"/>
+        <Word no="2" top="1871" bottom="1940" left="490" right="675" shear="0" text="magna"/>
+        <Word no="3" top="1855" bottom="1917" left="1455" right="1560" shear="0" text="que"/>
+    </TextLine>
+    <TextLine no="13" top="1920" bottom="1997" left="370" right="1005" shear="0">
+        <Word no="1" top="1920" bottom="1996" left="928" right="1005" shear="0" text="At"/>
+        <Word no="2" top="1944" bottom="1997" left="370" right="519" shear="0" text="mala"/>
+    </TextLine>
+    <TextLine no="14" top="2028" bottom="2092" left="1100" right="1304" shear="0">
+        <Word no="1" top="2028" bottom="2092" left="1100" right="1304" shear="0" text="ponere"/>
+        <Word no="2" top="2028" bottom="2092" left="1100" right="1296" shear="0" text="ponere"/>
+    </TextLine>
+    <TextLine no="15" top="2100" bottom="2161" left="1160" right="1313" shear="0">
+        <Word no="1" top="2100" bottom="2161" left="1160" right="1313" shear="0" text="plena"/>
+    </TextLine>
+    <TextLine no="16" top="2185" bottom="2241" left="653" right="843" shear="0">
+        <Word no="1" top="2185" bottom="2241" left="653" right="843" shear="0" text="candela"/>
+    </TextLine>
+    <TextLine no="17" top="2193" bottom="2241" left="653" right="843" shear="0">
+        <Word no="1" top="2193" bottom="2241" left="653" right="843" shear="0" text="candela"/>
+    </TextLine>
+    <TextLine no="18" top="2259" bottom="2320" left="1283" right="1354" shear="0">
+        <Word no="1" top="2259" bottom="2320" left="1283" right="1354" shear="0" text="ad"/>
+    </TextLine>
+    <TextLine no="19" top="2275" bottom="2335" left="1574" right="1612" shear="0">
+        <Word no="1" top="2275" bottom="2335" left="1574" right="1612" shear="0" text="B"/>
+    </TextLine>
+    <TextLine no="20" top="2347" bottom="2420" left="373" right="847" shear="0">
+        <Word no="1" top="2347" bottom="2420" left="531" right="838" shear="0" text="ponderabat"/>
+        <Word no="2" top="2347" bottom="2420" left="531" right="847" shear="0" text="ponderabat"/>
+        <Word no="3" top="2361" bottom="2418" left="373" right="495" shear="0" text="pars"/>
+    </TextLine>
+</Image>

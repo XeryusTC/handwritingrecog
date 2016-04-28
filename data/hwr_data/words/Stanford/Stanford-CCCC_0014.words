@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Image name="Stanford-CCCC_0014">
+    <TextLine no="1" top="452" bottom="528" left="88" right="1036" shear="0">
+        <Word no="1" top="452" bottom="526" left="996" right="1036" shear="0" text="d"/>
+        <Word no="2" top="478" bottom="528" left="88" right="154" shear="0" text="to"/>
+    </TextLine>
+    <TextLine no="2" top="584" bottom="646" left="1013" right="1285" shear="0">
+        <Word no="1" top="584" bottom="646" left="1013" right="1285" shear="0" text="@mannum_mannu^~"/>
+    </TextLine>
+    <TextLine no="3" top="753" bottom="890" left="477" right="576" shear="0">
+        <Word no="1" top="753" bottom="890" left="477" right="576" shear="0" text="@the_thorn_e"/>
+    </TextLine>
+    <TextLine no="4" top="869" bottom="941" left="414" right="600" shear="0">
+        <Word no="1" top="869" bottom="941" left="414" right="600" shear="0" text="mode"/>
+    </TextLine>
+    <TextLine no="5" top="979" bottom="1099" left="985" right="1026" shear="0">
+        <Word no="1" top="979" bottom="1099" left="985" right="1026" shear="0" text="@thorn"/>
+    </TextLine>
+    <TextLine no="6" top="1088" bottom="1152" left="651" right="692" shear="0">
+        <Word no="1" top="1088" bottom="1152" left="651" right="692" shear="0" text="s"/>
+    </TextLine>
+    <TextLine no="7" top="1168" bottom="1299" left="282" right="1742" shear="0">
+        <Word no="1" top="1168" bottom="1299" left="282" right="333" shear="0" text="@thorn"/>
+        <Word no="2" top="1195" bottom="1299" left="1693" right="1742" shear="0" text="@thorn"/>
+        <Word no="3" top="1185" bottom="1264" left="1475" right="1513" shear="0" text="d"/>
+        <Word no="4" top="1189" bottom="1292" left="529" right="569" shear="0" text="p"/>
+    </TextLine>
+    <TextLine no="8" top="1475" bottom="1583" left="1763" right="1814" shear="0">
+        <Word no="1" top="1475" bottom="1583" left="1763" right="1814" shear="0" text="S"/>
+    </TextLine>
+    <TextLine no="9" top="1586" bottom="1664" left="770" right="901" shear="0">
+        <Word no="1" top="1586" bottom="1664" left="770" right="901" shear="0" text="mid"/>
+    </TextLine>
+    <TextLine no="10" top="1680" bottom="1766" left="503" right="559" shear="0">
+        <Word no="1" top="1680" bottom="1766" left="503" right="559" shear="0" text="h"/>
+    </TextLine>
+    <TextLine no="11" top="1912" bottom="2011" left="460" right="729" shear="0">
+        <Word no="1" top="1912" bottom="1970" left="460" right="498" shear="0" text="s"/>
+        <Word no="2" top="1918" bottom="2011" left="686" right="729" shear="0" text="p"/>
+    </TextLine>
+    <TextLine no="12" top="2620" bottom="2701" left="1593" right="1640" shear="0">
+        <Word no="1" top="2620" bottom="2701" left="1593" right="1640" shear="0" text="h"/>
+    </TextLine>
+    <TextLine no="13" top="2747" bottom="2799" left="1298" right="1347" shear="0">
+        <Word no="1" top="2747" bottom="2799" left="1298" right="1347" shear="0" text="a"/>
+    </TextLine>
+    <TextLine no="14" top="2918" bottom="3040" left="628" right="851" shear="0">
+        <Word no="1" top="2925" bottom="3004" left="719" right="851" shear="0" text="mid"/>
+        <Word no="2" top="2918" bottom="3040" left="628" right="676" shear="0" text="@thorn"/>
+    </TextLine>
+    <TextLine no="15" top="3118" bottom="3240" left="129" right="1066" shear="0">
+        <Word no="1" top="3118" bottom="3199" left="129" right="297" shear="0" text="mede"/>
+        <Word no="2" top="3125" bottom="3240" left="953" right="1066" shear="0" text="hir"/>
+        <Word no="3" top="3126" bottom="3199" left="129" right="292" shear="0" text="mede"/>
+    </TextLine>
+    <TextLine no="16" top="3330" bottom="3446" left="1437" right="1645" shear="0">
+        <Word no="1" top="3330" bottom="3446" left="1437" right="1645" shear="0" text="thonne"/>
+    </TextLine>
+    <TextLine no="17" top="3439" bottom="3620" left="366" right="405" shear="0">
+        <Word no="1" top="3439" bottom="3620" left="366" right="405" shear="0" text="d"/>
+    </TextLine>
+</Image>

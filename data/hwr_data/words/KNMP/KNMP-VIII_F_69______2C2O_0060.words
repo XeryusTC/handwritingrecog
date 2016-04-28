@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Image name="KNMP-VIII_F_69______2C2O_0060">
+    <TextLine no="1" top="85" bottom="143" left="460" right="592" shear="0">
+        <Word no="1" top="85" bottom="143" left="460" right="592" shear="0" text="hanc"/>
+    </TextLine>
+    <TextLine no="2" top="1180" bottom="1224" left="1579" right="1626" shear="0">
+        <Word no="1" top="1180" bottom="1224" left="1579" right="1626" shear="0" text="e"/>
+    </TextLine>
+    <TextLine no="3" top="1337" bottom="1410" left="348" right="429" shear="0">
+        <Word no="1" top="1356" bottom="1409" left="389" right="429" shear="0" text="h"/>
+        <Word no="2" top="1337" bottom="1410" left="348" right="396" shear="0" text="C"/>
+    </TextLine>
+    <TextLine no="4" top="1413" bottom="1497" left="349" right="490" shear="0">
+        <Word no="1" top="1413" bottom="1497" left="349" right="490" shear="0" text="Otto"/>
+    </TextLine>
+    <TextLine no="5" top="1584" bottom="1655" left="501" right="699" shear="0">
+        <Word no="1" top="1584" bottom="1655" left="501" right="699" shear="0" text="adhuc"/>
+    </TextLine>
+    <TextLine no="6" top="1670" bottom="1759" left="353" right="592" shear="0">
+        <Word no="1" top="1670" bottom="1759" left="353" right="592" shear="0" text="pollere"/>
+    </TextLine>
+    <TextLine no="7" top="1727" bottom="1844" left="1197" right="1567" shear="0">
+        <Word no="1" top="1761" bottom="1844" left="1515" right="1567" shear="0" text="g"/>
+        <Word no="2" top="1727" bottom="1813" left="1197" right="1304" shear="0" text="Nec"/>
+    </TextLine>
+    <TextLine no="8" top="2024" bottom="2090" left="490" right="1465" shear="0">
+        <Word no="1" top="2024" bottom="2074" left="1156" right="1465" shear="0" text="Poloniensi"/>
+        <Word no="2" top="2024" bottom="2074" left="1156" right="1453" shear="0" text="Poloniensi"/>
+        <Word no="3" top="2024" bottom="2090" left="490" right="851" shear="0" text="tempestate"/>
+        <Word no="4" top="2024" bottom="2075" left="847" right="1156" shear="0" text="Kazimir"/>
+    </TextLine>
+    <TextLine no="9" top="2087" bottom="2152" left="1557" right="1602" shear="0">
+        <Word no="1" top="2087" bottom="2152" left="1557" right="1602" shear="0" text="B"/>
+    </TextLine>
+    <TextLine no="10" top="2105" bottom="2152" left="1557" right="1602" shear="0">
+        <Word no="1" top="2105" bottom="2152" left="1557" right="1602" shear="0" text="B"/>
+    </TextLine>
+    <TextLine no="11" top="2336" bottom="2398" left="702" right="826" shear="0">
+        <Word no="1" top="2336" bottom="2398" left="702" right="826" shear="0" text="loca"/>
+    </TextLine>
+</Image>

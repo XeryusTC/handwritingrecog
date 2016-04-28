@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Image name="Stanford-CCCC_0068">
+    <TextLine no="1" top="237" bottom="278" left="367" right="418" shear="0">
+        <Word no="1" top="237" bottom="278" left="367" right="418" shear="0" text="to"/>
+    </TextLine>
+    <TextLine no="2" top="369" bottom="428" left="564" right="910" shear="0">
+        <Word no="1" top="369" bottom="428" left="693" right="910" shear="0" text="custodiam"/>
+        <Word no="2" top="387" bottom="428" left="564" right="594" shear="0" text="o"/>
+    </TextLine>
+    <TextLine no="3" top="496" bottom="567" left="843" right="1207" shear="0">
+        <Word no="1" top="496" bottom="561" left="1119" right="1207" shear="0" text="Beo"/>
+        <Word no="2" top="496" bottom="561" left="1119" right="1160" shear="0" text="B"/>
+        <Word no="3" top="527" bottom="567" left="843" right="891" shear="0" text="to"/>
+    </TextLine>
+    <TextLine no="4" top="579" bottom="662" left="414" right="893" shear="0">
+        <Word no="1" top="579" bottom="662" left="714" right="893" shear="0" text="strengthe"/>
+        <Word no="2" top="587" bottom="661" left="414" right="557" shear="0" text="thenne"/>
+    </TextLine>
+    <TextLine no="5" top="665" bottom="706" left="1385" right="1449" shear="0">
+        <Word no="1" top="665" bottom="706" left="1385" right="1449" shear="0" text="@s_horizontal"/>
+    </TextLine>
+    <TextLine no="6" top="729" bottom="806" left="557" right="960" shear="0">
+        <Word no="1" top="729" bottom="806" left="896" right="960" shear="0" text="@the_thorn_e"/>
+        <Word no="2" top="733" bottom="795" left="557" right="640" shear="0" text="heo"/>
+    </TextLine>
+    <TextLine no="7" top="802" bottom="863" left="516" right="623" shear="0">
+        <Word no="1" top="802" bottom="863" left="516" right="623" shear="0" text="beoth"/>
+    </TextLine>
+    <TextLine no="8" top="1197" bottom="1242" left="1116" right="1144" shear="0">
+        <Word no="1" top="1197" bottom="1242" left="1116" right="1144" shear="0" text="e"/>
+    </TextLine>
+    <TextLine no="9" top="1267" bottom="1310" left="1069" right="1118" shear="0">
+        <Word no="1" top="1267" bottom="1310" left="1069" right="1118" shear="0" text="to"/>
+    </TextLine>
+    <TextLine no="10" top="1334" bottom="1388" left="921" right="1231" shear="0">
+        <Word no="1" top="1334" bottom="1387" left="1184" right="1231" shear="0" text="to"/>
+        <Word no="2" top="1347" bottom="1388" left="921" right="952" shear="0" text="o"/>
+    </TextLine>
+    <TextLine no="11" top="1410" bottom="1464" left="701" right="1346" shear="0">
+        <Word no="1" top="1410" bottom="1464" left="701" right="750" shear="0" text="@se_fe"/>
+        <Word no="2" top="1416" bottom="1457" left="1301" right="1346" shear="0" text="to"/>
+    </TextLine>
+    <TextLine no="12" top="1489" bottom="1542" left="347" right="1258" shear="0">
+        <Word no="1" top="1489" bottom="1531" left="1206" right="1258" shear="0" text="to"/>
+        <Word no="2" top="1500" bottom="1542" left="347" right="399" shear="0" text="to"/>
+    </TextLine>
+    <TextLine no="13" top="1696" bottom="1787" left="461" right="753" shear="0">
+        <Word no="1" top="1722" bottom="1787" left="721" right="753" shear="0" text="o"/>
+        <Word no="2" top="1696" bottom="1781" left="461" right="584" shear="0" text="godd"/>
+    </TextLine>
+    <TextLine no="14" top="1846" bottom="1910" left="984" right="1097" shear="0">
+        <Word no="1" top="1846" bottom="1910" left="984" right="1097" shear="0" text="beoth"/>
+    </TextLine>
+    <TextLine no="15" top="1929" bottom="1986" left="937" right="973" shear="0">
+        <Word no="1" top="1929" bottom="1986" left="937" right="973" shear="0" text="d"/>
+    </TextLine>
+    <TextLine no="16" top="2075" bottom="2132" left="170" right="466" shear="0">
+        <Word no="1" top="2075" bottom="2132" left="396" right="466" shear="0" text="for"/>
+        <Word no="2" top="2086" bottom="2132" left="170" right="266" shear="0" text="ant"/>
+    </TextLine>
+</Image>

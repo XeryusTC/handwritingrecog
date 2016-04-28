@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Image name="Stanford-CCCC_0012">
+    <TextLine no="1" top="322" bottom="383" left="1000" right="1039" shear="0">
+        <Word no="1" top="322" bottom="383" left="1000" right="1039" shear="0" text="s"/>
+    </TextLine>
+    <TextLine no="2" top="407" bottom="491" left="1163" right="1215" shear="0">
+        <Word no="1" top="407" bottom="491" left="1163" right="1215" shear="0" text="h"/>
+    </TextLine>
+    <TextLine no="3" top="729" bottom="822" left="257" right="1830" shear="0">
+        <Word no="1" top="738" bottom="822" left="1645" right="1830" shear="0" text="butan"/>
+        <Word no="2" top="729" bottom="784" left="257" right="296" shear="0" text="s"/>
+    </TextLine>
+    <TextLine no="4" top="956" bottom="1029" left="1647" right="1876" shear="0">
+        <Word no="1" top="956" bottom="1029" left="1647" right="1876" shear="0" text="middan"/>
+        <Word no="2" top="956" bottom="1023" left="1730" right="1768" shear="0" text="d"/>
+    </TextLine>
+    <TextLine no="5" top="1460" bottom="1537" left="452" right="1758" shear="0">
+        <Word no="1" top="1475" bottom="1537" left="1718" right="1758" shear="0" text="s"/>
+        <Word no="2" top="1460" bottom="1506" left="452" right="484" shear="0" text="o"/>
+    </TextLine>
+    <TextLine no="6" top="1547" bottom="1613" left="338" right="379" shear="0">
+        <Word no="1" top="1547" bottom="1613" left="338" right="379" shear="0" text="d"/>
+    </TextLine>
+    <TextLine no="7" top="2091" bottom="2148" left="949" right="990" shear="0">
+        <Word no="1" top="2091" bottom="2148" left="949" right="990" shear="0" text="s"/>
+    </TextLine>
+    <TextLine no="8" top="2182" bottom="2279" left="575" right="616" shear="0">
+        <Word no="1" top="2182" bottom="2279" left="575" right="616" shear="0" text="p"/>
+    </TextLine>
+    <TextLine no="9" top="2588" bottom="2633" left="258" right="303" shear="0">
+        <Word no="1" top="2588" bottom="2633" left="258" right="303" shear="0" text="a"/>
+    </TextLine>
+    <TextLine no="10" top="2924" bottom="2996" left="1633" right="1670" shear="0">
+        <Word no="1" top="2924" bottom="2996" left="1633" right="1670" shear="0" text="d"/>
+    </TextLine>
+    <TextLine no="11" top="2990" bottom="3054" left="173" right="210" shear="0">
+        <Word no="1" top="2990" bottom="3054" left="173" right="210" shear="0" text="d"/>
+    </TextLine>
+</Image>

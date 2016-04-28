@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Image name="Stanford-CCCC_0070">
+    <TextLine no="1" top="637" bottom="677" left="1338" right="1368" shear="0">
+        <Word no="1" top="637" bottom="677" left="1338" right="1368" shear="0" text="o"/>
+    </TextLine>
+    <TextLine no="2" top="759" bottom="826" left="1200" right="1304" shear="0">
+        <Word no="1" top="759" bottom="826" left="1200" right="1304" shear="0" text="other"/>
+    </TextLine>
+    <TextLine no="3" top="995" bottom="1067" left="443" right="542" shear="0">
+        <Word no="1" top="995" bottom="1067" left="443" right="542" shear="0" text="god"/>
+    </TextLine>
+    <TextLine no="4" top="1061" bottom="1140" left="892" right="1433" shear="0">
+        <Word no="1" top="1067" bottom="1139" left="1171" right="1257" shear="0" text="god"/>
+        <Word no="2" top="1062" bottom="1140" left="1331" right="1433" shear="0" text="god"/>
+        <Word no="3" top="1061" bottom="1128" left="892" right="1041" shear="0" text="maketh"/>
+    </TextLine>
+    <TextLine no="5" top="1144" bottom="1217" left="1110" right="1212" shear="0">
+        <Word no="1" top="1144" bottom="1217" left="1110" right="1204" shear="0" text="god"/>
+        <Word no="2" top="1144" bottom="1217" left="1110" right="1212" shear="0" text="god"/>
+    </TextLine>
+    <TextLine no="6" top="1440" bottom="1496" left="1286" right="1360" shear="0">
+        <Word no="1" top="1440" bottom="1496" left="1286" right="1360" shear="0" text="@est_eft"/>
+    </TextLine>
+    <TextLine no="7" top="1492" bottom="1586" left="1170" right="1446" shear="0">
+        <Word no="1" top="1492" bottom="1566" left="1321" right="1446" shear="0" text="other"/>
+        <Word no="2" top="1508" bottom="1586" left="1170" right="1276" shear="0" text="god"/>
+    </TextLine>
+    <TextLine no="8" top="1876" bottom="1951" left="1091" right="1191" shear="0">
+        <Word no="1" top="1876" bottom="1951" left="1091" right="1191" shear="0" text="god"/>
+    </TextLine>
+    <TextLine no="9" top="1948" bottom="2020" left="1274" right="1382" shear="0">
+        <Word no="1" top="1948" bottom="2020" left="1274" right="1382" shear="0" text="dude"/>
+    </TextLine>
+    <TextLine no="10" top="2017" bottom="2086" left="818" right="1390" shear="0">
+        <Word no="1" top="2017" bottom="2081" left="1031" right="1138" shear="0" text="other"/>
+        <Word no="2" top="2025" bottom="2086" left="818" right="914" shear="0" text="other"/>
+        <Word no="3" top="2021" bottom="2080" left="1354" right="1390" shear="0" text="d"/>
+        <Word no="4" top="2025" bottom="2086" left="818" right="923" shear="0" text="other"/>
+    </TextLine>
+    <TextLine no="11" top="2089" bottom="2159" left="952" right="1060" shear="0">
+        <Word no="1" top="2089" bottom="2159" left="952" right="1060" shear="0" text="other"/>
+    </TextLine>
+</Image>

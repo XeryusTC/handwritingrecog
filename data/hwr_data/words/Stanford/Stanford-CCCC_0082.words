@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Image name="Stanford-CCCC_0082">
+    <TextLine no="1" top="203" bottom="242" left="904" right="936" shear="0">
+        <Word no="1" top="203" bottom="242" left="904" right="936" shear="0" text="o"/>
+    </TextLine>
+    <TextLine no="2" top="269" bottom="317" left="990" right="1084" shear="0">
+        <Word no="1" top="269" bottom="317" left="990" right="1084" shear="0" text="ant"/>
+    </TextLine>
+    <TextLine no="3" top="496" bottom="554" left="346" right="416" shear="0">
+        <Word no="1" top="496" bottom="554" left="346" right="416" shear="0" text="for"/>
+    </TextLine>
+    <TextLine no="4" top="840" bottom="898" left="1299" right="1368" shear="0">
+        <Word no="1" top="840" bottom="898" left="1299" right="1368" shear="0" text="for"/>
+    </TextLine>
+    <TextLine no="5" top="1061" bottom="1160" left="268" right="1266" shear="0">
+        <Word no="1" top="1061" bottom="1120" left="1098" right="1266" shear="0" text="@havest_hauest"/>
+        <Word no="2" top="1071" bottom="1160" left="268" right="391" shear="0" text="godd"/>
+        <Word no="3" top="1075" bottom="1155" left="468" right="598" shear="0" text="godd"/>
+        <Word no="4" top="1075" bottom="1155" left="468" right="612" shear="0" text="godd"/>
+    </TextLine>
+    <TextLine no="6" top="1220" bottom="1278" left="835" right="883" shear="0">
+        <Word no="1" top="1220" bottom="1278" left="835" right="883" shear="0" text="@se_fe"/>
+    </TextLine>
+    <TextLine no="7" top="1314" bottom="1358" left="544" right="576" shear="0">
+        <Word no="1" top="1314" bottom="1358" left="544" right="576" shear="0" text="o"/>
+    </TextLine>
+    <TextLine no="8" top="1358" bottom="1413" left="1089" right="1125" shear="0">
+        <Word no="1" top="1358" bottom="1413" left="1089" right="1125" shear="0" text="d"/>
+    </TextLine>
+    <TextLine no="9" top="1433" bottom="1492" left="1070" right="1467" shear="0">
+        <Word no="1" top="1444" bottom="1486" left="1391" right="1467" shear="0" text="@s_horizontal"/>
+        <Word no="2" top="1433" bottom="1492" left="1070" right="1136" shear="0" text="for"/>
+    </TextLine>
+    <TextLine no="10" top="1508" bottom="1581" left="203" right="1438" shear="0">
+        <Word no="1" top="1508" bottom="1564" left="1299" right="1330" shear="0" text="d"/>
+        <Word no="2" top="1514" bottom="1563" left="1338" right="1438" shear="0" text="ant"/>
+        <Word no="3" top="1519" bottom="1581" left="203" right="363" shear="0" text="moder"/>
+    </TextLine>
+    <TextLine no="11" top="1657" bottom="1731" left="207" right="731" shear="0">
+        <Word no="1" top="1679" bottom="1725" left="695" right="731" shear="0" text="o"/>
+        <Word no="2" top="1657" bottom="1731" left="207" right="319" shear="0" text="@laverd_lau^~d"/>
+    </TextLine>
+    <TextLine no="12" top="1730" bottom="1784" left="1263" right="1294" shear="0">
+        <Word no="1" top="1730" bottom="1784" left="1263" right="1294" shear="0" text="d"/>
+    </TextLine>
+    <TextLine no="13" top="1813" bottom="1861" left="1152" right="1189" shear="0">
+        <Word no="1" top="1813" bottom="1861" left="1152" right="1189" shear="0" text="s"/>
+    </TextLine>
+    <TextLine no="14" top="1896" bottom="1952" left="674" right="721" shear="0">
+        <Word no="1" top="1896" bottom="1952" left="674" right="721" shear="0" text="@se_fe"/>
+    </TextLine>
+    <TextLine no="15" top="2031" bottom="2094" left="1023" right="1306" shear="0">
+        <Word no="1" top="2049" bottom="2094" left="1023" right="1079" shear="0" text="to"/>
+        <Word no="2" top="2031" bottom="2088" left="1233" right="1306" shear="0" text="for"/>
+    </TextLine>
+    <TextLine no="16" top="2116" bottom="2188" left="551" right="1019" shear="0">
+        <Word no="1" top="2122" bottom="2180" left="709" right="749" shear="0" text="d"/>
+        <Word no="2" top="2132" bottom="2188" left="551" right="599" shear="0" text="@se_fe"/>
+        <Word no="3" top="2116" bottom="2174" left="911" right="1019" shear="0" text="forte"/>
+    </TextLine>
+</Image>

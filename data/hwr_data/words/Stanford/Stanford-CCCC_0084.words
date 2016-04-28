@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Image name="Stanford-CCCC_0084">
+    <TextLine no="1" top="190" bottom="252" left="976" right="1221" shear="0">
+        <Word no="1" top="211" bottom="250" left="976" right="1007" shear="0" text="o"/>
+        <Word no="2" top="190" bottom="252" left="1002" right="1035" shear="0" text="f"/>
+        <Word no="3" top="209" bottom="251" left="1189" right="1221" shear="0" text="o"/>
+    </TextLine>
+    <TextLine no="2" top="425" bottom="467" left="421" right="451" shear="0">
+        <Word no="1" top="425" bottom="467" left="421" right="451" shear="0" text="o"/>
+    </TextLine>
+    <TextLine no="3" top="566" bottom="611" left="874" right="906" shear="0">
+        <Word no="1" top="566" bottom="611" left="874" right="906" shear="0" text="e"/>
+    </TextLine>
+    <TextLine no="4" top="920" bottom="1009" left="1076" right="1200" shear="0">
+        <Word no="1" top="920" bottom="1009" left="1076" right="1200" shear="0" text="dude"/>
+    </TextLine>
+    <TextLine no="5" top="1147" bottom="1233" left="960" right="1068" shear="0">
+        <Word no="1" top="1147" bottom="1233" left="960" right="1068" shear="0" text="othre"/>
+    </TextLine>
+    <TextLine no="6" top="1292" bottom="1351" left="387" right="428" shear="0">
+        <Word no="1" top="1292" bottom="1351" left="387" right="428" shear="0" text="d"/>
+    </TextLine>
+    <TextLine no="7" top="1361" bottom="1446" left="855" right="1050" shear="0">
+        <Word no="1" top="1361" bottom="1446" left="855" right="1050" shear="0" text="strengthe"/>
+    </TextLine>
+    <TextLine no="8" top="1457" bottom="1499" left="422" right="453" shear="0">
+        <Word no="1" top="1457" bottom="1499" left="422" right="453" shear="0" text="o"/>
+    </TextLine>
+    <TextLine no="9" top="1740" bottom="1800" left="461" right="579" shear="0">
+        <Word no="1" top="1740" bottom="1796" left="461" right="499" shear="0" text="d"/>
+        <Word no="2" top="1740" bottom="1800" left="461" right="579" shear="0" text="dude"/>
+    </TextLine>
+    <TextLine no="10" top="1907" bottom="1950" left="437" right="471" shear="0">
+        <Word no="1" top="1907" bottom="1950" left="437" right="471" shear="0" text="o"/>
+    </TextLine>
+    <TextLine no="11" top="1962" bottom="2020" left="178" right="219" shear="0">
+        <Word no="1" top="1962" bottom="2020" left="178" right="219" shear="0" text="b"/>
+    </TextLine>
+    <TextLine no="12" top="2804" bottom="2820" left="1128" right="1205" shear="0">
+        <Word no="1" top="2804" bottom="2820" left="1128" right="1205" shear="0" text="@TEXTILE_BACKGROUND"/>
+        <Word no="2" top="2804" bottom="2820" left="1128" right="1201" shear="0" text="@TEXTILE_BACKGROUND"/>
+    </TextLine>
+</Image>

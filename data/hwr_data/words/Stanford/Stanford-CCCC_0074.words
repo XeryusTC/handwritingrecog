@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Image name="Stanford-CCCC_0074">
+    <TextLine no="1" top="441" bottom="511" left="533" right="1000" shear="0">
+        <Word no="1" top="441" bottom="511" left="533" right="646" shear="0" text="dude"/>
+        <Word no="2" top="455" bottom="511" left="908" right="1000" shear="0" text="ant"/>
+    </TextLine>
+    <TextLine no="2" top="892" bottom="946" left="976" right="1083" shear="0">
+        <Word no="1" top="892" bottom="946" left="976" right="1083" shear="0" text="ant"/>
+    </TextLine>
+    <TextLine no="3" top="1027" bottom="1112" left="465" right="744" shear="0">
+        <Word no="1" top="1035" bottom="1112" left="649" right="744" shear="0" text="god"/>
+        <Word no="2" top="1027" bottom="1097" left="465" right="540" shear="0" text="@est_eft"/>
+    </TextLine>
+    <TextLine no="4" top="1180" bottom="1246" left="441" right="542" shear="0">
+        <Word no="1" top="1180" bottom="1246" left="441" right="542" shear="0" text="@nos_nof"/>
+    </TextLine>
+    <TextLine no="5" top="1350" bottom="1389" left="1382" right="1441" shear="0">
+        <Word no="1" top="1350" bottom="1389" left="1382" right="1441" shear="0" text="@s_horizontal"/>
+    </TextLine>
+    <TextLine no="6" top="1694" bottom="1776" left="523" right="947" shear="0">
+        <Word no="1" top="1713" bottom="1760" left="888" right="947" shear="0" text="to"/>
+        <Word no="2" top="1694" bottom="1776" left="523" right="628" shear="0" text="god"/>
+    </TextLine>
+    <TextLine no="7" top="2073" bottom="2132" left="730" right="804" shear="0">
+        <Word no="1" top="2073" bottom="2132" left="730" right="804" shear="0" text="for"/>
+    </TextLine>
+</Image>
