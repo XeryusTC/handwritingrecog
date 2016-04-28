@@ -1,0 +1,8 @@
+Preprocessing:
+	OTSU/constrast stretching/
+Features extraction:
+	HOG/SIFT
+Classificatie letters:
+	KNN
+Woordherkenning:
+	Bayesian/HMM
