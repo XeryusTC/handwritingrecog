@@ -5,12 +5,10 @@ cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(insp
 if cmd_subfolder not in sys.path:
     sys.path.insert(0, cmd_subfolder)
 
-print sys.path
-import toolbox.pamImage as pamImage, toobox.croplib as croplib
+import toolbox.pamImage as pamImage, toolbox.croplib as croplib
 
 # check commandline parameters
 if len(sys.argv) != 4:
-    print "Example program. Crops the image to a smaller region."
     print "Usage: python %s image.ppm input.words /path/to/output.words" % sys.argv[0]
     sys.exit(1)
 
