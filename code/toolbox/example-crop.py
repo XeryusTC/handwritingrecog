@@ -18,10 +18,10 @@ print "Image width:", width
 print "Image height:", height
 
 # crop image
-#print "Cropping image..."
-#left, right = width / 3, (width * 2) / 3  # integer calculations
-#top, bottom = 0, height - 1
-#cropped_im = croplib.crop(im, left, top, right, bottom)
-#cropped_im.thisown = True                 # to make Python cleanup the new C++ object afterwards
-#cropped_im.save(out_file_name)
-#print "%s saved." % out_file_name
+print "Cropping image..."
+left, right = width / 3, (width * 2) / 3  # integer calculations
+top, bottom = 0, height - 1
+cropped_im = croplib.crop(im, left, top, right, bottom)
+cropped_im.thisown = True                 # to make Python cleanup the new C++ object afterwards
+cropped_im.save(out_file_name)
+print "%s saved." % out_file_name
