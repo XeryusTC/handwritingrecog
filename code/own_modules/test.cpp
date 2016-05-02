@@ -23,7 +23,7 @@ int showPlaatje (char* filename)
 
   if ( !image.data )
   {
-    printf("No image data \n");
+    cout << "No image data \n";
     return -1;
   }
   namedWindow("Display Image", WINDOW_AUTOSIZE );
@@ -58,9 +58,9 @@ void toOtsu (char* filename)
   image = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
   Mat otsu;
   threshold(image, otsu, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
-  namedWindow("Original Image", WINDOW_NORMAL );
+  namedWindow("Original Image", WINDOW_OPENGL );
   imshow("Original Image", image);
-  namedWindow("Otsu Image", WINDOW_NORMAL );
+  namedWindow("Otsu Image", WINDOW_OPENGL );
   imshow("Otsu Image", otsu);
   waitKey(0);
   destroyAllWindows();
