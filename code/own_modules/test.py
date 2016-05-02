@@ -102,6 +102,14 @@ fact = _test.fact
 def showPlaatje(filename):
     return _test.showPlaatje(filename)
 showPlaatje = _test.showPlaatje
+
+def showGrayLena():
+    return _test.showGrayLena()
+showGrayLena = _test.showGrayLena
+
+def toOtsu(filename):
+    return _test.toOtsu(filename)
+toOtsu = _test.toOtsu
 # This file is compatible with both classic and new-style classes.
 
 
