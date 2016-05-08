@@ -6,12 +6,13 @@ SOFLAGS=-shared -Wall -O4 -fPIC $(PYINCLUDE)
 LIBS = `pkg-config --libs opencv`
 LIBS_opencv = -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_video -lopencv_objdetect
 
-test: test.o test.i
-	swig -c++ -python test.i
-	$(CPP) -fPIC -c test.cpp test_wrap.cxx $(SOFLAGS)
-	$(CPP) -shared test.o test_wrap.o -o _test.so $(LIBS_opencv)
-	rm -f test_wrap.o test_wrap.cxx
+all: preprocess
 
+preprocess: preprocess.o preprocess.i
+	swig -c++ -python preprocess.i
+	$(CPP) -fPIC -c preprocess.cpp preprocess_wrap.cxx $(SOFLAGS)
+	$(CPP) -shared preprocess.o preprocess_wrap.o -o _preprocess.so $(LIBS_opencv)
+	rm -f preprocess_wrap.o preprocess_wrap.cxx
 
 clean:
 	@rm -f *.o *.so test.py *.h.gch

@@ -1,5 +1,5 @@
 import sys, os, inspect, shutil
-import own_modules.test as test
+import own_modules.preprocess as prep
 import toolbox.pamImage as pamImage
 import toolbox.croplib as croplib
 import xml.etree.ElementTree
@@ -17,7 +17,7 @@ words_file_name = sys.argv[2]
 
 # Pre-proccesing steps
 
-if test.preprocess(in_file_name) != 0:
+if prep.preprocess(in_file_name) != 0:
     print "Something went wrong in Pre-proccesing"
     sys.exit(1)
 else :
