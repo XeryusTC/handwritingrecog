@@ -1,9 +1,7 @@
 #ifndef TEST_H
 #define TEST_H
 
-extern void sayHello();
-extern int fact(int n);
+#include<iostream>
+int preprocess(char* filename);
 int showPlaatje (char* filename);
-void showGrayLena ();
-void toOtsu (char* filename);
 #endif

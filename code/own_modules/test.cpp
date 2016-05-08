@@ -4,15 +4,21 @@
 using namespace cv;
 using namespace std;
 
-void sayHello()
+int preprocess (char* filename)
 {
-  cout << "Hello World\n";
-}
+    // Load the image
+    Mat image = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
+    Mat result;
+    // Convert to otsu
+    threshold(image, result, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
 
-int fact (int n)
-{
-  if (n <= 1) return 1;
-    else return n*fact(n-1);
+    // Other steps
+    //...
+
+    // Write to preprocecessed file
+    string newName = "tmp/preprocessed.ppm";
+    imwrite(newName, result);
+    return 0;
 }
 
 int showPlaatje (char* filename)
@@ -31,37 +37,4 @@ int showPlaatje (char* filename)
 
   waitKey(0);
   return 0;
-}
-
-void showGrayLena ()
-{
-  Mat image;
-  image = imread("lena.jpg");
-  Mat gray;
-  cvtColor(image, gray, COLOR_BGR2GRAY);
-  Mat otsu;
-  threshold(gray, otsu, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
-
-  namedWindow("Display Image", WINDOW_AUTOSIZE );
-  imshow("Display Image", image);
-  namedWindow("Result Image", WINDOW_AUTOSIZE );
-  imshow("Result Image", gray);
-  namedWindow("Otsu Image", WINDOW_AUTOSIZE );
-  imshow("Otsu Image", otsu);
-  waitKey(0);
-  destroyAllWindows();
-}
-
-void toOtsu (char* filename)
-{
-  Mat image;
-  image = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
-  Mat otsu;
-  threshold(image, otsu, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
-  namedWindow("Original Image", WINDOW_OPENGL );
-  imshow("Original Image", image);
-  namedWindow("Otsu Image", WINDOW_OPENGL );
-  imshow("Otsu Image", otsu);
-  waitKey(0);
-  destroyAllWindows();
 }

@@ -1,22 +1,41 @@
-import sys, os, inspect
-# import C++ libraries
-# use this if you want to include modules from a subfolder
-cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],"toolbox")))
-if cmd_subfolder not in sys.path:
-    sys.path.insert(0, cmd_subfolder)
-
-import toolbox.pamImage as pamImage, toolbox.croplib as croplib
-
+import sys, os, inspect, shutil
+import own_modules.test as test
+import toolbox.pamImage as pamImage
+import toolbox.croplib as croplib
+import xml.etree.ElementTree
 # check commandline parameters
 if len(sys.argv) != 4:
     print "Usage: python %s image.ppm input.words /path/to/output.words" % sys.argv[0]
     sys.exit(1)
 
-in_file_name = sys.argv[1]
-out_file_name = 'output' + in_file_name
+# Create a temp folder for file storage
+if not os.path.exists("tmp"):
+    os.makedirs("tmp")
 
-# open image
-im = pamImage.PamImage(in_file_name)
-width, height = im.getWidth(), im.getHeight()
-print "Image width:", width
-print "Image height:", height
+in_file_name = sys.argv[1]
+words_file_name = sys.argv[2]
+
+# Pre-proccesing steps
+
+if test.preprocess(in_file_name) != 0:
+    print "Something went wrong in Pre-proccesing"
+    sys.exit(1)
+else :
+    print "Pre-processing completed"
+
+preIm = pamImage.PamImage("tmp/preprocessed.ppm")
+e = xml.etree.ElementTree.parse(words_file_name).getroot()
+
+print "Parsing pre-processed image into individual sentences"
+# Parse the given words (xml) file to find the word sections
+for child in e:
+    left = int(child.get('left'))
+    top = int(child.get('top'))
+    right = int(child.get('right'))
+    bottom = int(child.get('bottom'))
+    cropped_im = croplib.crop(preIm, left, top, right, bottom)
+    cropped_im.thisown = True                 # to make Python cleanup the new C++ object afterwards
+    cropped_im.save('tmp/sentence'+child.get('no')+'.ppm')
+
+# Write results/delete the tmp folder
+# shutil.rmtree('tmp')
