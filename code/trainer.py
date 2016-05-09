@@ -11,8 +11,9 @@ import xml.etree.ElementTree as ET
 from recognizer2 import preprocess
 
 def main():
-    if len(sys.argv) != 3:
-        print "Usage: python %s image.ppm input.words" % sys.argv[0]
+    if len(sys.argv) != 2 and sys.argv[1] not in ['KNMP', 'Stanford']:
+        print "Usage: python %s <dataset>" % sys.argv[0]
+        print "\tDataset should be either 'KNMP' or 'Stanford'"
         sys.exit(1)
 
     # create a clean temporary directory
@@ -20,19 +21,31 @@ def main():
     work_dir.rmtree()
     work_dir.mkdir()
 
-    in_image = sys.argv[1]
-    in_words = sys.argv[2]
-    process_image(in_image, in_words, work_dir)
+    img_dir = Path(Path.cwd().ancestor(1), 'data/hwr_data/pages', sys.argv[1])
+    ann_dir = Path(Path.cwd().ancestor(1), 'data/charannotations')
+    images = img_dir.listdir('*.jpg')
+    annotations = ann_dir.listdir(sys.argv[1] + '*.words')
+    files = merge(images, annotations)
 
-def process_image(in_image, in_words, work_dir):
-    print "Preprocessing {}...".format(in_image)
-    img = cv2.imread(in_image, cv2.CV_LOAD_IMAGE_GRAYSCALE)
-    result = preprocess(img)
+    for f in files:
+        print "Preprocessing", str(f[0])
+        p = Path("tmp", f[0].stem + '.ppm')
+        img = cv2.imread(f[0], cv2.CV_LOAD_IMAGE_GRAYSCALE)
+        img = preprocess(img)
+        cv2.imwrite(p, img)
 
-    preIm = pamImage.PamImage("tmp/preprocessed.ppm")
-    e = ET.parse(in_words).getroot()
-    chars = segment(preIm, e, work_dir)
-    return chars
+        preIm = pamImage.PamImage(p)
+        e = ET.parse(f[1]).getroot()
+        print "Segmenting {}...".format(f[0])
+        segment(preIm, e, work_dir)
+
+def merge(images, annotations):
+    ret = []
+    for img in images:
+        for ann in annotations:
+            if img.stem == ann.stem:
+                ret.append((img, ann))
+    return ret
 
 def segment(img, annotation, work_dir):
     sides = ['left', 'top', 'right', 'bottom']
