@@ -1,8 +1,8 @@
- %module test
+ %module preprocess
  %{
  /* Includes the header in the wrapper code */
- #include "test.h"
+ #include "preprocess.h"
  %}
 
  /* Parse the header file to generate wrappers */
- %include "test.h"
+ %include "preprocess.h"

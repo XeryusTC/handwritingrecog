@@ -15,20 +15,20 @@ if version_info >= (2, 6, 0):
         import imp
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_croplib', [dirname(__file__)])
+            fp, pathname, description = imp.find_module('_preprocess', [dirname(__file__)])
         except ImportError:
-            import _croplib
-            return _croplib
+            import _preprocess
+            return _preprocess
         if fp is not None:
             try:
-                _mod = imp.load_module('_croplib', fp, pathname, description)
+                _mod = imp.load_module('_preprocess', fp, pathname, description)
             finally:
                 fp.close()
             return _mod
-    _croplib = swig_import_helper()
+    _preprocess = swig_import_helper()
     del swig_import_helper
 else:
-    import _croplib
+    import _preprocess
 del version_info
 try:
     _swig_property = property
@@ -91,9 +91,13 @@ except AttributeError:
 
 
 
-def crop(im_in, left, top, right, bottom):
-    return _croplib.crop(im_in, left, top, right, bottom)
-crop = _croplib.crop
+def preprocess(filename):
+    return _preprocess.preprocess(filename)
+preprocess = _preprocess.preprocess
+
+def showPlaatje(filename):
+    return _preprocess.showPlaatje(filename)
+showPlaatje = _preprocess.showPlaatje
 # This file is compatible with both classic and new-style classes.
 
 
