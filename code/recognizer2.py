@@ -21,11 +21,11 @@ def main():
     img = cv2.imread(in_file, cv2.CV_LOAD_IMAGE_GRAYSCALE);
     result = preprocess(img)
 
-    cv2.namedWindow('Preprocessed', cv2.WINDOW_NORMAL)
-    cv2.imshow('Preprocessed', img)
-    cv2.waitKey(1000);
-    cv2.imshow('Preprocessed', result)
-    cv2.waitKey(0);
+    preIm = pamImage.PamImage("tmp/preprocessed.ppm")
+    e = ET.parse(in_words).getroot()
+    words = segment(preIm, e)
+    tree = ET.ElementTree(words)
+    tree.write(out_words)
 
 def preprocess(img, stretch=True):
     # contrast stretching
@@ -46,7 +46,7 @@ def segment(img, words):
         right = int(sentence.get('right'))
         bottom = int(sentence.get('bottom'))
         cropped_im = croplib.crop(img, left, top, right, bottom)
-        crop_im.thisown = True # Makes Python clean up the C++ object
+        cropped_im.thisown = True # Makes Python clean up the C++ object
         cropped_im.save('tmp/sentence{}.ppm'.format(sentence.get('no')))
 
         # Individual words
