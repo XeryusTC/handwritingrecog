@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 from recognizer2 import preprocess
 
 def main():
-    if len(sys.argv) != 2 and sys.argv[1] not in ['KNMP', 'Stanford']:
+    if len(sys.argv) != 2 or sys.argv[1] not in ['KNMP', 'Stanford']:
         print "Usage: python %s <dataset>" % sys.argv[0]
         print "\tDataset should be either 'KNMP' or 'Stanford'"
         sys.exit(1)
@@ -27,6 +27,7 @@ def main():
     annotations = ann_dir.listdir(sys.argv[1] + '*.words')
     files = merge(images, annotations)
 
+    # Create character segmentations
     for f in files:
         print "Preprocessing", str(f[0])
         p = Path("tmp", f[0].stem + '.ppm')
