@@ -102,5 +102,3 @@ def fContours(*args):
   return _test.fContours(*args)
 fContours = _test.fContours
 # This file is compatible with both classic and new-style classes.
-
-

@@ -4,4 +4,5 @@
 #include<iostream>
 int preprocess(char* filename);
 int showPlaatje (char* filename);
+void fContours (char* filename);
 #endif

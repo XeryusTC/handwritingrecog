@@ -141,6 +141,7 @@ void fContours (char* filename)
   {
     printf("Length: %lu\n", it->size());
     if (it->size() < 30)
+    printf("I'm here!");
         it = contours.erase(it);
     else
         ++it;
