@@ -17,25 +17,30 @@ int preprocess (char* filename)
     threshold(image, result, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
 
     // Remove specks
-    Mat temp = result.clone();
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
     int mode = CV_RETR_LIST;
     int method = CV_CHAIN_APPROX_NONE;
+    unsigned contourThreshold = 50;
+    int lineThickness = 2;
+    int lineType = 8; // 4, 8 or CV_AA
 
+    for(int j = 0; j < 3; j++)
+    {
+    Mat temp = result.clone();
     findContours(temp, contours, hierarchy, mode, method, Point(0, 0));
 
     for (vector<vector<Point> >::iterator it = contours.begin(); it!=contours.end(); )
     {
-      if (it->size() > 30)
+      if (it->size() > contourThreshold)
           it = contours.erase(it);
       else it++;
     }
     for(unsigned i = 0; i < contours.size(); i++)
-      drawContours(temp, contours, i, color, 2, 8, hierarchy, 0, Point() );
+      drawContours(temp, contours, i, color, lineThickness, lineType, hierarchy, 0, Point() );
 
     result = result + temp;
-
+    }
     // Write to preprocecessed file
     string newName = "tmp/preprocessed.ppm";
     imwrite(newName, result);
