@@ -33,9 +33,7 @@ def preprocess(img, stretch=True):
         cv2.normalize(img, img, 0, 255, cv2.NORM_MINMAX)
     # Otsu thresholding
     thresh, result = cv2.threshold(img, 0, 255, cv2.THRESH_TOZERO_INV | cv2.THRESH_OTSU);
-    print "Thresholded at", thresh
-    cv2.imwrite("tmp/preprocessed.ppm", result)
-
+    result = 255 - result
     return result
 
 def segment(img, words):
