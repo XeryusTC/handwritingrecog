@@ -3,6 +3,8 @@ import os
 import cv2
 import uuid
 from unipath import Path, DIRS_NO_LINKS
+import numpy as np
+from scipy.cluster.vq import whiten, kmeans2
 
 import toolbox.pamImage as pamImage
 import toolbox.croplib as croplib
@@ -26,7 +28,7 @@ def main():
     ann_dir = Path(Path.cwd().ancestor(1), 'data/charannotations')
     images = img_dir.listdir('*.jpg')
     annotations = ann_dir.listdir(sys.argv[1] + '*.words')
-    files = merge(images, annotations)[:1]
+    files = merge(images, annotations)[:10]
 
     maxwidth = 0
     maxheight = 0
@@ -60,9 +62,10 @@ def main():
     letters = work_dir.listdir(filter=DIRS_NO_LINKS)
     data = []
     hog = cv2.HOGDescriptor(_winSize=(32,32), _blockSize=(16,16),
-        _blockStride=(2,2), _cellSize=(8,8),_nbins=9)
+        _blockStride=(8,8), _cellSize=(8,8),_nbins=9)
     for letter in letters:
         examples = letter.listdir(pattern='*.ppm')
+        print "Letter '{}' examples: {}".format(letter.name, len(examples))
         # Find the HOG descriptor for each example image
         for example in examples:
             # load example and make it a standard size
@@ -76,7 +79,21 @@ def main():
 
             # compute the actual HOG descriptor
             desc = hog.compute(img)
-            data.append(desc)
+            data.append(desc.flatten())
+
+    print "Calculating kMeans clusters..."
+    data = whiten(np.array(data))
+    centroids, labels = kmeans2(data, len(letters), minit='points')
+
+    print "Calculating cluster statistics..."
+    # Print cluster sizes
+    cluster_sizes = {}
+    for i in labels:
+        if i not in cluster_sizes:
+            cluster_sizes[i] = 0
+        cluster_sizes[i] += 1
+    for cluster in cluster_sizes:
+        print "Cluster", cluster, "size:", cluster_sizes[cluster]
 
 def merge(images, annotations):
     ret = []
