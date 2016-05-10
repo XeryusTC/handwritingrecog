@@ -120,3 +120,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+code/toolbox/*.py
+code/own_modules/*.py
+code/tmp/
