@@ -23,11 +23,10 @@ def otsu(img):
 def speck_removal(img):
     # First convert to binary image
     # imgray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    ret,thresh = cv2.threshold(img,127,255,0)
-    result, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE)
+    result, contours, hierarchy = cv2.findContours(img,cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE)
     contourThreshold = 50;
     for idx, contour in enumerate(contours):
-        if contour.size < contourThreshold:
+        if contour.size <= contourThreshold:
             cv2.drawContours(result, contours, idx, (255,255,255), 2, 8, hierarchy, 0)
             # cv2.drawContours(result, contours, idx, color, FILLED, 8, hierarchy );
             # cv2.drawContours(result, contours, idx, color, lineThickness, lineType, hierarchy, 0, Point() );
@@ -40,4 +39,7 @@ if __name__ == '__main__':
     cv2.imwrite('tmp/original.png', img)
     cv2.imwrite('tmp/otsu.png', otsu)
     cv2.imwrite('tmp/speck.png',speck)
-    cv2.imwrite('tmp/otsu-speck.png', cv2.copyTo(otsu, speck))
+    combo = otsu + speck
+    cv2.imwrite('tmp/combo.png',combo)
+    combo2 = 1 - combo
+    cv2.imwrite('tmp/combo2.png',combo2)
