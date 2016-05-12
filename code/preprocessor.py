@@ -12,7 +12,7 @@ def preprocess(img):
 
     # Otsu
     result = otsu(img)
-    # result = speck_removal(result)
+    result = speck_removal(result)
     return result
 
 
@@ -23,23 +23,21 @@ def otsu(img):
 def speck_removal(img):
     # First convert to binary image
     # imgray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    result, contours, hierarchy = cv2.findContours(img,cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE)
-    contourThreshold = 50;
+    copy = img.copy()
+    result, contours, hierarchy = cv2.findContours(copy,cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE)
+    # contourThreshold = 50000;
+    mask = np.ones(img.shape[:2], dtype="uint8")
     for idx, contour in enumerate(contours):
-        if contour.size <= contourThreshold:
-            cv2.drawContours(result, contours, idx, (255,255,255), 2, 8, hierarchy, 0)
-            # cv2.drawContours(result, contours, idx, color, FILLED, 8, hierarchy );
-            # cv2.drawContours(result, contours, idx, color, lineThickness, lineType, hierarchy, 0, Point() );
-    return result
+        # if contour.size <= contourThreshold:
+        cv2.drawContours(mask, contours, idx, (255,255,255), 2, 8, hierarchy, 0)
+    # Remove the mask from the img ( make contours white)
+    return np.maximum(img, mask)
 
 if __name__ == '__main__':
     img = cv2.imread(sys.argv[1], 0)
     otsu = otsu(img.copy())
     speck = speck_removal( otsu.copy() )
+    speck2 = speck_removal2( otsu.copy() )
     cv2.imwrite('tmp/original.png', img)
     cv2.imwrite('tmp/otsu.png', otsu)
     cv2.imwrite('tmp/speck.png',speck)
-    combo = otsu + speck
-    cv2.imwrite('tmp/combo.png',combo)
-    combo2 = 1 - combo
-    cv2.imwrite('tmp/combo2.png',combo2)
