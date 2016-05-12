@@ -18,7 +18,7 @@ def main():
     out_words = sys.argv[3]
 
     print "Preprocessing..."
-    img = cv2.imread(in_file, cv2.CV_LOAD_IMAGE_GRAYSCALE);
+    img = cv2.imread(in_file, cv2.CV_LOAD_IMAGE_GRAYSCALE)
     result = preprocess(img)
 
     preIm = pamImage.PamImage("tmp/preprocessed.ppm")
@@ -35,6 +35,24 @@ def preprocess(img, stretch=True):
     thresh, result = cv2.threshold(img, 0, 255, cv2.THRESH_TOZERO_INV | cv2.THRESH_OTSU);
     print "Thresholded at", thresh
     cv2.imwrite("tmp/preprocessed.ppm", result)
+
+    # Remove specks
+    temp = result.copy()
+    contourThreshold = 50
+    lineThickness = 2
+    lineType = 8 # 4, 8 or CV_AA
+
+    for i in range(3):
+        temp, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+
+    for vector in contours:
+        if vector.size() > contourThreshold:
+            contours.remove(vector)
+
+    cv2.drawContours(temp, contours, -1, (255,255,255), lineThickness)
+
+    result = result - temp;
+    cv2.imwrite("tmp/preprocessed2.ppm", result)
 
     return result
 
