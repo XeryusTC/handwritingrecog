@@ -34,7 +34,7 @@ def main():
     for f in files:
         print "Preprocessing", str(f[0])
         p = Path("tmp", f[0].stem + '.ppm')
-        img = cv2.imread(f[0], cv2.CV_LOAD_IMAGE_GRAYSCALE)
+        img = cv2.imread(f[0], cv2.IMREAD_GRAYSCALE)
         img = preprocess(img)
         cv2.imwrite(p, img)
 
