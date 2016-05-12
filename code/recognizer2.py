@@ -18,8 +18,9 @@ def main():
     out_words = sys.argv[3]
 
     print "Preprocessing..."
-    img = cv2.imread(in_file, cv2.CV_LOAD_IMAGE_GRAYSCALE);
+    img = cv2.imread(in_file, cv2.IMREAD_GRAYSCALE);
     result = preprocess(img)
+    cv2.imwrite("tmp/preprocessed.ppm", result)
 
     preIm = pamImage.PamImage("tmp/preprocessed.ppm")
     e = ET.parse(in_words).getroot()
