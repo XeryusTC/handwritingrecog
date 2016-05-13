@@ -4,5 +4,16 @@ Features extraction:
 	HOG/SIFT
 Classificatie letters:
 	KNN
+	Gebruik berekende windows sizes van alle characters, en ga verder met
+	pipelines met de hoogste kans.
+	
 Woordherkenning:
 	Bayesian/HMM
+
+
+
+IMPORTANT:
+	- werken in python! opencv3!
+	- characters beter uitknippen
+	- per voorkomend character een gemiddeld prototype bouwen
+	-

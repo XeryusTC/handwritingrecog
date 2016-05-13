@@ -18,8 +18,13 @@ def main():
     out_words = sys.argv[3]
 
     print "Preprocessing..."
+<<<<<<< HEAD
     img = cv2.imread(in_file, cv2.CV_LOAD_IMAGE_GRAYSCALE)
+=======
+    img = cv2.imread(in_file, cv2.IMREAD_GRAYSCALE);
+>>>>>>> 218a591e0cf266df0acef9d3b8dd21fb1b413ac9
     result = preprocess(img)
+    cv2.imwrite("tmp/preprocessed.ppm", result)
 
     preIm = pamImage.PamImage("tmp/preprocessed.ppm")
     e = ET.parse(in_words).getroot()
@@ -33,6 +38,7 @@ def preprocess(img, stretch=True):
         cv2.normalize(img, img, 0, 255, cv2.NORM_MINMAX)
     # Otsu thresholding
     thresh, result = cv2.threshold(img, 0, 255, cv2.THRESH_TOZERO_INV | cv2.THRESH_OTSU);
+<<<<<<< HEAD
     print "Thresholded at", thresh
     cv2.imwrite("tmp/preprocessed.ppm", result)
 
@@ -54,6 +60,9 @@ def preprocess(img, stretch=True):
     result = result - temp;
     cv2.imwrite("tmp/preprocessed2.ppm", result)
 
+=======
+    result = 255 - result
+>>>>>>> 218a591e0cf266df0acef9d3b8dd21fb1b413ac9
     return result
 
 def segment(img, words):
