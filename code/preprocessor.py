@@ -10,9 +10,9 @@ def preprocess(img):
     """ Convert the given greyscale image to an otsu-thresholed one,
         remove any specks, and imperfections """
 
-    # Otsu
     result = otsu(img)
     result = speck_removal(result)
+    result = morphology(result)
     return result
 
 
@@ -33,11 +33,21 @@ def speck_removal(img):
     # Remove the mask from the img ( make contours white)
     return np.maximum(img, mask)
 
+def morphology(img):
+    kernel = np.ones((3, 3), np.uint8)
+    #img = cv2.dilate(img, kernel, iterations = 1)
+    img = cv2.erode(img, kernel, iterations = 1)
+    return img
+
 if __name__ == '__main__':
     img = cv2.imread(sys.argv[1], 0)
     otsu = otsu(img.copy())
     speck = speck_removal( otsu.copy() )
-    speck2 = speck_removal2( otsu.copy() )
+    morph = morphology( otsu.copy() )
+    combination = morphology( speck.copy() )
+
     cv2.imwrite('tmp/original.png', img)
     cv2.imwrite('tmp/otsu.png', otsu)
-    cv2.imwrite('tmp/speck.png',speck)
+    cv2.imwrite('tmp/speck.png', speck)
+    cv2.imwrite('tmp/morph.png', morph)
+    cv2.imwrite('tmp/combination.png', combination)
