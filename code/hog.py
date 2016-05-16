@@ -34,8 +34,6 @@ if __name__ == '__main__':
             hog = cv2.HOGDescriptor(winSize,blockSize,blockStride,cellSize,nbins,derivAperture,winSigma,
                                     histogramNormType,L2HysThreshold,gammaCorrection,nlevels)
             hist = hog.compute(img,winStride,padding)
-            print len(hist)
-            print np.transpose(hist)
 
             # Store
             #np.savez('hogfeatures/' + os.path.basename(os.path.normpath(subdir)), hist)
