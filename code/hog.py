@@ -3,7 +3,7 @@ import sys, os, cv2
 import numpy as np
 
 if __name__ == '__main__':
-    rootdir = 'tmp2/'
+    rootdir = 'tmp/'
     if not os.path.exists('hogfeatures'):
         os.makedirs('hogfeatures')
 
