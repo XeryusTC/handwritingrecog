@@ -1,8 +1,10 @@
 import sys, os, inspect, shutil
-import own_modules.preprocess as prep
+import preprocessor as prep
 import toolbox.pamImage as pamImage
 import toolbox.croplib as croplib
 import xml.etree.ElementTree as ET
+import cv2
+
 # check commandline parameters
 if len(sys.argv) != 4:
     print "Usage: python %s image.ppm input.words /path/to/output.words" % sys.argv[0]
@@ -12,13 +14,13 @@ if len(sys.argv) != 4:
 if not os.path.exists("tmp"):
     os.makedirs("tmp")
 
-in_file_name = sys.argv[1]
+img = cv2.imread(sys.argv[1], 0)
 words_file_name = sys.argv[2]
 words_file_name_out = sys.argv[3]
 
 # Pre-proccesing steps
 
-if prep.preprocess(in_file_name) != 0:
+if prep.preprocess(img) != 0:
     print "Something went wrong in Pre-proccesing"
     sys.exit(1)
 else :

@@ -1,55 +1,6 @@
-import sys
-import os
-import cv2
-import uuid
 from unipath import Path, DIRS_NO_LINKS
-import numpy as np
-from scipy.cluster.vq import whiten, kmeans2
-
-import xml.etree.ElementTree as ET
-
-from recognizer2 import preprocess
-
-def main():
-    if len(sys.argv) != 2 or sys.argv[1] not in ['KNMP', 'Stanford']:
-        print "Usage: python %s <dataset>" % sys.argv[0]
-        print "\tDataset should be either 'KNMP' or 'Stanford'"
-        sys.exit(1)
-
-    # create a clean temporary directory
-    work_dir = Path("tmp")
-    work_dir.rmtree()
-    work_dir.mkdir()
-
-    # Find all the pages in the dataset
-    img_dir = Path(Path.cwd().ancestor(1), 'data/hwr_data/pages', sys.argv[1])
-    ann_dir = Path(Path.cwd().ancestor(1), 'data/charannotations')
-    images = img_dir.listdir('*.jpg')
-    annotations = ann_dir.listdir(sys.argv[1] + '*.words')
-    files = merge(images, annotations)
-
-    maxwidth = 0
-    maxheight = 0
-    # Create character segmentations
-    for f in files:
-        print "Preprocessing", str(f[0])
-        p = Path("tmp", f[0].stem + '.ppm')
-        img = cv2.imread(f[0], cv2.IMREAD_GRAYSCALE)
-        img = preprocess(img)
-        cv2.imwrite(p, img)
-
-        #preIm = pamImage.PamImage(p)
-        e = ET.parse(f[1]).getroot()
-        print "Segmenting {}...".format(f[0])
-        segment(img, e, work_dir)
-
-def merge(images, annotations):
-    ret = []
-    for img in images:
-        for ann in annotations:
-            if img.stem == ann.stem:
-                ret.append((img, ann))
-    return ret
+import uuid
+import cv2
 
 def segment(img, annotation, work_dir):
     sides = ['left', 'top', 'right', 'bottom']
@@ -83,6 +34,3 @@ def segment(img, annotation, work_dir):
                 while cropped_im.shape[1] > 0 and min(cropped_im[:,-1]) == 255:
                     cropped_im = cropped_im[:,:-1]
                 cv2.imwrite(f, cropped_im)
-
-if __name__ == '__main__':
-    main()
