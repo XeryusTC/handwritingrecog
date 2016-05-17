@@ -20,26 +20,34 @@ def hog(img):
     return hist
 
 def doHog(imgDir, hogDir):
-    print imgDir, hogDir
+    print "Hogging stuff..."
     if os.path.exists(hogDir):
         shutil.rmtree(hogDir)
     os.makedirs(hogDir)
+    os.makedirs(hogDir + 'test/')
+    os.makedirs(hogDir + 'train/')
+
     for subdir, dirs, files in os.walk(imgDir):
+        print os.path.basename(os.path.normpath(subdir))
+        train = 0
         for f in files:
-            print f
             img = cv2.imread(os.path.join(subdir, f))
             hist = hog(img)
 
-            print os.path.basename(os.path.normpath(subdir))
-
-            histfile = open(hogDir + os.path.basename(os.path.normpath(subdir)) + '.csv', 'a')
+            if train < 15:
+                histfile = open(hogDir + 'test/' + os.path.basename(os.path.normpath(subdir)) + '.csv', 'a')
+            else:
+                histfile = open(hogDir + 'train/' + os.path.basename(os.path.normpath(subdir)) + '.csv', 'a')
             np.savetxt(histfile, np.reshape(hist, (1, len(hist))), delimiter=',', header=f)
             histfile.close()
 
+            train += 1
+
 if __name__ == '__main__':
-    # Training
-    doHog('imgs/trainImgs/', 'hogfeatures_small/trainHog/')
-    filelist = glob.glob('hogfeatures_small/trainHog/*')
+    doHog('imgs/tmp_Stanford/', 'hogfeatures_small/')
+
+    ##### Training SVM #############################
+    filelist = glob.glob('hogfeatures_small/train/*')
     labels = []
     trainData = []
     for letter in filelist:
@@ -50,30 +58,30 @@ if __name__ == '__main__':
         for label in range(len(data)):
             labels.append(os.path.splitext(os.path.basename(letter))[0])
 
-    trainData = np.asarray(trainData)
-
-    clf = svm.SVC(decision_function_shape='ovo')
+    # One vs all approach
+    clf = svm.LinearSVC()
+    # One vs one approach
+    # clf = svm.SVC(decision_function_shape='ovo')
     clf.fit(trainData, labels)
 
-    # Testing
-    doHog('imgs/testImgs/', 'hogfeatures_small/testHog/')
-    filelist = glob.glob('hogfeatures_small/testHog/*')
+    ##### Testing SVM ##############################
+    filelist = glob.glob('hogfeatures_small/test/*')
     accuracy = 0.0
     correct = 0.0
     false = 0.0
 
     for letter in filelist:
         data = np.genfromtxt(letter, delimiter=',')
+        if len(data.shape) > 1:
+            for line in data:
+                dec = clf.predict([line])
 
-        for line in data:
-            dec = clf.predict([line])
-            print 'estimation: ', dec
-            print 'actual: ', os.path.splitext(os.path.basename(letter))[0]
-            if dec == os.path.splitext(os.path.basename(letter))[0]:
-                print 'correct'
-                correct += 1
-            else:
-                print 'incorrect'
-                false += 1
+                print 'estimation: ', dec
+                print 'actual: ', os.path.splitext(os.path.basename(letter))[0], '\n'
+                if dec == os.path.splitext(os.path.basename(letter))[0]:
+                    correct += 1
+                else:
+                    false += 1
+
     accuracy = correct / (correct + false)
     print 'accuracy: ', accuracy

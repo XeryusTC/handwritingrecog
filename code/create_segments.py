@@ -24,7 +24,7 @@ def main():
         sys.exit(1)
 
     # create a clean temporary directory
-    work_dir = Path("tmp")
+    work_dir = Path("imgs/tmp")
     work_dir.rmtree()
     work_dir.mkdir()
 
@@ -39,7 +39,7 @@ def main():
     for f in files:
         # Preprocess
         print "Preprocessing", str(f[0])
-        p = Path("tmp", f[0].stem + '.ppm')
+        p = Path("imgs/tmp", f[0].stem + '.ppm')
         img = cv2.imread(f[0], cv2.IMREAD_GRAYSCALE)
         img = preprocess(img)
         # cv2.imwrite(p, img)

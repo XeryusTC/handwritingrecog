@@ -9,7 +9,7 @@ if __name__ == '__main__':
         os.makedirs('hogfeatures/test')
     if not os.path.exists('hogfeatures/train'):
         os.makedirs('hogfeatures/train')
-        
+
     for subdir, dirs, files in os.walk(rootdir):
         train = 0
         for f in files:
@@ -41,9 +41,9 @@ if __name__ == '__main__':
 
             # Store
             if train < 20:
-                histfile = open('hogfeatures/test/' + os.path.basename(os.path.normpath(subdir)) + '.dat', 'a')
+                histfile = open('hogfeatures_big/test/' + os.path.basename(os.path.normpath(subdir)) + '.dat', 'a')
             else:
-                histfile = open('hogfeatures/train/' + os.path.basename(os.path.normpath(subdir)) + '.dat', 'a')
+                histfile = open('hogfeatures_train/train/' + os.path.basename(os.path.normpath(subdir)) + '.dat', 'a')
             np.savetxt(histfile, np.reshape(hist, (1, len(hist))), delimiter=',', header=f)
             histfile.close()
             train += 1
