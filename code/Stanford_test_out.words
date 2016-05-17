@@ -1,0 +1,89 @@
+<Image name="Stanford-CCCC_0002">
+    <TextLine bottom="442" left="1579" no="1" right="1691" shear="0" top="330">
+        <Word bottom="442" left="1579" no="1" right="1691" shear="0" text="dunno" top="330" />
+    </TextLine>
+    <TextLine bottom="559" left="845" no="2" right="2266" shear="0" top="445">
+        <Word bottom="559" left="2221" no="1" right="2266" shear="0" text="dunno" top="452" />
+        <Word bottom="548" left="845" no="2" right="886" shear="0" text="dunno" top="452" />
+        <Word bottom="559" left="2046" no="3" right="2093" shear="0" text="dunno" top="445" />
+    </TextLine>
+    <TextLine bottom="666" left="2020" no="3" right="2280" shear="0" top="559">
+        <Word bottom="666" left="2237" no="1" right="2280" shear="0" text="dunno" top="564" />
+        <Word bottom="666" left="2020" no="2" right="2068" shear="0" text="dunno" top="559" />
+    </TextLine>
+    <TextLine bottom="770" left="615" no="4" right="2235" shear="0" top="661">
+        <Word bottom="770" left="2182" no="1" right="2235" shear="0" text="dunno" top="662" />
+        <Word bottom="732" left="615" no="2" right="848" shear="0" text="dunno" top="661" />
+    </TextLine>
+    <TextLine bottom="923" left="704" no="5" right="905" shear="0" top="849">
+        <Word bottom="923" left="704" no="1" right="905" shear="0" text="dunno" top="849" />
+    </TextLine>
+    <TextLine bottom="1075" left="1770" no="6" right="1819" shear="0" top="964">
+        <Word bottom="1075" left="1770" no="1" right="1819" shear="0" text="dunno" top="964" />
+    </TextLine>
+    <TextLine bottom="1140" left="1146" no="7" right="1446" shear="0" top="1039">
+        <Word bottom="1140" left="1146" no="1" right="1444" shear="0" text="dunno" top="1039" />
+        <Word bottom="1140" left="1146" no="2" right="1446" shear="0" text="dunno" top="1039" />
+    </TextLine>
+    <TextLine bottom="1285" left="856" no="8" right="1903" shear="0" top="1147">
+        <Word bottom="1285" left="1758" no="1" right="1903" shear="0" text="dunno" top="1190" />
+        <Word bottom="1271" left="856" no="2" right="908" shear="0" text="dunno" top="1151" />
+        <Word bottom="1285" left="1520" no="3" right="1757" shear="0" text="dunno" top="1147" />
+    </TextLine>
+    <TextLine bottom="1382" left="1638" no="9" right="1866" shear="0" top="1270">
+        <Word bottom="1382" left="1638" no="1" right="1866" shear="0" text="dunno" top="1270" />
+        <Word bottom="1382" left="1638" no="2" right="1687" shear="0" text="dunno" top="1270" />
+    </TextLine>
+    <TextLine bottom="1460" left="1856" no="10" right="1913" shear="0" top="1362">
+        <Word bottom="1460" left="1856" no="1" right="1913" shear="0" text="dunno" top="1362" />
+    </TextLine>
+    <TextLine bottom="1550" left="1535" no="11" right="1776" shear="0" top="1471">
+        <Word bottom="1550" left="1535" no="1" right="1776" shear="0" text="dunno" top="1471" />
+    </TextLine>
+    <TextLine bottom="1877" left="1622" no="12" right="2280" shear="0" top="1795">
+        <Word bottom="1873" left="1622" no="1" right="1724" shear="0" text="dunno" top="1795" />
+        <Word bottom="1877" left="2241" no="2" right="2280" shear="0" text="dunno" top="1802" />
+    </TextLine>
+    <TextLine bottom="1991" left="617" no="13" right="659" shear="0" top="1890">
+        <Word bottom="1991" left="617" no="1" right="659" shear="0" text="dunno" top="1890" />
+    </TextLine>
+    <TextLine bottom="2111" left="1561" no="14" right="1837" shear="0" top="2015">
+        <Word bottom="2111" left="1561" no="1" right="1837" shear="0" text="dunno" top="2015" />
+    </TextLine>
+    <TextLine bottom="2314" left="1074" no="15" right="1729" shear="0" top="2183">
+        <Word bottom="2264" left="1074" no="1" right="1208" shear="0" text="dunno" top="2183" />
+        <Word bottom="2314" left="1683" no="2" right="1729" shear="0" text="dunno" top="2211" />
+    </TextLine>
+    <TextLine bottom="2356" left="743" no="16" right="783" shear="0" top="2306">
+        <Word bottom="2356" left="743" no="1" right="783" shear="0" text="dunno" top="2306" />
+    </TextLine>
+    <TextLine bottom="2499" left="738" no="17" right="2062" shear="0" top="2379">
+        <Word bottom="2483" left="1940" no="1" right="1980" shear="0" text="dunno" top="2420" />
+        <Word bottom="2499" left="738" no="2" right="854" shear="0" text="dunno" top="2379" />
+        <Word bottom="2466" left="989" no="3" right="1045" shear="0" text="dunno" top="2382" />
+        <Word bottom="2490" left="1818" no="4" right="2062" shear="0" text="dunno" top="2420" />
+    </TextLine>
+    <TextLine bottom="2623" left="1121" no="18" right="1360" shear="0" top="2506">
+        <Word bottom="2623" left="1121" no="1" right="1360" shear="0" text="dunno" top="2506" />
+    </TextLine>
+    <TextLine bottom="2892" left="765" no="19" right="2220" shear="0" top="2799">
+        <Word bottom="2892" left="2155" no="1" right="2215" shear="0" text="dunno" top="2813" />
+        <Word bottom="2892" left="2155" no="2" right="2220" shear="0" text="dunno" top="2813" />
+        <Word bottom="2872" left="765" no="3" right="904" shear="0" text="dunno" top="2799" />
+    </TextLine>
+    <TextLine bottom="3072" left="828" no="20" right="1089" shear="0" top="2998">
+        <Word bottom="3070" left="828" no="1" right="964" shear="0" text="dunno" top="2998" />
+        <Word bottom="3072" left="828" no="2" right="1089" shear="0" text="dunno" top="2998" />
+    </TextLine>
+    <TextLine bottom="3184" left="572" no="21" right="2079" shear="0" top="3097">
+        <Word bottom="3183" left="1804" no="1" right="2079" shear="0" text="dunno" top="3111" />
+        <Word bottom="3164" left="891" no="2" right="928" shear="0" text="dunno" top="3113" />
+        <Word bottom="3184" left="572" no="3" right="648" shear="0" text="dunno" top="3097" />
+    </TextLine>
+    <TextLine bottom="3308" left="2212" no="22" right="2258" shear="0" top="3199">
+        <Word bottom="3308" left="2212" no="1" right="2258" shear="0" text="dunno" top="3199" />
+    </TextLine>
+    <TextLine bottom="3365" left="624" no="23" right="881" shear="0" top="3272">
+        <Word bottom="3365" left="624" no="1" right="881" shear="0" text="dunno" top="3272" />
+    </TextLine>
+</Image>

@@ -1,6 +1,4 @@
-import sys
-import os
-import cv2
+import sys, os, cv2, logging
 import numpy as np
 import toolbox.pamImage as pamImage
 import toolbox.croplib as croplib
@@ -10,11 +8,16 @@ def preprocess(img):
     """ Convert the given greyscale image to an otsu-thresholed one,
         remove any specks, and imperfections """
 
-    result = otsu(img)
-    result = speck_removal(result)
-    result = morphology(result)
-    # cv2.imwrite('tmp/preprocessed.ppm', result)
-
+    logging.debug('Preproccesing the supplied image')
+    try:
+        result = otsu(img)
+        result = speck_removal(result)
+        result = morphology(result)
+    except:
+        logging.error("Unexpected error:", sys.exc_info()[0])
+        raise
+    else:
+        logging.debug('Preprocessing completed')
     return result;
 
 def otsu(img):
