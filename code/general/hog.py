@@ -85,7 +85,7 @@ def hog_alternative(img):
     return hist
 
 def doHog(imgDir, hogDir, hog = "Xeryus"):
-    if not imdDir.exists():
+    if not os.path.exists(imgDir):
         print "You must first run create_labels.py"
         sys.exit(1)
 

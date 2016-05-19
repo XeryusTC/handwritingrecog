@@ -18,21 +18,21 @@ def train(traindir):
             labels.append(os.path.splitext(os.path.basename(letter))[0])
 
     trainData = np.asarray(trainData)
-    
+
     print "Commence training!"
-    
+
     # One vs all approach
     clf = svm.LinearSVC()
-    
+
     # One vs one approach
     # clf = svm.SVC(decision_function_shape='ovo')
-    
+
     clf.fit(trainData, labels)
-    
+
     return clf
 
 
-def test(testdir):
+def test(testdir, clf):
     print "Testing..."
 
     filelist = glob.glob(testdir + '*')
@@ -42,7 +42,7 @@ def test(testdir):
     for letter in filelist:
         print "testing letter: ", letter
         data = np.genfromtxt(letter, delimiter=',')
-        
+
         if len(data.shape) > 1:
             for line in data:
                 dec = clf.predict([line])
@@ -57,10 +57,10 @@ def test(testdir):
     return accuracy
 
 
-def svm(traindir, testdir):
+def runSVM(traindir, testdir):
     clf = train(traindir)
-    accuracy = test(testdir)
+    accuracy = test(testdir, clf)
 
     print 'accuracy: ', accuracy
-    
+
     return clf
