@@ -1,8 +1,8 @@
 import sys, os, inspect, shutil, fnmatch, logging
-import modules.preprocessor as prep
-import modules.create_segments as create_segments
-import modules.recognize as recognize
-import modules.hog as hog
+import general.preprocessor as prep
+import create_segments
+import recognize.recognize as recognize
+import general.hog as hog
 
 import modules.toolbox.pamImage as pamImage
 import xml.etree.ElementTree as ET
