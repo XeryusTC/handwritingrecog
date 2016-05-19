@@ -1,8 +1,6 @@
 all:
-	cd own_modules; make
-	cd toolbox; make
+	cd ../modules/toolbox; make
 
 clean:
-	cd own_modules; make clean
-	cd toolbox; make clean
+	cd ../modules/toolbox; make clean
 	rm -rf tmp
