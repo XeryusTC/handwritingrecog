@@ -6,6 +6,8 @@ from scipy.spatial.distance import cdist, pdist
 from unipath import Path, DIRS_NO_LINKS
 from sklearn import svm
 
+### Old main function with kmeans also
+'''
 def main_xeryus():
     work_dir = Path("tmp/segments")
     if not work_dir.exists():
@@ -43,6 +45,8 @@ def main_xeryus():
     betweenss = totss - tot_withinss
     print tot_withinss, totss, betweenss
 
+'''
+
 def hog_xeryus(img, char_size=(72, 72), window_size=(80, 80), block_size=(2, 2),
         cell_size=(8, 8), nbins=9):
     scale = max(img.shape[0] / float(char_size[0]),
@@ -63,74 +67,7 @@ def hog_xeryus(img, char_size=(72, 72), window_size=(80, 80), block_size=(2, 2),
     f = hog.compute(img)
     return f
 
-def hog_small():
-    doHog('../tmp/', 'hogfeatures_small/')
-
-    ##### Training SVM #############################
-    filelist = glob.glob('hogfeatures_small/train/*')
-    labels = []
-    trainData = []
-    for letter in filelist:
-        data = np.genfromtxt(letter, delimiter=',')
-        for line in data:
-            trainData.append(line)
-
-        for label in range(len(data)):
-            labels.append(os.path.splitext(os.path.basename(letter))[0])
-
-    # One vs all approach
-    clf = svm.LinearSVC()
-    # One vs one approach
-    # clf = svm.SVC(decision_function_shape='ovo')
-    clf.fit(trainData, labels)
-
-    ##### Testing SVM ##############################
-    filelist = glob.glob('hogfeatures_small/test/*')
-    accuracy = 0.0
-    correct = 0.0
-    false = 0.0
-
-    for letter in filelist:
-        data = np.genfromtxt(letter, delimiter=',')
-        if len(data.shape) > 1:
-            for line in data:
-                dec = clf.predict([line])
-
-                print 'estimation: ', dec
-                print 'actual: ', os.path.splitext(os.path.basename(letter))[0], '\n'
-                if dec == os.path.splitext(os.path.basename(letter))[0]:
-                    correct += 1
-                else:
-                    false += 1
-
-    accuracy = correct / (correct + false)
-    print 'accuracy: ', accuracy
-
-def doHog(imgDir, hogDir):
-    print "Hogging stuff..."
-    if os.path.exists(hogDir):
-        shutil.rmtree(hogDir)
-    os.makedirs(hogDir)
-    os.makedirs(hogDir + 'test/')
-    os.makedirs(hogDir + 'train/')
-
-    for subdir, dirs, files in os.walk(imgDir):
-        print os.path.basename(os.path.normpath(subdir))
-        train = 0
-        for f in files:
-            img = cv2.imread(os.path.join(subdir, f))
-            hist = hog_small_steven(img)
-
-            if train < 15:
-                histfile = open(hogDir + 'test/' + os.path.basename(os.path.normpath(subdir)) + '.csv', 'a')
-            else:
-                histfile = open(hogDir + 'train/' + os.path.basename(os.path.normpath(subdir)) + '.csv', 'a')
-            np.savetxt(histfile, np.reshape(hist, (1, len(hist))), delimiter=',', header=f)
-            histfile.close()
-
-            train += 1
-
-def hog_small_steven(img):
+def hog_alternative(img):
     img = cv2.resize(img,(64, 128), interpolation = cv2.INTER_CUBIC)
     bin_n = 16
     gx = cv2.Sobel(img, cv2.CV_32F, 1, 0)
@@ -146,6 +83,34 @@ def hog_small_steven(img):
     hists = [np.bincount(b.ravel(), m.ravel(), bin_n) for b, m in zip(bin_cells, mag_cells)]
     hist = np.hstack(hists)
     return hist
-if __name__ == '__main__':
-    # main_xeryus()
-    hog_small()
+
+def doHog(imgDir, hogDir, hog = "Xeryus"):
+    if not imdDir.exists():
+        print "You must first run create_labels.py"
+        sys.exit(1)
+       
+    if os.path.exists(hogDir):
+        shutil.rmtree(hogDir)
+    os.makedirs(hogDir)
+    os.makedirs(hogDir + 'test/')
+    os.makedirs(hogDir + 'train/')
+    
+    print "Hogging stuff..."
+    for subdir, dirs, files in os.walk(imgDir):
+        print os.path.basename(os.path.normpath(subdir))
+        train = 0
+        for f in files:
+            img = cv2.imread(os.path.join(subdir, f))
+            if hog = "Xeryus":
+                hist = hog_xeryus(img)
+            else:
+                hist = hog_alternative(img)
+
+            if train < 15:
+                histfile = open(hogDir + 'test/' + os.path.basename(os.path.normpath(subdir)) + '.csv', 'a')
+            else:
+                histfile = open(hogDir + 'train/' + os.path.basename(os.path.normpath(subdir)) + '.csv', 'a')
+            np.savetxt(histfile, np.reshape(hist, (1, len(hist))), delimiter=',', header=f)
+            histfile.close()
+
+            train += 1
