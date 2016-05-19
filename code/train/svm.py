@@ -2,24 +2,14 @@ import sys, os, cv2, glob
 import numpy as np
 from sklearn import svm
 
-def train(traindir):
-    print "Training..."
+def train(traindir, featuretype):
+    print "Commence training of the svm!"
 
-    filelist = glob.glob(traindir + '*')
-    labels = []
-    trainData = []
-    for letter in filelist:
-        print "Prepping training data for letter: ", os.path.splitext(os.path.basename(letter))[0]
-        data = np.genfromtxt(letter, delimiter=',')
-        for line in data:
-            trainData.append(line)
-
-        for label in range(len(data)):
-            labels.append(os.path.splitext(os.path.basename(letter))[0])
-
-    trainData = np.asarray(trainData)
-
-    print "Commence training!"
+    if featuretype == "hog":
+        trainData = np.load(traindir + 'hog.npy')
+    else:
+        trainData = np.load(traindir + 'pca.npy')
+    labels = np.load(traindir + 'labels.npy')
 
     # One vs all approach
     clf = svm.LinearSVC()
@@ -28,38 +18,39 @@ def train(traindir):
     # clf = svm.SVC(decision_function_shape='ovo')
 
     clf.fit(trainData, labels)
-
     return clf
 
 
-def test(testdir, clf):
-    print "Testing..."
+def test(testdir, clf, featuretype):
+    print "Commence testing of the svm!"
 
-    filelist = glob.glob(testdir + '*')
     accuracy = 0.0
     correct = 0.0
     false = 0.0
-    for letter in filelist:
-        print "testing letter: ", letter
-        data = np.genfromtxt(letter, delimiter=',')
+    if featuretype == "hog":
+        trainData = np.load(testdir + 'hog.npy')
+    else:
+        trainData = np.load(testdir + 'pca.npy')
+    labels = np.load(testdir + 'labels.npy')
 
-        if len(data.shape) > 1:
-            for line in data:
-                dec = clf.predict([line])
-                print 'estimation: ', dec
-                print 'actual: ', os.path.splitext(os.path.basename(letter))[0], '\n'
-                if dec == os.path.splitext(os.path.basename(letter))[0]:
-                    correct += 1
-                else:
-                    false += 1
-                print "\n"
+    label = 0
+    for line in trainData:
+
+        dec = clf.predict([line])
+        # print 'estimation: ', dec
+        # print 'actual: ', labels[label]
+        if dec == labels[label]:
+            correct += 1
+        else:
+            false += 1
+        label += 1
+
     accuracy = correct / (correct + false)
     return accuracy
 
-
-def runSVM(traindir, testdir):
-    clf = train(traindir)
-    accuracy = test(testdir, clf)
+def runSVM(traindir, testdir, featuretype = "hog"):
+    clf = train(traindir, featuretype)
+    accuracy = test(testdir, clf, featuretype)
 
     print 'accuracy: ', accuracy
 

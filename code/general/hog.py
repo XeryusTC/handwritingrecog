@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 import sys, os, cv2, glob, csv, shutil
 import numpy as np
-from scipy.cluster.vq import whiten, kmeans2
-from scipy.spatial.distance import cdist, pdist
+# from scipy.cluster.vq import whiten, kmeans2
+# from scipy.spatial.distance import cdist, pdist
 from unipath import Path, DIRS_NO_LINKS
-from sklearn import svm
 
 ### Old main function with kmeans also
 '''
@@ -84,9 +83,9 @@ def hog_alternative(img):
     hist = np.hstack(hists)
     return hist
 
-def doHog(imgDir, hogDir, hog = "Xeryus"):
+def doHog(imgDir, hogDir, hog = "xeryus"):
     if not os.path.exists(imgDir):
-        print "You must first run create_labels.py"
+        print "You must first create segmented images"
         sys.exit(1)
 
     if os.path.exists(hogDir):
@@ -95,22 +94,32 @@ def doHog(imgDir, hogDir, hog = "Xeryus"):
     os.makedirs(hogDir + 'test/')
     os.makedirs(hogDir + 'train/')
 
-    print "Hogging stuff..."
+    print "Hogging stuff"
+    trainFeatures = []
+    trainLabels = []
+    testFeatures = []
+    testLabels = []
+
     for subdir, dirs, files in os.walk(imgDir):
-        print os.path.basename(os.path.normpath(subdir))
+        # print os.path.basename(os.path.normpath(subdir))
         train = 0
         for f in files:
             img = cv2.imread(os.path.join(subdir, f))
-            if hog == "Xeryus":
+            if hog == "xeryus":
                 hist = hog_xeryus(img)
             else:
                 hist = hog_alternative(img)
 
             if train < 15:
-                histfile = open(hogDir + 'test/' + os.path.basename(os.path.normpath(subdir)) + '.csv', 'a')
+                testFeatures.append(hist[:,0])
+                testLabels.append(os.path.basename(os.path.normpath(subdir)))
             else:
-                histfile = open(hogDir + 'train/' + os.path.basename(os.path.normpath(subdir)) + '.csv', 'a')
-            np.savetxt(histfile, np.reshape(hist, (1, len(hist))), delimiter=',', header=f)
-            histfile.close()
+                trainFeatures.append(hist[:,0])
+                trainLabels.append(os.path.basename(os.path.normpath(subdir)))
 
             train += 1
+
+    np.save(hogDir + 'train/hog', trainFeatures)
+    np.save(hogDir + 'train/labels', trainLabels)
+    np.save(hogDir + 'test/hog', testFeatures)
+    np.save(hogDir + 'test/labels', testLabels)
