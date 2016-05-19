@@ -1,8 +1,5 @@
 import sys, os, cv2, logging
 import numpy as np
-import toolbox.pamImage as pamImage
-import toolbox.croplib as croplib
-from matplotlib import pyplot as plt
 
 def preprocess(img):
     """ Convert the given greyscale image to an otsu-thresholed one,

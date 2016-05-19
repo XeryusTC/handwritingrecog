@@ -1,19 +1,22 @@
 # Packages
 import sys, os, cv2, uuid, logging
+import logging.config
 import numpy as np
 from unipath import Path, DIRS_NO_LINKS
 from scipy.cluster.vq import whiten, kmeans2
 import xml.etree.ElementTree as ET
 
 # Own modules
-from modules.preprocessor import preprocess
+from general.preprocessor import preprocess
+
+logging.config.fileConfig('logging.conf')
 
 def main():
     if len(sys.argv) != 2 or sys.argv[1] not in ['KNMP', 'Stanford']:
-        logging.info("Usage: python %s <dataset>" % sys.argv[0])
-        logging.info("\tDataset should be either 'KNMP' or 'Stanford'")
+        print("Usage: python %s <dataset>" % sys.argv[0])
+        print("\tDataset should be either 'KNMP' or 'Stanford'")
         sys.exit(1)
-        create(sys.argv[1])
+    create(sys.argv[1])
 
 def create(dataset):
     # create a clean temporary directory
