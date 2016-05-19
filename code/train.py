@@ -1,4 +1,5 @@
 import create_segments
+import sys
 from general.hog import doHog
 from train.svm import svm
 
@@ -10,12 +11,10 @@ if __name__ == '__main__':
 
     # First segment the training images
     create_segments.create(sys.argv[1])
-    
+
     # Run hog over the segmented images
     # Third optonial argument for type of hog ("xeryus" or "alternative"), default = "xeryus"
     doHog('tmp/segments', 'tmp/hog_features')
-    
+
     # Receive trained svm (it also tests it on characters)
-    svm('tmp/hog_features/train', 'tmp/hog_features/test')
-    
-    
+    SVM = svm('tmp/hog_features/train', 'tmp/hog_features/test')

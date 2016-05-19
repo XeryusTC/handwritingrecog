@@ -88,20 +88,20 @@ def doHog(imgDir, hogDir, hog = "Xeryus"):
     if not imdDir.exists():
         print "You must first run create_labels.py"
         sys.exit(1)
-       
+
     if os.path.exists(hogDir):
         shutil.rmtree(hogDir)
     os.makedirs(hogDir)
     os.makedirs(hogDir + 'test/')
     os.makedirs(hogDir + 'train/')
-    
+
     print "Hogging stuff..."
     for subdir, dirs, files in os.walk(imgDir):
         print os.path.basename(os.path.normpath(subdir))
         train = 0
         for f in files:
             img = cv2.imread(os.path.join(subdir, f))
-            if hog = "Xeryus":
+            if hog == "Xeryus":
                 hist = hog_xeryus(img)
             else:
                 hist = hog_alternative(img)
