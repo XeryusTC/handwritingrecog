@@ -19,7 +19,7 @@ def runPCA(hogDir):
 
     ### Fit the pca model
     print "Fitting the pca model"
-    pca = PCA(n_components = min(testData.shape[0], trainData.shape[0], testData.shape[1], trainData.shape[1])
+    pca = PCA(n_components = min(testData.shape[0], trainData.shape[0], testData.shape[1], trainData.shape[1]))
     pca.fit(data)
     trainData = pca.fit_transform(trainData)
     testData = pca.fit_transform(testData)

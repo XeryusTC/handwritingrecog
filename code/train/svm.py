@@ -1,9 +1,10 @@
 import sys, os, cv2, glob
 import numpy as np
 from sklearn import svm
+import logging
 
 def train(traindir, featuretype):
-    print "Commence training of the svm!"
+    logging.debug("Commence training of the svm!")
 
     if featuretype == "hog":
         trainData = np.load(traindir + 'hog.npy')
@@ -22,7 +23,7 @@ def train(traindir, featuretype):
 
 
 def test(testdir, clf, featuretype):
-    print "Commence testing of the svm!"
+    logging.debug("Commence testing of the svm!")
 
     accuracy = 0.0
     correct = 0.0
@@ -51,7 +52,4 @@ def test(testdir, clf, featuretype):
 def runSVM(traindir, testdir, featuretype = "hog"):
     clf = train(traindir, featuretype)
     accuracy = test(testdir, clf, featuretype)
-
-    print 'accuracy: ', accuracy
-
-    return clf
+    return clf, accuracy

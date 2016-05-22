@@ -13,7 +13,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
     ### First segment the training images
-    create_segments.create(sys.argv[1])
+    #create_segments.create(sys.argv[1])
 
     ### Run hog over the segmented images
     ### Third argument for type of hog ("xeryus" or "other"), default = "xeryus"
@@ -24,4 +24,5 @@ if __name__ == '__main__':
 
     ### Receive trained svm (it also tests it on characters)
     ### Third argument either "hog" or "pca", default = "hog"
-    SVM = runSVM('tmp/features/train/', 'tmp/features/test/', sys.argv[3])
+    SVM,accuracy = runSVM('tmp/features/train/', 'tmp/features/test/', sys.argv[3])
+    print 'Accuracy:', accuracy
