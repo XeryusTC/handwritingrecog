@@ -77,17 +77,24 @@ def segment(img, annotation, work_dir):
                 cropped_im = img[rect['top']:rect['bottom'], rect['left']:rect['right']]
 
                 # Remove rows from the top if they're white
-                while cropped_im.shape[0] > 0 and min(cropped_im[0,:]) == 255:
+                while cropped_im.shape[1] > 0 and cropped_im.shape[0] > 0 \
+                        and min(cropped_im[0,:]) == 255:
                     cropped_im = cropped_im[1:,:]
                 # Remove from the bottom
-                while cropped_im.shape[0] > 0 and min(cropped_im[-1,:]) == 255:
+                while cropped_im.shape[1] > 0 and cropped_im.shape[0] > 0 \
+                        and min(cropped_im[-1,:]) == 255:
                     cropped_im = cropped_im[:-1,:]
                 # Remove from the left
-                while cropped_im.shape[1] > 0 and min(cropped_im[:,0]) == 255:
+                while cropped_im.shape[1] > 0 and cropped_im.shape[0] > 0 \
+                        and min(cropped_im[:,0]) == 255:
                     cropped_im = cropped_im[:,1:]
                 # Remove from the right
-                while cropped_im.shape[1] > 0 and min(cropped_im[:,-1]) == 255:
+                while cropped_im.shape[1] > 0 and cropped_im.shape[0] > 0 \
+                        and min(cropped_im[:,-1]) == 255:
                     cropped_im = cropped_im[:,:-1]
+                if cropped_im.shape[0] == 0 or cropped_im.shape[1] == 0:
+                    print "Discarding image"
+                    continue
                 cv2.imwrite(f, cropped_im)
 
 if __name__ == '__main__':
