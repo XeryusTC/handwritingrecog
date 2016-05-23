@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys, os, cv2, glob, csv, shutil
 import numpy as np
+import logging
 # from scipy.cluster.vq import whiten, kmeans2
 # from scipy.spatial.distance import cdist, pdist
 from unipath import Path, DIRS_NO_LINKS
@@ -84,25 +85,21 @@ def hog_alternative(img):
     return hist
 
 def doHog(imgDir, hogDir, hog = "xeryus"):
+    logging.info("Doing the HOG")
+    
     if not os.path.exists(imgDir):
-        print "You must first create segmented images"
+        print("You must first create segmented images")
         sys.exit(1)
 
     if os.path.exists(hogDir):
         shutil.rmtree(hogDir)
     os.makedirs(hogDir)
-    os.makedirs(hogDir + 'test/')
-    os.makedirs(hogDir + 'train/')
 
-    print "Hogging stuff"
-    trainFeatures = []
-    trainLabels = []
-    testFeatures = []
-    testLabels = []
+    features = []
+    labels = []
 
     for subdir, dirs, files in os.walk(imgDir):
         # print os.path.basename(os.path.normpath(subdir))
-        train = 0
         for f in files:
             img = cv2.imread(os.path.join(subdir, f))
             if hog == "xeryus":
@@ -110,16 +107,8 @@ def doHog(imgDir, hogDir, hog = "xeryus"):
             else:
                 hist = hog_alternative(img)
 
-            if train < 15:
-                testFeatures.append(hist[:,0])
-                testLabels.append(os.path.basename(os.path.normpath(subdir)))
-            else:
-                trainFeatures.append(hist[:,0])
-                trainLabels.append(os.path.basename(os.path.normpath(subdir)))
+            features.append(hist[:,0])
+            labels.append(os.path.basename(os.path.normpath(subdir)))
 
-            train += 1
-
-    np.save(hogDir + 'train/hog', trainFeatures)
-    np.save(hogDir + 'train/labels', trainLabels)
-    np.save(hogDir + 'test/hog', testFeatures)
-    np.save(hogDir + 'test/labels', testLabels)
+    np.save(hogDir + 'hog', features)
+    np.save(hogDir + 'labels', labels)

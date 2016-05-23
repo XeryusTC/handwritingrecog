@@ -1,29 +1,26 @@
 import sys, os, cv2, glob
 import numpy as np
-from sklearn import svm
+from sklearn import neighbors
 import logging
 
 def train(traindir, featuretype):
-    logging.debug("Training svm!")
+    logging.debug("Training kNN!")
 
+    n_neighbors = 5
+    weights = 'uniform' # Other: 'distance'
     if featuretype == "hog":
         trainData = np.load(traindir + 'hog.npy')
     else:
         trainData = np.load(traindir + 'pca.npy')
-    labels = np.load(traindir + 'labels.npy')
+    trainLabels = np.load(traindir + 'labels.npy')
 
-    # One vs all approach
-    clf = svm.LinearSVC()
+    clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)
+    clf.fit(trainData, trainLabels)
 
-    # One vs one approach
-    # clf = svm.SVC(decision_function_shape='ovo')
-
-    clf.fit(trainData, labels)
     return clf
 
-
 def test(testdir, clf, featuretype):
-    logging.debug("Testing svm!")
+    logging.debug("Testing kNN!")
 
     accuracy = 0.0
     correct = 0.0
@@ -36,7 +33,6 @@ def test(testdir, clf, featuretype):
 
     label = 0
     for line in testData:
-
         dec = clf.predict([line])
         # print 'estimation: ', dec
         # print 'actual: ', labels[label]
@@ -49,8 +45,8 @@ def test(testdir, clf, featuretype):
     accuracy = correct / (correct + false)
     return accuracy
 
-def runSVM(traindir, testdir, featuretype = "hog"):
-    logging.info("Running SVM")
+def runKNN(traindir, testdir, featuretype = "hog"):
+    logging.info("Running kNN")
     clf = train(traindir, featuretype)
     accuracy = test(testdir, clf, featuretype)
     return clf, accuracy
