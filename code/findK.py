@@ -15,12 +15,13 @@ featureDir = 'tmp/features/'
 trainDir = featureDir + 'train/'
 testDir = featureDir + 'test/'
 
-for k in range(30):
+for k in range(19):
+    k += 1
     avgAcc = 0.0
     for i in range(10):
         doHog(segmentDir, featureDir, "xeryus")
         create_sets(featureDir)
-        kNN, accuracy = runKNN(trainDir, testDir, "hog")
+        kNN, accuracy = runKNN(trainDir, testDir, k, "hog")
 
         avgAcc += accuracy
     print "Average accuracy for k =", k, ":\t", avgAcc/10

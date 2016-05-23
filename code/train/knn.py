@@ -3,10 +3,10 @@ import numpy as np
 from sklearn import neighbors
 import logging
 
-def train(traindir, featuretype):
+def train(traindir, featuretype, k):
     logging.debug("Training kNN!")
 
-    n_neighbors = 5
+    n_neighbors = k
     weights = 'uniform' # Other: 'distance'
     if featuretype == "hog":
         trainData = np.load(traindir + 'hog.npy')
@@ -45,7 +45,7 @@ def test(testdir, clf, featuretype):
     accuracy = correct / (correct + false)
     return accuracy
 
-def runKNN(traindir, testdir, featuretype = "hog"):
-    clf = train(traindir, featuretype)
+def runKNN(traindir, testdir, k, featuretype):
+    clf = train(traindir, featuretype, k)
     accuracy = test(testdir, clf, featuretype)
     return clf, accuracy
