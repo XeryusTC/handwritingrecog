@@ -3,8 +3,6 @@ import numpy as np
 import logging
 
 def create_sets(hogDir):
-    logging.info("Creating train and test set")
-
     ### Directory stuff
     if not os.path.exists(hogDir):
         print "You must first create HOG features"

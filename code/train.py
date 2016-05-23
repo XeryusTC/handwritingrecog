@@ -25,24 +25,30 @@ if __name__ == '__main__':
     testDir = featureDir + 'test/'
 
     ### First segment the training images
+    # logging.info("Creating segments of the images")
     # create_segments.create(sys.argv[1])
 
     ### Run hog over the segmented images
     ### Third argument for type of hog ("xeryus" or "other"), default = "xeryus"
+    logging.info("Doing the HOG")
     doHog(segmentDir, featureDir, sys.argv[2])
 
     ### Create random train and test sets from the hog features
+    logging.info("Creating train and test set")
     create_sets(featureDir)
 
     ### Get the principal components from the hog_features
-    runPCA(featureDir)
+    # logging.info("Running PCA")
+    # runPCA(featureDir)
 
     ### Receive trained svm (it also tests it on characters)
     ### Third argument either "hog" or "pca", default = "hog"
+    logging.info("Running SVM")
     SVM, accuracy = runSVM(trainDir, testDir, sys.argv[3])
 
     ### Receive trained kNN (it also tests it on characters)
     ### Third argument either "hog" or "pca", default = "hog"
+    logging.info("Running kNN")
     kNN, accuracy2 = runKNN(trainDir, testDir, sys.argv[3])
 
     print 'Accuracy for SVM: ', accuracy

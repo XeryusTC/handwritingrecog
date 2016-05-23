@@ -19,8 +19,6 @@ def main():
     create(sys.argv[1])
 
 def create(dataset):
-    logging.info("Creating segments of the images")
-    
     # create a clean temporary directory
     work_dir = Path("tmp")
     work_dir.rmtree()

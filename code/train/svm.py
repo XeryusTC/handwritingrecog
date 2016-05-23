@@ -50,7 +50,6 @@ def test(testdir, clf, featuretype):
     return accuracy
 
 def runSVM(traindir, testdir, featuretype = "hog"):
-    logging.info("Running SVM")
     clf = train(traindir, featuretype)
     accuracy = test(testdir, clf, featuretype)
     return clf, accuracy

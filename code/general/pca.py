@@ -4,8 +4,6 @@ import logging
 from sklearn.decomposition import PCA
 
 def runPCA(hogDir):
-    logging.info("Running PCA")
-
     ### Directory stuff
     if not os.path.exists(hogDir):
         print "You must first create HOG features"

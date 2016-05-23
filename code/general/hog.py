@@ -85,8 +85,6 @@ def hog_alternative(img):
     return hist
 
 def doHog(imgDir, hogDir, hog = "xeryus"):
-    logging.info("Doing the HOG")
-    
     if not os.path.exists(imgDir):
         print("You must first create segmented images")
         sys.exit(1)
