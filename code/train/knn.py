@@ -14,7 +14,7 @@ def train(traindir, featuretype, k):
         trainData = np.load(traindir + 'pca.npy')
     trainLabels = np.load(traindir + 'labels.npy')
 
-    clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)
+    clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)#, metric="euclidean")
     clf.fit(trainData, trainLabels)
 
     return clf

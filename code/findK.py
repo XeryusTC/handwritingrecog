@@ -19,8 +19,11 @@ for k in range(19):
     k += 1
     avgAcc = 0.0
     for i in range(10):
+        print "hog"
         doHog(segmentDir, featureDir, "xeryus")
+        print "create sets"
         create_sets(featureDir)
+        print "knn"
         kNN, accuracy = runKNN(trainDir, testDir, k, "hog")
 
         avgAcc += accuracy

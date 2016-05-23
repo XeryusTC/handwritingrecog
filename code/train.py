@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     ### First segment the training images
     # logging.info("Creating segments of the images")
-    create_segments.create(sys.argv[1])
+    # create_segments.create(sys.argv[1])
 
     ### Run hog over the segmented images
     ### Third argument for type of hog ("xeryus" or "other"), default = "xeryus"
@@ -43,14 +43,14 @@ if __name__ == '__main__':
 
     ### Receive trained svm (it also tests it on characters)
     ### Third argument either "hog" or "pca", default = "hog"
-    logging.info("Running SVM")
-    SVM, accuracy = runSVM(trainDir, testDir, sys.argv[3])
+    #logging.info("Running SVM")
+    #SVM, accuracy = runSVM(trainDir, testDir, sys.argv[3])
 
     ### Receive trained kNN (it also tests it on characters)
     ### Fourth argument either "hog" or "pca"
     logging.info("Running kNN")
-    k = 5
+    k = 3
     kNN, accuracy2 = runKNN(trainDir, testDir, k, sys.argv[3])
 
-    print 'Accuracy for SVM: ', accuracy
+    #print 'Accuracy for SVM: ', accuracy
     print 'Accuracy for kNN: ', accuracy2
