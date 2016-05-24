@@ -102,10 +102,11 @@ def doHog(imgDir, hogDir, hog = "xeryus"):
             img = cv2.imread(os.path.join(subdir, f))
             if hog == "xeryus":
                 hist = hog_xeryus(img)
+                features.append(hist[:,0])
             else:
                 hist = hog_alternative(img)
+                features.append(hist)
 
-            features.append(hist[:,0])
             labels.append(os.path.basename(os.path.normpath(subdir)))
 
     np.save(hogDir + 'hog', features)
