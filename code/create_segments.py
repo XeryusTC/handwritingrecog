@@ -32,6 +32,7 @@ def create(dataset):
     files = merge(images, annotations)
 
     # Create character segmentations
+    stats = {}
     for f in files:
         # Preprocess
         logging.info("Preprocessing %s", str(f[0]))
@@ -47,7 +48,9 @@ def create(dataset):
         segmentPathFolder.mkdir()
         e = ET.parse(f[1]).getroot()
         logging.info("Segmenting %s", str(f[0]))
-        segment(img, e, segmentPathFolder)
+        segment(img, e, segmentPathFolder, stats)
+
+    print_statistics(stats)
 
 def merge(images, annotations):
     ret = []
@@ -57,7 +60,7 @@ def merge(images, annotations):
                 ret.append((img, ann))
     return ret
 
-def segment(img, annotation, work_dir):
+def segment(img, annotation, work_dir, stats):
     sides = ['left', 'top', 'right', 'bottom']
     # Parse the given sentences
     for sentence in annotation:
@@ -96,6 +99,55 @@ def segment(img, annotation, work_dir):
                     print "Discarding image"
                     continue
                 cv2.imwrite(f, cropped_im)
+
+                # Add to statistics
+                if c not in stats.keys():
+                    stats[c] = {'width': [], 'height': []}
+                stats[c]['width'].append(cropped_im.shape[1])
+                stats[c]['height'].append(cropped_im.shape[0])
+
+def print_statistics(stats):
+    min_width   = {}
+    min_height  = {}
+    max_width   = {}
+    max_height  = {}
+    mean_width  = {}
+    mean_height = {}
+    med_width   = {}
+    med_height  = {}
+    all_width   = []
+    all_height  = []
+    for c, v in stats.items():
+        min_width[c]   = min(v['width'])
+        max_width[c]   = max(v['width'])
+        mean_width[c]  = sum(v['width']) / len(v['width'])
+        med_width[c]   = sorted(v['width'])[len(v['width']) / 2]
+        min_height[c]  = min(v['height'])
+        max_height[c]   = max(v['height'])
+        mean_height[c] = sum(v['height']) / len(v['height'])
+        med_height[c]  = sorted(v['height'])[len(v['height']) / 2]
+        all_width.extend(v['width'])
+        all_height.extend(v['height'])
+
+        print "Statistics for label '{}':".format(c)
+        print "\tmin:    {:>4}\t{:>4}".format(min_width[c], min_height[c])
+        print "\tmax:    {:>4}\t{:>4}".format(max_width[c], max_height[c])
+        print "\tmean:   {:>4}\t{:>4}".format(mean_width[c], mean_height[c])
+        print "\tmedian: {:>4}\t{:>4}".format(med_width[c], med_height[c])
+
+
+    print "Summary of statistics:"
+    print "\tmin:    {:>4}\t{:>4}".format(min(min_width.values()),
+        min(min_height.values()))
+    print "\tmax:    {:>4}\t{:>4}".format(max(max_width.values()),
+        max(max_width.values()))
+    meanw = sum(mean_width.values()) / len(mean_width.values())
+    meanh = sum(mean_height.values()) / len(mean_height.values())
+    print "\tmean:   {:>4}\t{:>4}".format(meanw, meanh)
+    medw = sorted(all_width)[len(all_width) / 2]
+    medh = sorted(all_height)[len(all_height) / 2]
+    print "\tmedian: {:>4}\t{:>4}".format(medw, medh)
+    print "Total segments:", len(all_width)
 
 if __name__ == '__main__':
     main()
