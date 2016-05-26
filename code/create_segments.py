@@ -117,23 +117,27 @@ def print_statistics(stats):
     med_height  = {}
     all_width   = []
     all_height  = []
-    for c, v in stats.items():
-        min_width[c]   = min(v['width'])
-        max_width[c]   = max(v['width'])
-        mean_width[c]  = sum(v['width']) / len(v['width'])
-        med_width[c]   = sorted(v['width'])[len(v['width']) / 2]
-        min_height[c]  = min(v['height'])
-        max_height[c]   = max(v['height'])
-        mean_height[c] = sum(v['height']) / len(v['height'])
-        med_height[c]  = sorted(v['height'])[len(v['height']) / 2]
-        all_width.extend(v['width'])
-        all_height.extend(v['height'])
+    with open('window_stats.csv', 'w') as f:
+        f.write('label,width,height')
+        for c, v in stats.items():
+            for i in range(len(v['width'])):
+                f.write('{},{},{}\n'.format(c, v['width'][i], v['height'][i]))
+            min_width[c]   = min(v['width'])
+            max_width[c]   = max(v['width'])
+            mean_width[c]  = sum(v['width']) / len(v['width'])
+            med_width[c]   = sorted(v['width'])[len(v['width']) / 2]
+            min_height[c]  = min(v['height'])
+            max_height[c]   = max(v['height'])
+            mean_height[c] = sum(v['height']) / len(v['height'])
+            med_height[c]  = sorted(v['height'])[len(v['height']) / 2]
+            all_width.extend(v['width'])
+            all_height.extend(v['height'])
 
-        print "Statistics for label '{}':".format(c)
-        print "\tmin:    {:>4}\t{:>4}".format(min_width[c], min_height[c])
-        print "\tmax:    {:>4}\t{:>4}".format(max_width[c], max_height[c])
-        print "\tmean:   {:>4}\t{:>4}".format(mean_width[c], mean_height[c])
-        print "\tmedian: {:>4}\t{:>4}".format(med_width[c], med_height[c])
+            print "Statistics for label '{}':".format(c)
+            print "\tmin:    {:>4}\t{:>4}".format(min_width[c], min_height[c])
+            print "\tmax:    {:>4}\t{:>4}".format(max_width[c], max_height[c])
+            print "\tmean:   {:>4}\t{:>4}".format(mean_width[c], mean_height[c])
+            print "\tmedian: {:>4}\t{:>4}".format(med_width[c], med_height[c])
 
 
     print "Summary of statistics:"
