@@ -95,7 +95,7 @@ def segment(img, annotation, work_dir, stats):
                 while cropped_im.shape[1] > 0 and cropped_im.shape[0] > 0 \
                         and min(cropped_im[:,-1]) == 255:
                     cropped_im = cropped_im[:,:-1]
-                if cropped_im.shape[0] == 0 or cropped_im.shape[1] == 0:
+                if cropped_im.shape[0] <= 5 or cropped_im.shape[1] <= 5:
                     print "Discarding image"
                     continue
                 cv2.imwrite(f, cropped_im)
