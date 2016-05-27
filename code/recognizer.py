@@ -21,13 +21,12 @@ def main():
     logging.basicConfig(format='%(asctime)s %(levelname)-8s: %(message)s', level=logging.DEBUG, datefmt='%m/%d/%Y %I:%M:%S %p')
 
     # Check commandline parameters
-    if len(sys.argv) != 4:
-        print "Usage: python %s image.ppm input.words /path/to/output.words" % sys.argv[0]
+    if len(sys.argv) != 3:
+        print "Usage: python %s image.ppm input.words" % sys.argv[0]
         sys.exit(1)
 
     img = cv2.imread(sys.argv[1], 0)
     words_file_name = sys.argv[2]
-    words_file_name_out = sys.argv[3]
 
     # Find out the used dataset
     dataset = None
@@ -53,7 +52,7 @@ def main():
     # Recognize the words
     xml = ET.parse(words_file_name).getroot()
     returnedTree = get_words.getWords(preIm, xml, sentenceDir, wordDir)
-    returnedTree.write(words_file_name_out)
+    returnedTree.write(wordDir + 'words_out')
 
 if __name__ == '__main__':
     main()
