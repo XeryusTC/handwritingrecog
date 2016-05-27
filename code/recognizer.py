@@ -1,10 +1,10 @@
 import sys, os, inspect, shutil, fnmatch, logging
 import general.preprocessor as prep
 import create_segments
-import recognize.recognize as recognize
+import recognize.get_words as get_words
 import general.hog as hog
 
-import modules.toolbox.pamImage as pamImage
+import toolbox.pamImage as pamImage
 import xml.etree.ElementTree as ET
 from unipath import Path, DIRS_NO_LINKS
 import cv2
@@ -13,6 +13,10 @@ import cv2
 create_segments = False
 
 def main():
+    # Directories
+    sentenceDir = 'tmp/sentences/'
+    wordDir = 'tmp/words/'
+
     # Logging
     logging.basicConfig(format='%(asctime)s %(levelname)-8s: %(message)s', level=logging.DEBUG, datefmt='%m/%d/%Y %I:%M:%S %p')
 
@@ -28,7 +32,7 @@ def main():
     # Find out the used dataset
     dataset = None
     for dset in ['Stanford', 'KNMP']:
-        if fnmatch.fnmatch(words_file_name, dset+'*.words'):
+        if fnmatch.fnmatch(os.path.basename(words_file_name), dset+'*.words'):
             dataset = dset
 
     if dataset == None:
@@ -43,15 +47,12 @@ def main():
 
     # Preprocess
     prepImage = prep.preprocess(img)
-    cv2.imwrite('preprocessed.ppm', prepImage)
-    preIm = pamImage.PamImage("preprocessed.ppm")
-
-    # Do the hog
-    hog.main_xeryus()
+    cv2.imwrite('tmp/preprocessed.ppm', prepImage)
+    preIm = pamImage.PamImage("tmp/preprocessed.ppm")
 
     # Recognize the words
-    e = ET.parse(words_file_name).getroot()
-    returnedTree = recognize.recognize(preIm, e)
+    xml = ET.parse(words_file_name).getroot()
+    returnedTree = get_words.getWords(preIm, xml, sentenceDir, wordDir)
     returnedTree.write(words_file_name_out)
 
 if __name__ == '__main__':

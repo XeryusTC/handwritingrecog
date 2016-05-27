@@ -126,3 +126,4 @@ ENV/
 code/toolbox/*.py
 code/own_modules/*.py
 code/tmp/
+code/recognize/tmp/
