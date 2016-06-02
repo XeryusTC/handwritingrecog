@@ -52,6 +52,7 @@ def main():
     for word, word_img in recog.next_word():
         cuts = recog.find_cuts(word_img)
         text = recog.recognize(word_img, cuts)
+        print text
         word.set('text', text)
     ET.ElementTree(recog.words).write(sys.argv[3])
 

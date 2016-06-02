@@ -2,6 +2,8 @@ import sys, os, logging, shutil
 import xml.etree.ElementTree as ET
 from unipath import Path
 import cv2
+import pickle
+import logging
 
 from . import cut_letters
 
@@ -11,6 +13,7 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 class Recognizer(object):
     def __init__(self, sentence_dir, word_dir, words, img):
+        self.logger = logging.getLogger(__name__ + '.' + self.__class__.__name__)
         # Reset directories
         sentence_dir.rmtree()
         sentence_dir.mkdir()
@@ -22,24 +25,36 @@ class Recognizer(object):
         self.words = words
         self.img = img
 
+        self.logger.info('Loading pretrained models...')
+        with open('svm.pickle', 'r') as f:
+            self.svm = pickle.load(f)
+        with open('knn.pickle', 'r') as f:
+            self.knn = pickle.load(f)
+        self.logger.info('Models loaded')
+
     def next_word(self):
         for sentence in self.words:
             for word in sentence:
                 rect = {side: int(word.get(side)) for side in sides}
                 word_img = self.img[rect['top']:rect['bottom'],
                     rect['left']:rect['right']]
-                word_img = cut_letters.removeWhitelines(word_img)
                 if word_img is None:
                     continue
 
                 yield word, word_img
 
     def find_cuts(self, word_img):
-        hist = cut_letters.makeHist(word_ig)
-        cuts = cut_letters.findMaximma(hist)
+        hist = cut_letters.makeHist(word_img)
+        cuts = cut_letters.findMaxima(hist)
         return cuts
 
     def recognize(self, word_img, cuts):
+        text = ""
+        for cut in cuts:
+            window = word_img[:,cut:cut+30]
+            window = cut_letters.removeWhitelines(window)
+            cv2.imshow('test', window)
+            cv2.waitKey(100)
         return "make this"
 
 
