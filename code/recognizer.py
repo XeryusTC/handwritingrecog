@@ -4,7 +4,6 @@ import create_segments
 import recognize.get_words as get_words
 import general.hog as hog
 
-import toolbox.pamImage as pamImage
 import xml.etree.ElementTree as ET
 from unipath import Path, DIRS_NO_LINKS
 import cv2
@@ -14,15 +13,15 @@ create_segments = False
 
 def main():
     # Directories
-    sentenceDir = 'tmp/sentences/'
-    wordDir = 'tmp/words/'
+    sentenceDir = Path('tmp/sentences/')
+    wordDir = Path('tmp/words/')
 
     # Logging
     logging.basicConfig(format='%(asctime)s %(levelname)-8s: %(message)s', level=logging.DEBUG, datefmt='%m/%d/%Y %I:%M:%S %p')
 
     # Check commandline parameters
-    if len(sys.argv) != 3:
-        print "Usage: python %s image.ppm input.words" % sys.argv[0]
+    if len(sys.argv) != 4:
+        print "Usage: python %s image.ppm input.words out.words" % sys.argv[0]
         sys.exit(1)
 
     img = cv2.imread(sys.argv[1], 0)
@@ -45,13 +44,11 @@ def main():
         logging.info("Segments created for dataset %s", dataset)
 
     # Preprocess
-    prepImage = prep.preprocess(img)
-    cv2.imwrite('tmp/preprocessed.ppm', prepImage)
-    preIm = pamImage.PamImage("tmp/preprocessed.ppm")
+    img = prep.preprocess(img)
 
     # Recognize the words
     xml = ET.parse(words_file_name).getroot()
-    returnedTree = get_words.getWords(preIm, xml, sentenceDir, wordDir)
+    returnedTree = get_words.getWords(img, xml, sentenceDir, wordDir)
     returnedTree.write(wordDir + 'words_out')
 
 if __name__ == '__main__':
