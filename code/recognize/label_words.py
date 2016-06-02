@@ -6,6 +6,7 @@ import pickle
 import logging
 
 from . import cut_letters
+from general import hog
 
 sides = ('left', 'top', 'right', 'bottom')
 
@@ -38,6 +39,7 @@ class Recognizer(object):
                 rect = {side: int(word.get(side)) for side in sides}
                 word_img = self.img[rect['top']:rect['bottom'],
                     rect['left']:rect['right']]
+                word_img = cut_letters.removeWhitelines(word_img)
                 if word_img is None:
                     continue
 
@@ -53,9 +55,10 @@ class Recognizer(object):
         for cut in cuts:
             window = word_img[:,cut:cut+30]
             window = cut_letters.removeWhitelines(window)
-            cv2.imshow('test', window)
-            cv2.waitKey(100)
-        return "make this"
+            f = hog.hog_xeryus(window).reshape(1, -1)
+            l = self.svm.predict(f)
+            text = text + l[0]
+        return text
 
 
 def getWords(img, xml, sentenceDir, wordDir):
