@@ -1,8 +1,8 @@
 import sys, os, inspect, shutil, fnmatch, logging
 import general.preprocessor as prep
 import create_segments
-import recognize.get_words as get_words
 import general.hog as hog
+from recognize.label_words import Recognizer
 
 import xml.etree.ElementTree as ET
 from unipath import Path, DIRS_NO_LINKS
@@ -48,8 +48,12 @@ def main():
 
     # Recognize the words
     xml = ET.parse(words_file_name).getroot()
-    returnedTree = get_words.getWords(img, xml, sentenceDir, wordDir)
-    returnedTree.write(wordDir + 'words_out')
+    recog = Recognizer(sentenceDir, wordDir, xml, img)
+    for word, word_img in recog.next_word():
+        cuts = recog.find_cuts(word_img)
+        text = recog.recognize(word_img, cuts)
+        word.set('text', text)
+    ET.ElementTree(recog.words).write(sys.argv[3])
 
 if __name__ == '__main__':
     main()

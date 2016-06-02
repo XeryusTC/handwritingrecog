@@ -75,5 +75,5 @@ if __name__ == '__main__':
 
     # Save created images
     plt.plot(hist)
-    plt.savefig('tmp/' + name + '.png')
-    cv2.imwrite('tmp/' + name + 'sliced.png', sliced)
+    plt.savefig(name + '.png')
+    cv2.imwrite(name + 'sliced.png', sliced)
