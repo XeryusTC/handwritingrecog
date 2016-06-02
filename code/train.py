@@ -2,6 +2,7 @@
 import create_segments
 import sys
 import logging
+import pickle
 
 ### Own modules
 from general.hog import doHog
@@ -43,14 +44,18 @@ if __name__ == '__main__':
 
     ### Receive trained svm (it also tests it on characters)
     ### Third argument either "hog" or "pca", default = "hog"
-    #logging.info("Running SVM")
-    #SVM, accuracy = runSVM(trainDir, testDir, sys.argv[3])
+    logging.info("Running SVM")
+    SVM, accuracy = runSVM(trainDir, testDir, sys.argv[3])
+    with open('svm.pickle', 'w') as f:
+        pickle.dump(SVM, f)
 
     ### Receive trained kNN (it also tests it on characters)
     ### Fourth argument either "hog" or "pca"
     logging.info("Running kNN")
     k = 3
     kNN, accuracy2 = runKNN(trainDir, testDir, k, sys.argv[3])
+    with open('knn.pickle', 'w') as f:
+        pickle.dump(kNN, f)
 
-    #print 'Accuracy for SVM: ', accuracy
+    print 'Accuracy for SVM: ', accuracy
     print 'Accuracy for kNN: ', accuracy2
