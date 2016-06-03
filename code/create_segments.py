@@ -12,18 +12,22 @@ from general.preprocessor import preprocess
 logging.config.fileConfig('logging.conf')
 
 def main():
-    if len(sys.argv) != 2 or sys.argv[1] not in ['KNMP', 'Stanford']:
+    if len(sys.argv) != 2 or sys.argv[1] not in ['KNMP', 'Stanford', 'both']:
         print("Usage: python %s <dataset>" % sys.argv[0])
-        print("\tDataset should be either 'KNMP' or 'Stanford'")
+        print("\tDataset should be either 'KNMP' or 'Stanford' or 'both'")
         sys.exit(1)
-    create(sys.argv[1])
 
-def create(dataset):
     # create a clean temporary directory
     work_dir = Path("tmp")
     work_dir.rmtree()
     work_dir.mkdir()
 
+    if sys.argv[1] in ['KNMP', 'both']:
+        create('KNMP', work_dir)
+    if sys.argv[1] in ['Stanford', 'both']:
+        create('Stanford', work_dir)
+
+def create(dataset, work_dir):
     # Find all the pages in the dataset
     img_dir = Path(Path.cwd().ancestor(1), 'data/hwr_data/pages', dataset)
     ann_dir = Path(Path.cwd().ancestor(1), 'data/charannotations')
@@ -124,7 +128,7 @@ def print_statistics(stats):
     all_width   = []
     all_height  = []
     with open('window_stats.csv', 'w') as f:
-        f.write('label,width,height')
+        f.write('label,width,height\n')
         for c, v in stats.items():
             for i in range(len(v['width'])):
                 f.write('{},{},{}\n'.format(c, v['width'][i], v['height'][i]))
@@ -150,7 +154,7 @@ def print_statistics(stats):
     print "\tmin:    {:>4}\t{:>4}".format(min(min_width.values()),
         min(min_height.values()))
     print "\tmax:    {:>4}\t{:>4}".format(max(max_width.values()),
-        max(max_width.values()))
+        max(max_height.values()))
     meanw = sum(mean_width.values()) / len(mean_width.values())
     meanh = sum(mean_height.values()) / len(mean_height.values())
     print "\tmean:   {:>4}\t{:>4}".format(meanw, meanh)
