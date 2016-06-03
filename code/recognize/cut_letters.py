@@ -30,16 +30,16 @@ def makeHist(img):
     for row in img:
         hist = [x + y for x, y in zip(hist, row)]
     # Smoothing
-    hist = savgol_filter(hist, 15, 3)
+    hist = savgol_filter(hist, 19, 3)
     return hist
 
 def findMaxima(hist):
-    maxima = []
+    maxima = [0, len(hist)]
     for index, value in enumerate(hist):
         if not index < 10 and not index > len(hist) - 10:
             if value > hist[index - 1] and value > hist[index + 1]:
                 maxima.append(index)
-    return maxima
+    return sorted(maxima)
 
 def showCuts(img, cuts):
     # Draw vertical lines at the places of the cuts

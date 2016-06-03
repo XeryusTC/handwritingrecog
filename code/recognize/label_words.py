@@ -16,11 +16,7 @@ class Recognizer(object):
     def __init__(self, sentence_dir, word_dir, words, img):
         self.logger = logging.getLogger(__name__ + '.' + self.__class__.__name__)
         # Reset directories
-        sentence_dir.rmtree()
-        sentence_dir.mkdir()
         self.sentence_dir = sentence_dir
-        word_dir.rmtree()
-        word_dir.mkdir()
         self.word_dir = word_dir
 
         self.words = words
