@@ -52,12 +52,15 @@ class Recognizer(object):
 
     def recognize(self, word_img, cuts):
         text = ""
-        for cut in cuts:
-            window = word_img[:,cut:cut+30]
-            window = cut_letters.removeWhitelines(window)
-            f = hog.hog_xeryus(window).reshape(1, -1)
-            l = self.svm.predict(f)
-            text = text + l[0]
+        for start in range(len(cuts)):
+            for end in range(start, len(cuts)):
+                if not 10 <= (cuts[end] - cuts[start]) < 80:
+                    continue
+                window = word_img[:,cuts[start]:cuts[end]]
+                window = cut_letters.removeWhitelines(window)
+                f = hog.hog_xeryus(window).reshape(1, -1)
+                l = self.svm.predict(f)
+                text = text + l[0]
         return text
 
 
