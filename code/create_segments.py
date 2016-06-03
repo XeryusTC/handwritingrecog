@@ -100,6 +100,10 @@ def segment(img, annotation, work_dir, stats):
                 if cropped_im.shape[0] <= 5 or cropped_im.shape[1] <= 5:
                     print "Discarding image"
                     continue
+                aspect_ratio = cropped_im.shape[0] / float(cropped_im.shape[1])
+                if not (1/3.0) <= aspect_ratio <= 5.5:
+                    print "Image with wrong aspect ratio:", aspect_ratio, c
+                    continue
                 cv2.imwrite(f, cropped_im)
 
                 # Add to statistics
