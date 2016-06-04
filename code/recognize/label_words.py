@@ -48,7 +48,9 @@ class Recognizer(object):
 
     def recognize(self, word_img, cuts):
         text = ""
+        hypotheses = {} # A graph that keeps track of all possible words
         for start in range(len(cuts)):
+            hypotheses[cuts[start]] = []
             for end in range(start, len(cuts)):
                 if not 10 <= (cuts[end] - cuts[start]) < 80:
                     continue
@@ -57,7 +59,29 @@ class Recognizer(object):
                 f = hog.hog_xeryus(window).reshape(1, -1)
                 l = self.svm.predict(f)
                 text = text + l[0]
+                hypotheses[cuts[start]].append((l[0], cuts[end]))
+
+        # Turn the hypotheses tree into a list of candidates
+        print self._hypotheses_graph_to_candidates(hypotheses)
         return text
+
+    def _hypotheses_graph_to_candidates(self, hypotheses):
+        possible = [("", 0)]
+        for start in sorted(hypotheses.keys()):
+            new = []
+            for p in possible:
+                if start < p[1]:
+                    # skip if letters would overlap with the rest
+                    # of the word
+                    continue
+                for l in hypotheses[start]:
+                    new.append((p[0] + l[0], l[1]))
+            possible = set(possible)
+            possible.update(new)
+            possible = list(possible)
+        # remove duplicates
+        possible = sorted(list(set([p[0] for p in possible])))
+        return possible
 
 
 def getWords(img, xml, sentenceDir, wordDir):
