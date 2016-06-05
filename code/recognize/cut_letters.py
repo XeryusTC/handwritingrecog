@@ -50,7 +50,7 @@ def showCuts(img, cuts):
 
 def cutLetters(img):
     img = removeWhitelines(img)
-    if img is not None:
+    if not img is None:
         hist = makeHist(img)
         cuts = findMaxima(hist)
         return cuts

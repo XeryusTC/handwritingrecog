@@ -51,10 +51,13 @@ def main():
     recog = Recognizer(sentenceDir, wordDir, xml, img)
     for word, word_img in recog.next_word():
         cuts = recog.find_cuts(word_img)
-        cuts.insert(0, 0) # Also create a window at the start of the word
-        text = recog.recognize(word_img, cuts)
-        print word.get('text'), text
-        word.set('text', text)
+        if cuts is not None:
+            cuts.insert(0, 0) # Also create a window at the start of the word
+            text = recog.recognize(word_img, cuts)
+            print word.get('text'), text
+            word.set('text', text)
+        else:
+            continue
     ET.ElementTree(recog.words).write(sys.argv[3])
 
 if __name__ == '__main__':

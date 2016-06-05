@@ -42,9 +42,14 @@ class Recognizer(object):
                 yield word, word_img
 
     def find_cuts(self, word_img):
-        hist = cut_letters.makeHist(word_img)
-        cuts = cut_letters.findMaxima(hist)
-        return cuts
+        img = cut_letters.removeWhitelines(word_img)
+        if img is not None:
+            hist = cut_letters.makeHist(img)
+            cuts = cut_letters.findMaxima(hist)
+            return cuts
+        else:
+            print "image not good for classifying"
+            return None
 
     def recognize(self, word_img, cuts):
         text = ""
@@ -56,10 +61,13 @@ class Recognizer(object):
                     continue
                 window = word_img[:,cuts[start]:cuts[end]]
                 window = cut_letters.removeWhitelines(window)
-                f = hog.hog_xeryus(window).reshape(1, -1)
-                l = self.svm.predict(f)
-                text = text + l[0]
-                hypotheses[cuts[start]].append((l[0], cuts[end]))
+                if not window is None:
+                    f = hog.hog_xeryus(window).reshape(1, -1)
+                    l = self.svm.predict(f)
+                    text = text + l[0]
+                    hypotheses[cuts[start]].append((l[0], cuts[end]))
+                else:
+                    continue
 
         # Turn the hypotheses tree into a list of candidates
         print self._hypotheses_graph_to_candidates(hypotheses)
