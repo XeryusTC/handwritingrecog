@@ -70,10 +70,10 @@ class Recognizer(object):
                     continue
 
         # Turn the hypotheses tree into a list of candidates
-        # print self._hypotheses_graph_to_candidates(hypotheses)
         candidates = self._hypotheses_graph_to_candidates(hypotheses)
         # print candidates
-        print self._reduce_candidates_with_lexicon(candidates, lexicon)
+        candidates =  self._reduce_candidates_with_lexicon(candidates, lexicon)
+        text = self._select_word(candidates)
         return text
 
     def _hypotheses_graph_to_candidates(self, hypotheses):
@@ -95,15 +95,19 @@ class Recognizer(object):
         return possible
 
     def _reduce_candidates_with_lexicon(self, candidates, lexicon):
-        # Get the supplied lexicon
-
-        newCandidates = []
+        newCandidates = {}
         for candidate in candidates:
             if candidate in lexicon:
-                newCandidates.append(candidate)
+                newCandidates[candidate] = lexicon[candidate]
 
         return newCandidates
 
+    def _select_word(self, candidates):
+        maxVal = 0
+        for key, value in candidates.iteritems():
+            if value > maxVal:
+                word = key
+        return word
 
 def getWords(img, xml, sentenceDir, wordDir):
     sentenceDir.rmtree()

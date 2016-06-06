@@ -11,6 +11,47 @@ import cv2
 # Debug booleans
 create_segments = False
 
+def create_lexicon():
+    lex = {}
+    with open("lexicon.txt") as f:
+        for line in f:
+            (key, val) = line.split()
+            lex[key] = int(val)
+    # Add our own lexicon
+    lex = combine_lexicons(lex)
+    return lex
+
+def create_own_lexicon():
+
+    lexicon = {}
+
+    # Find all the annotated pages in the dataset
+    ann_dir = Path(Path.cwd().ancestor(1), 'data/charannotations')
+    annotations = ann_dir.listdir( '*.words')
+
+    for f in annotations:
+        # Segment
+        annotation = ET.parse(f).getroot()
+        for word in annotation.iter('Word'):
+            text = word.get('text')
+
+            # Add word to lexicon
+            if lexicon.has_key(text):
+                lexicon[text] = lexicon[text] + 1
+            else :
+                lexicon[text] = 1
+    return lexicon
+
+def combine_lexicons(orig_lex):
+    own_lex = create_own_lexicon()
+
+    for word, number in own_lex.iteritems():
+        if orig_lex.has_key(word):
+            orig_lex[word] = max(orig_lex[word], own_lex[word])
+        else:
+            orig_lex[word] = number
+    return orig_lex
+
 def main():
     # Directories
     sentenceDir = Path('tmp/sentences/')
@@ -63,46 +104,6 @@ def main():
             continue
     ET.ElementTree(recog.words).write(sys.argv[3])
 
-    def create_lexicon(self):
-        lex = {}
-        with open("lexicon.txt") as f:
-            for line in f:
-                (key, val) = line.split()
-                lex[key] = int(val)
-        # Add our own lexicon
-        lex = self._combine_lexicons(lex)
-        return lex
-
-    def _create_own_lexicon(self):
-
-        lexicon = {}
-
-        # Find all the annotated pages in the dataset
-        ann_dir = Path(Path.cwd().ancestor(1), 'data/charannotations')
-        annotations = ann_dir.listdir( '*.words')
-
-        for f in annotations:
-            # Segment
-            annotation = ET.parse(f).getroot()
-            for word in annotation.iter('Word'):
-                text = word.get('text')
-
-                # Add word to lexicon
-                if lexicon.has_key(text):
-                    lexicon[text] = lexicon[text] + 1
-                else :
-                    lexicon[text] = 1
-        return lexicon
-
-    def _combine_lexicons(self, orig_lex):
-        own_lex = self._create_own_lexicon()
-
-        for word, number in own_lex.iteritems():
-            if orig_lex.has_key(word):
-                orig_lex[word] = max(orig_lex[word], own_lex[word])
-            else:
-                orig_lex[word] = number
-        return orig_lex
 
 
 if __name__ == '__main__':
