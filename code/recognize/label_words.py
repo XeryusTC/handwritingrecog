@@ -73,7 +73,7 @@ class Recognizer(object):
         candidates = self._hypotheses_graph_to_candidates(hypotheses)
         candidates = self._reduce_candidates_with_lexicon(candidates)
         text = self._select_word(candidates)
-        return text
+        return text, candidates
 
     def _hypotheses_graph_to_candidates(self, hypotheses):
         possible = [("", 0)]
