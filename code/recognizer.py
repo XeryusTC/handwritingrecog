@@ -97,7 +97,7 @@ def main():
         cuts = recog.find_cuts(word_img)
         if cuts is not None:
             cuts.insert(0, 0) # Also create a window at the start of the word
-            text, candidates = recog.recognize(word_img, cuts)
+            text, candidates = recog.recognize(word_img, cuts, lexicon)
             correctText = word.get('text')
             print correctText in candidates, correctText, text
             word.set('text', text)
