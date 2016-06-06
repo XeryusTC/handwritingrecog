@@ -25,8 +25,8 @@ class Recognizer(object):
         self.logger.info('Loading pretrained models...')
         with open('svm.pickle', 'r') as f:
             self.svm = pickle.load(f)
-        with open('knn.pickle', 'r') as f:
-            self.knn = pickle.load(f)
+        # with open('knn.pickle', 'r') as f:
+            # self.knn = pickle.load(f)
         self.logger.info('Models loaded')
 
     def next_word(self):
@@ -71,7 +71,8 @@ class Recognizer(object):
 
         # Turn the hypotheses tree into a list of candidates
         # print self._hypotheses_graph_to_candidates(hypotheses)
-        candidates = self._hypotheses_graph_to_candidates
+        candidates = self._hypotheses_graph_to_candidates(hypotheses)
+        # print candidates
         print self._reduce_candidates_with_lexicon(candidates)
         return text
 
@@ -93,16 +94,15 @@ class Recognizer(object):
         possible = sorted(list(set([p[0] for p in possible])))
         return possible
 
-    def reduce_candidates_with_lexicon(self, candidates):
+    def _reduce_candidates_with_lexicon(self, candidates):
         lex = {}
         with open("lexicon.txt") as f:
             for line in f:
-               (key, val) = line.split()
-               lex[key] = int(val)
-
-       newCandidates = []
-       for candidate in cadidates:
-           if candidate in lex:
+                (key, val) = line.split()
+                lex[key] = int(val)
+        newCandidates = []
+        for candidate in candidates:
+            if candidate in lex:
                 newCandidates.append(candidate)
 
         return newCandidates
