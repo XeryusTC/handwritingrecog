@@ -51,7 +51,7 @@ class Recognizer(object):
             print "image not good for classifying"
             return None
 
-    def recognize(self, word_img, cuts):
+    def recognize(self, word_img, cuts, lexicon):
         text = ""
         hypotheses = {} # A graph that keeps track of all possible words
         for start in range(len(cuts)):
@@ -73,7 +73,7 @@ class Recognizer(object):
         # print self._hypotheses_graph_to_candidates(hypotheses)
         candidates = self._hypotheses_graph_to_candidates(hypotheses)
         # print candidates
-        print self._reduce_candidates_with_lexicon(candidates)
+        print self._reduce_candidates_with_lexicon(candidates, lexicon)
         return text
 
     def _hypotheses_graph_to_candidates(self, hypotheses):
@@ -94,18 +94,16 @@ class Recognizer(object):
         possible = sorted(list(set([p[0] for p in possible])))
         return possible
 
-    def _reduce_candidates_with_lexicon(self, candidates):
-        lex = {}
-        with open("lexicon.txt") as f:
-            for line in f:
-                (key, val) = line.split()
-                lex[key] = int(val)
+    def _reduce_candidates_with_lexicon(self, candidates, lexicon):
+        # Get the supplied lexicon
+
         newCandidates = []
         for candidate in candidates:
-            if candidate in lex:
+            if candidate in lexicon:
                 newCandidates.append(candidate)
 
         return newCandidates
+
 
 def getWords(img, xml, sentenceDir, wordDir):
     sentenceDir.rmtree()

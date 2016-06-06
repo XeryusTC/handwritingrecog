@@ -46,6 +46,9 @@ def main():
     # Preprocess
     img = prep.preprocess(img)
 
+    # Build the lexicon
+    lexicon = create_lexicon()
+
     # Recognize the words
     xml = ET.parse(words_file_name).getroot()
     recog = Recognizer(sentenceDir, wordDir, xml, img)
@@ -53,12 +56,54 @@ def main():
         cuts = recog.find_cuts(word_img)
         if cuts is not None:
             cuts.insert(0, 0) # Also create a window at the start of the word
-            text = recog.recognize(word_img, cuts)
+            text = recog.recognize(word_img, cuts, lexicon)
             print word.get('text'), text
             word.set('text', text)
         else:
             continue
     ET.ElementTree(recog.words).write(sys.argv[3])
+
+    def create_lexicon(self):
+        lex = {}
+        with open("lexicon.txt") as f:
+            for line in f:
+                (key, val) = line.split()
+                lex[key] = int(val)
+        # Add our own lexicon
+        lex = self._combine_lexicons(lex)
+        return lex
+
+    def _create_own_lexicon(self):
+
+        lexicon = {}
+
+        # Find all the annotated pages in the dataset
+        ann_dir = Path(Path.cwd().ancestor(1), 'data/charannotations')
+        annotations = ann_dir.listdir( '*.words')
+
+        for f in annotations:
+            # Segment
+            annotation = ET.parse(f).getroot()
+            for word in annotation.iter('Word'):
+                text = word.get('text')
+
+                # Add word to lexicon
+                if lexicon.has_key(text):
+                    lexicon[text] = lexicon[text] + 1
+                else :
+                    lexicon[text] = 1
+        return lexicon
+
+    def _combine_lexicons(self, orig_lex):
+        own_lex = self._create_own_lexicon()
+
+        for word, number in own_lex.iteritems():
+            if orig_lex.has_key(word):
+                orig_lex[word] = max(orig_lex[word], own_lex[word])
+            else:
+                orig_lex[word] = number
+        return orig_lex
+
 
 if __name__ == '__main__':
     main()
