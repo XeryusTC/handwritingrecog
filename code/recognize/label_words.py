@@ -23,10 +23,10 @@ class Recognizer(object):
         self.img = img
 
         self.logger.info('Loading pretrained models...')
-        with open('svm.pickle', 'r') as f:
+        with open('svm-pretrained.pickle', 'r') as f:
             self.svm = pickle.load(f)
-        with open('knn.pickle', 'r') as f:
-            self.knn = pickle.load(f)
+        # with open('knn.pickle', 'r') as f:
+            # self.knn = pickle.load(f)
         self.logger.info('Models loaded')
 
     def next_word(self):
@@ -51,7 +51,7 @@ class Recognizer(object):
             print "image not good for classifying"
             return None
 
-    def recognize(self, word_img, cuts):
+    def recognize(self, word_img, cuts, lexicon):
         text = ""
         hypotheses = {} # A graph that keeps track of all possible words
         for start in range(len(cuts)):
@@ -70,8 +70,11 @@ class Recognizer(object):
                     continue
 
         # Turn the hypotheses tree into a list of candidates
-        print self._hypotheses_graph_to_candidates(hypotheses)
-        return text
+        candidates = self._hypotheses_graph_to_candidates(hypotheses)
+        # print candidates
+        candidates =  self._reduce_candidates_with_lexicon(candidates, lexicon)
+        text = self._select_word(candidates)
+        return text, candidates
 
     def _hypotheses_graph_to_candidates(self, hypotheses):
         possible = [("", 0)]
@@ -91,6 +94,20 @@ class Recognizer(object):
         possible = sorted(list(set([p[0] for p in possible])))
         return possible
 
+    def _reduce_candidates_with_lexicon(self, candidates, lexicon):
+        newCandidates = {}
+        for candidate in candidates:
+            if candidate in lexicon:
+                newCandidates[candidate] = lexicon[candidate]
+
+        return newCandidates
+
+    def _select_word(self, candidates):
+        maxVal = 0
+        for key, value in candidates.iteritems():
+            if value > maxVal:
+                word = key
+        return word
 
 def getWords(img, xml, sentenceDir, wordDir):
     sentenceDir.rmtree()
