@@ -34,7 +34,7 @@ def makeHist(img):
     return hist
 
 def findMaxima(hist):
-    maxima = [0, len(hist)]
+    maxima = [0, len(hist)-1]
     for index, value in enumerate(hist):
         if not index < 10 and not index > len(hist) - 10:
             if value > hist[index - 1] and value > hist[index + 1]:

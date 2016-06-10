@@ -128,3 +128,4 @@ code/toolbox/*.py
 code/own_modules/*.py
 code/tmp/
 code/recognize/tmp/
+code/general/tmp/

@@ -7,10 +7,10 @@ def preprocess(img):
 
     logging.debug('Preproccesing the supplied image')
     try:
-        result = 255 - otsuContrast(img)
-        # result = otsu(img)
-        #result = speck_removal(result)
-        #result = morphology(result)
+        # result = 255 - otsuContrast(img)
+        result = otsu(img)
+        result = speck_removal(result)
+        result = morphology(result)
     except:
         logging.error("Unexpected error:", sys.exc_info()[0])
         raise
@@ -47,13 +47,17 @@ def morphology(img):
 
 if __name__ == '__main__':
     img = cv2.imread(sys.argv[1], 0)
-    otsu = otsu(img.copy())
-    speck = speck_removal( otsu.copy() )
-    morph = morphology( otsu.copy() )
+    ots = otsu(img.copy())
+    otsuC = otsuContrast(img.copy(), False)
+    otsuNew = otsu(otsuC.copy())
+    speck = speck_removal( ots.copy() )
+    morph = morphology( ots.copy() )
     combination = morphology( speck.copy() )
 
     cv2.imwrite('tmp/original.png', img)
-    cv2.imwrite('tmp/otsu.png', otsu)
+    cv2.imwrite('tmp/otsu.png', ots)
     cv2.imwrite('tmp/speck.png', speck)
     cv2.imwrite('tmp/morph.png', morph)
     cv2.imwrite('tmp/combination.png', combination)
+    cv2.imwrite('tmp/otsuC.png', otsuC)
+    cv2.imwrite('tmp/otsuNew.png', otsuNew)
