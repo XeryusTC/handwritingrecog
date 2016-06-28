@@ -4,7 +4,7 @@ from sklearn import neighbors
 import logging
 
 def train(traindir, featuretype, k):
-    logging.debug("Training kNN!")
+    logging.info("Training kNN!")
 
     n_neighbors = k
     weights = 'uniform' # Other: 'distance'
@@ -14,26 +14,42 @@ def train(traindir, featuretype, k):
         trainData = np.load(traindir + 'pca.npy')
     trainLabels = np.load(traindir + 'labels.npy')
 
-    clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)#, metric="euclidean")
+    clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights, n_jobs=-1)#, metric="euclidean")
     clf.fit(trainData, trainLabels)
 
+    logging.info("Done Training!")
     return clf
 
-def test(testdir, clf, featuretype):
-    logging.debug("Testing kNN!")
+def test(traindir, testdir, clf, featuretype):
+    logging.info("Testing kNN!")
 
     accuracy = 0.0
     correct = 0.0
     false = 0.0
     if featuretype == "hog":
         testData = np.load(testdir + 'hog.npy')
-    else:
+    else    :
         testData = np.load(testdir + 'pca.npy')
     labels = np.load(testdir + 'labels.npy')
+    trainLabels = np.load(traindir + 'labels.npy')
 
     label = 0
+    classes = sorted(set(trainLabels))
+    nrOptions = [0, 0, 0]
     for line in testData:
         dec = clf.predict([line])
+        logging.info('Predicted class %s' % dec)
+        logging.info('Correct class: %s' % labels[label])
+
+        probs = clf.predict_proba([line])
+
+        # logging.info('classes= %s' % classes)
+        options = -1
+        for idx, val in enumerate(probs[0]):
+            if val != 0:
+                print 'prob: %s, class: %s' % (val, classes[idx])
+                options += 1
+        nrOptions[options] += 1
         # print 'estimation: ', dec
         # print 'actual: ', labels[label]
         if dec == labels[label]:
@@ -41,11 +57,14 @@ def test(testdir, clf, featuretype):
         else:
             false += 1
         label += 1
-
+    logging.info('Correct: %s, False: %s' % (correct, false))
+    logging.info('Option times: %s %s %s' % (nrOptions[0], nrOptions[1], nrOptions[2]))
     accuracy = correct / (correct + false)
+    logging.info("Probs")
+    logging.info("Done Testing!")
     return accuracy
 
 def runKNN(traindir, testdir, k, featuretype):
     clf = train(traindir, featuretype, k)
-    accuracy = test(testdir, clf, featuretype)
+    accuracy = test(traindir, testdir, clf, featuretype)
     return clf, accuracy
