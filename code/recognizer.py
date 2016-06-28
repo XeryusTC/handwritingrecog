@@ -1,4 +1,5 @@
 import sys, os, inspect, shutil, fnmatch, logging
+import numpy as np
 import general.preprocessor as prep
 import create_segments
 import general.hog as hog
@@ -54,10 +55,45 @@ def combine_lexicons(orig_lex):
 
 def create_stateProbs(lexicon):
     longestWord = len(max(lexicon, key=len))
-    print longestWord
+    pi = [{} for _ in xrange(longestWord)]
+
+    for index, probs in enumerate(pi):
+        total = 0.0
+        # Count letter occurences on this index
+        for key in lexicon:
+            if index < len(key):
+                total += lexicon[key]
+                if key[index] in probs:
+                    probs[key[index]] += lexicon[key]
+                else:
+                    probs[key[index]] = lexicon[key]
+        # Calculate state probabilities
+        for letter in probs:
+            probs[letter] = float(probs[letter]) / total
+    return pi
 
 def create_transProbs(lexicon):
-    pass
+    T = {}
+    total = 0.0
+
+    # Count transition occurences
+    for word in lexicon:
+        for index, letter in enumerate(word):
+            if index + 1 < len(word):
+                total += lexicon[word]
+                if letter in T:
+                    if word[index + 1] in T[letter]:
+                        T[letter][word[index+1]] += lexicon[word]
+                    else:
+                        T[letter][word[index+1]] = lexicon[word]
+                else:
+                    T[letter] = {}
+                    T[letter][word[index + 1]] = lexicon[word]
+    # Calculate transition probabilities
+    for letter in T:
+        for letter2 in T[letter]:
+            T[letter][letter2] = float(T[letter][letter2]) / total
+    return T
 
 def main():
     # Directories
@@ -98,8 +134,8 @@ def main():
     lexicon = create_lexicon()
 
     # Build probabiliity tables
-    stateProbs = create_stateProbs(lexicon)
-    transProbs = create_transProbs(lexicon)
+    pi = create_stateProbs(lexicon)
+    T = create_transProbs(lexicon)
 
     # Recognize the words
     xml = ET.parse(words_file_name).getroot()
