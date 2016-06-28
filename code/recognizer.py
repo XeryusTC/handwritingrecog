@@ -4,6 +4,7 @@ import general.preprocessor as prep
 import create_segments
 import general.hog as hog
 from recognize.label_words import Recognizer
+import pickle
 
 import xml.etree.ElementTree as ET
 from unipath import Path, DIRS_NO_LINKS
@@ -11,89 +12,6 @@ import cv2
 
 # Debug booleans
 create_segments = False
-
-def create_lexicon():
-    lex = {}
-    with open("lexicon.txt") as f:
-        for line in f:
-            (key, val) = line.split()
-            lex[key] = int(val)
-    # Add our own lexicon
-    lex = combine_lexicons(lex)
-    return lex
-
-def create_own_lexicon():
-
-    lexicon = {}
-
-    # Find all the annotated pages in the dataset
-    ann_dir = Path(Path.cwd().ancestor(1), 'data/charannotations')
-    annotations = ann_dir.listdir( '*.words')
-
-    for f in annotations:
-        # Segment
-        annotation = ET.parse(f).getroot()
-        for word in annotation.iter('Word'):
-            text = word.get('text')
-
-            # Add word to lexicon
-            if lexicon.has_key(text):
-                lexicon[text] = lexicon[text] + 1
-            else :
-                lexicon[text] = 1
-    return lexicon
-
-def combine_lexicons(orig_lex):
-    own_lex = create_own_lexicon()
-
-    for word, number in own_lex.iteritems():
-        if orig_lex.has_key(word):
-            orig_lex[word] = max(orig_lex[word], own_lex[word])
-        else:
-            orig_lex[word] = number
-    return orig_lex
-
-def create_stateProbs(lexicon):
-    longestWord = len(max(lexicon, key=len))
-    pi = [{} for _ in xrange(longestWord)]
-
-    for index, probs in enumerate(pi):
-        total = 0.0
-        # Count letter occurences on this index
-        for key in lexicon:
-            if index < len(key):
-                total += lexicon[key]
-                if key[index] in probs:
-                    probs[key[index]] += lexicon[key]
-                else:
-                    probs[key[index]] = lexicon[key]
-        # Calculate state probabilities
-        for letter in probs:
-            probs[letter] = float(probs[letter]) / total
-    return pi
-
-def create_transProbs(lexicon):
-    T = {}
-    total = 0.0
-
-    # Count transition occurences
-    for word in lexicon:
-        for index, letter in enumerate(word):
-            if index + 1 < len(word):
-                total += lexicon[word]
-                if letter in T:
-                    if word[index + 1] in T[letter]:
-                        T[letter][word[index+1]] += lexicon[word]
-                    else:
-                        T[letter][word[index+1]] = lexicon[word]
-                else:
-                    T[letter] = {}
-                    T[letter][word[index + 1]] = lexicon[word]
-    # Calculate transition probabilities
-    for letter in T:
-        for letter2 in T[letter]:
-            T[letter][letter2] = float(T[letter][letter2]) / total
-    return T
 
 def main():
     # Directories
@@ -131,11 +49,15 @@ def main():
     img = prep.preprocess(img)
 
     # Build the lexicon
-    lexicon = create_lexicon()
+    lexicon = {}
+    with open("tmp/lexicon.csv") as f:
+        for line in f:
+            (key, val) = line.split(',')
+            lexicon[key] = int(val)
 
     # Build probabiliity tables
-    pi = create_stateProbs(lexicon)
-    T = create_transProbs(lexicon)
+    pi = pickle.load(open("stateProbs.pickle"))
+    T = pickle.load(open("transProbs.pickle"))
 
     # Recognize the words
     xml = ET.parse(words_file_name).getroot()
@@ -144,7 +66,7 @@ def main():
         cuts = recog.find_cuts(word_img)
         if cuts is not None:
             cuts.insert(0, 0) # Also create a window at the start of the word
-            text, candidates = recog.recognize(word_img, cuts, lexicon)
+            text, candidates = recog.recognize(word_img, cuts, lexicon, stateProbs, transProbs)
             correctText = word.get('text')
             print "Word in candidates: ", correctText in candidates
             print "Correct text: ", correctText
