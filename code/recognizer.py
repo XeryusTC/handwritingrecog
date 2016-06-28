@@ -5,13 +5,17 @@ import create_segments
 import general.hog as hog
 from recognize.label_words import Recognizer
 import pickle
+import create_lexicon
+import create_probTables
 
 import xml.etree.ElementTree as ET
 from unipath import Path, DIRS_NO_LINKS
 import cv2
 
-# Debug booleans
+# Set to True if run for the first time
 create_segments = False
+create_lexicon = False
+create_tables = False
 
 def main():
     # Directories
@@ -40,7 +44,7 @@ def main():
         print "\tDataset should be either 'KNMP' or 'Stanford'"
         sys.exit(1)
 
-    if create_segments is True:
+    if create_segments:
         logging.info("Creating segments for dataset %s", dataset)
         create_segments.create(dataset)
         logging.info("Segments created for dataset %s", dataset)
@@ -48,16 +52,23 @@ def main():
     # Preprocess
     img = prep.preprocess(img)
 
-    # Build the lexicon
+    # Get the lexicon
     lexicon = {}
-    with open("tmp/lexicon.csv") as f:
-        for line in f:
-            (key, val) = line.split(',')
-            lexicon[key] = int(val)
+    if create_lexicon:
+        lexicon = create_lexicon.create_lexicon()
+    else:
+        with open("tmp/lexicon.csv") as f:
+            for line in f:
+                (key, val) = line.split(',')
+                lexicon[key] = int(val)
 
-    # Build probabiliity tables
-    pi = pickle.load(open("stateProbs.pickle"))
-    T = pickle.load(open("transProbs.pickle"))
+    # Get probabiliity tables
+    if create_tables:
+        stateProbs = create_probTables.create_stateProbs
+        transProbs = create_probTables.create_transProbs
+    else:
+        stateProbs = pickle.load(open("stateProbs.pickle"))
+        transProbs = pickle.load(open("transProbs.pickle"))
 
     # Recognize the words
     xml = ET.parse(words_file_name).getroot()
@@ -75,8 +86,6 @@ def main():
         else:
             continue
     ET.ElementTree(recog.words).write(sys.argv[3])
-
-
 
 if __name__ == '__main__':
     main()
