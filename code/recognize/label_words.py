@@ -51,7 +51,17 @@ class Recognizer(object):
             print "image not good for classifying"
             return None
 
-    def recognize(self, word_img, cuts, lexicon, stateProbs, transProbs):
+    def getPredictions(self, clf, featureVector, classes):
+        predictions = {}
+        probs = clf.predict_proba(featureVector)
+        for idx, val in enumerate(probs[0]):
+            if val != 0:
+                predictions[classes[idx]] = val
+                #  print 'prob: %s, class: %s' % (val, classes[idx])
+        return predictions
+
+
+    def recognize(self, word_img, cuts, lexicon, stateProbs, transProbs, classes):
         text = ""
         hypotheses = {} # A graph that keeps track of all possible words
         for start in range(len(cuts)):
@@ -63,7 +73,8 @@ class Recognizer(object):
                 window = cut_letters.removeWhitelines(window)
                 if not window is None:
                     f = hog.hog_xeryus(window).reshape(1, -1)
-                    l = self.knn.predict(f)
+                    l = self.getPredictions(self.knn, f, classes)
+                    # l = self.knn.predict(f)
                     # l = self.svm.predict(f)
                     text = text + l[0]
                     hypotheses[cuts[start]].append((l[0], cuts[end]))
@@ -77,14 +88,7 @@ class Recognizer(object):
         text = self._select_word(candidates)
         return text, candidates
 
-    def recursiveRecognize(self, word_img, cuts, lexicon):
-        # A graph that keeps track of the possible words, and their probabilities
-        hypotheses = {}
-        recursion(word_img, cuts, cuts[0], lexicon, "", 1.0, stateProbabilities, transProbabilities, hypotheses)
-        logging.info(hypotheses)
-
-
-    def recursion(self, word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, hypotheses):
+    def recursion(self, word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses):
 
         # no cuts possible, return word, probability
         if currentCut == len(cuts)-1:
@@ -92,41 +96,55 @@ class Recognizer(object):
                 hypotheses[wordString] = max(hypotheses[wordString], probability)
             else:
                 hypotheses[wordString] = probability
+                logging.info("Found: %s, with prob: %s" % (wordString, probability))
             return
 
         # Find the next cut
-        start = cuts[currentCut]
-        for end in range(currentCut+1, len(cuts)):
+        start = currentCut
+        for end in range(start+1, len(cuts)):
+            logging.info("Cuts: %s\nStart: %s, End: %s" % (cuts, start, end))
             if not 10 <= (cuts[end] - cuts[start]) < 80:
+                logging.info("windows not the right size, %s %s " % (cuts[start],cuts[end]))
                 continue
             window = word_img[:,cuts[start]:cuts[end]]
             window = cut_letters.removeWhitelines(window)
             if not window is None:
                 f = hog.hog_xeryus(window).reshape(1, -1)
-                predictions, probabilities = self.knn.predict(f)
-                for idx in len(predictions):
-                    # The predicted character
-                    prediction = predictions[idx]
-                    # The probabilties of the prediction
-                    prob = probabilities[idx]
+                predictions = self.getPredictions(self.knn, f, classes)
+                logging.info("predictions: %s" % predictions)
+                # predictions, probabilities = self.knn.predict(f)
+                for prediction, prob in predictions.iteritems():
+
                     # Add the predicted character to the word
                     wordString = wordString + prediction
                     # Add the prediction probability to the total probability
-                    probability *= probabilities[idx]
+                    probability *= prob
                     # Add the state (position of character) probability to the total probability
-                    probability *= stateProbabilities[len(wordString)-1][prediction]
+                    if prediction in stateProbabilities[len(wordString)-1]:
+                        probability *= stateProbabilities[len(wordString)-1][prediction]
+                    else:
+                        probability *= 0.00001
                     # Add the transition probability to the total probability
-                    probability *= transProbabilities[wordString[-2]][wordString[-1]]
+                    if len(wordString) > 1:
+                        if wordString[-2] in transProbabilities:
+                            if wordString[-1] in transProbabilities[wordString[-2]]:
+                                probability *= transProbabilities[wordString[-2]][wordString[-1]]
+                            else:
+                                probability *= 0.00001
+                        else:
+                            probability *= 0.00001
                     # Set the correct cut index
                     currentCut = end
                     # Into recursion, and beyond!
-                    recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, hypothese)
+                    # logging.info("Into recursion with %s, prob: %s" % (wordString, probability))
+                    self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses)
 
-
-
-
-
-
+    def recursiveRecognize(self, word_img, cuts, lexicon, stateProbabilities, transProbabilities, classes):
+        # A graph that keeps track of the possible words, and their probabilities
+        hypotheses = {}
+        self.recursion(word_img, cuts, cuts[0],    lexicon, "",         1.0,         stateProbabilities, transProbabilities, classes, hypotheses)
+        # self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, hypothese)
+        return hypotheses
 
     def _hypotheses_graph_to_candidates(self, hypotheses):
         possible = [("", 0)]

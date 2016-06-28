@@ -64,6 +64,15 @@ def test(traindir, testdir, clf, featuretype):
     logging.info("Done Testing!")
     return accuracy
 
+def getPredictions(clf, featureVector, classes):
+    predictions = {}
+    probs = clf.predict_proba(featureVector)
+    for idx, val in enumerate(probs[0]):
+        if val != 0:
+            predictions[classes[idx]] = val
+            #  print 'prob: %s, class: %s' % (val, classes[idx])
+    return predictions
+
 def runKNN(traindir, testdir, k, featuretype):
     clf = train(traindir, featuretype, k)
     accuracy = test(traindir, testdir, clf, featuretype)

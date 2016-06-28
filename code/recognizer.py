@@ -56,8 +56,14 @@ def main():
             lexicon[key] = int(val)
 
     # Build probabiliity tables
-    pi = pickle.load(open("stateProbs.pickle"))
-    T = pickle.load(open("transProbs.pickle"))
+    stateProbs = pickle.load(open("stateProbs.pickle"))
+    transProbs = pickle.load(open("transProbs.pickle"))
+
+    # Get the sorted unique list of class labels
+    featureDir = 'tmp/features/'
+    trainDir = featureDir + 'train/'
+    trainLabels = np.load(trainDir + 'labels.npy')
+    classes = sorted(set(trainLabels))
 
     # Recognize the words
     xml = ET.parse(words_file_name).getroot()
@@ -66,12 +72,15 @@ def main():
         cuts = recog.find_cuts(word_img)
         if cuts is not None:
             cuts.insert(0, 0) # Also create a window at the start of the word
-            text, candidates = recog.recognize(word_img, cuts, lexicon, stateProbs, transProbs)
-            correctText = word.get('text')
-            print "Word in candidates: ", correctText in candidates
-            print "Correct text: ", correctText
-            print "Estimated word: ", text, "\n"
-            word.set('text', text)
+            hypotheses = recog.recursiveRecognize(word_img, cuts, lexicon, stateProbs, transProbs, classes)
+            logging.info("hypotheses:")
+            logging.info(hypotheses)
+            # text, candidates = recog.recognize(word_img, cuts, lexicon, stateProbs, transProbs)
+            # correctText = word.get('text')
+            # print "Word in candidates: ", correctText in candidates
+            # print "Correct text: ", correctText
+            # print "Estimated word: ", text, "\n"
+            # word.set('text', text)
         else:
             continue
     ET.ElementTree(recog.words).write(sys.argv[3])
