@@ -25,8 +25,8 @@ class Recognizer(object):
         self.logger.info('Loading pretrained models...')
         with open('svm-pretrained.pickle', 'r') as f:
             self.svm = pickle.load(f)
-        # with open('knn.pickle', 'r') as f:
-            # self.knn = pickle.load(f)
+        with open('knn.pickle', 'r') as f:
+            self.knn = pickle.load(f)
         self.logger.info('Models loaded')
 
     def next_word(self):
@@ -63,7 +63,8 @@ class Recognizer(object):
                 window = cut_letters.removeWhitelines(window)
                 if not window is None:
                     f = hog.hog_xeryus(window).reshape(1, -1)
-                    l = self.svm.predict(f)
+                    l = self.knn.predict(f)
+                    # l = self.svm.predict(f)
                     text = text + l[0]
                     hypotheses[cuts[start]].append((l[0], cuts[end]))
                 else:
