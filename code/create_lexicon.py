@@ -12,43 +12,60 @@ from general.preprocessor import preprocess
 logging.config.fileConfig('logging.conf')
 
 def main():
-    if len(sys.argv) != 2 or sys.argv[1] not in ['KNMP', 'Stanford']:
-        print("Usage: python %s <dataset>" % sys.argv[0])
-        print("\tDataset should be either 'KNMP' or 'Stanford'")
-        sys.exit(1)
-    create(sys.argv[1])
+    create()
 
-def create(dataset):
-    # create a clean temporary directory
-    work_dir = Path("tmp")
-    work_dir.mkdir()
+def create_lexicon():
+    lex = {}
+    with open("lexicon.txt") as f:
+        for line in f:
+            (key, val) = line.split()
+            lex[key] = int(val)
+    # Add our own lexicon
+    lex = combine_lexicons(lex)
+    return lex
+
+def create_own_lexicon():
 
     lexicon = {}
 
     # Find all the annotated pages in the dataset
     ann_dir = Path(Path.cwd().ancestor(1), 'data/charannotations')
-    logging.info('annd dir %s' % ann_dir)
-    annotations = ann_dir.listdir(dataset + '*.words')
+    annotations = ann_dir.listdir( '*.words')
 
     for f in annotations:
-        # Preprocess
-        logging.info("processing %s", str(f))
         # Segment
         annotation = ET.parse(f).getroot()
         for word in annotation.iter('Word'):
             text = word.get('text')
 
             # Add word to lexicon
-            logging.info("found word %s", text)
             if lexicon.has_key(text):
                 lexicon[text] = lexicon[text] + 1
             else :
                 lexicon[text] = 1
+    return lexicon
 
-    print lexicon
-    lexicon_path = Path(work_dir, "lexicon_" + str(dataset) + ".csv")
+def combine_lexicons(orig_lex):
+    own_lex = create_own_lexicon()
+
+    for word, number in own_lex.iteritems():
+        if orig_lex.has_key(word):
+            orig_lex[word] = max(orig_lex[word], own_lex[word])
+        else:
+            orig_lex[word] = number
+    return orig_lex
+
+def create():
+    # create a clean temporary directory
+    work_dir = Path("tmp")
+    work_dir.mkdir()
+
+    lexicon = create_lexicon()
+
+    lexicon_path = Path(work_dir, "lexicon.csv")
     w = csv.writer(open(lexicon_path, "w"))
     for key, val in lexicon.items():
         w.writerow([key, val])
+
 if __name__ == '__main__':
     main()

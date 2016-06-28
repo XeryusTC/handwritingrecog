@@ -51,7 +51,7 @@ class Recognizer(object):
             print "image not good for classifying"
             return None
 
-    def recognize(self, word_img, cuts, lexicon):
+    def recognize(self, word_img, cuts, lexicon, stateProbs, transProbs):
         text = ""
         hypotheses = {} # A graph that keeps track of all possible words
         for start in range(len(cuts)):
