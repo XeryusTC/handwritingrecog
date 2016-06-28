@@ -52,6 +52,13 @@ def combine_lexicons(orig_lex):
             orig_lex[word] = number
     return orig_lex
 
+def create_stateProbs(lexicon):
+    longestWord = len(max(lexicon, key=len))
+    print longestWord
+
+def create_transProbs(lexicon):
+    pass
+
 def main():
     # Directories
     sentenceDir = Path('tmp/sentences/')
@@ -90,6 +97,10 @@ def main():
     # Build the lexicon
     lexicon = create_lexicon()
 
+    # Build probabiliity tables
+    stateProbs = create_stateProbs(lexicon)
+    transProbs = create_transProbs(lexicon)
+
     # Recognize the words
     xml = ET.parse(words_file_name).getroot()
     recog = Recognizer(sentenceDir, wordDir, xml, img)
@@ -99,7 +110,9 @@ def main():
             cuts.insert(0, 0) # Also create a window at the start of the word
             text, candidates = recog.recognize(word_img, cuts, lexicon)
             correctText = word.get('text')
-            print correctText in candidates, correctText, text
+            print "Word in candidates: ", correctText in candidates
+            print "Correct text: ", correctText
+            print "Estimated word: ", text, "\n"
             word.set('text', text)
         else:
             continue
