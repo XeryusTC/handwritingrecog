@@ -52,7 +52,7 @@ if __name__ == '__main__':
     ### Receive trained kNN (it also tests it on characters)
     ### Fourth argument either "hog" or "pca"
     logging.info("Running kNN")
-    k = 3
+    k = 10
     kNN, accuracy2 = runKNN(trainDir, testDir, k, sys.argv[3])
     logging.info(kNN)
     with open('knn.pickle', 'w') as f:

@@ -46,7 +46,7 @@ def test(traindir, testdir, clf, featuretype):
         # logging.info('classes= %s' % classes)
         options = -1
         for idx, val in enumerate(probs[0]):
-            if val != 0:
+            if val > 0.3:
                 print 'prob: %s, class: %s' % (val, classes[idx])
                 options += 1
         nrOptions[options] += 1

@@ -1,4 +1,5 @@
 import pickle
+import numpy as np
 
 def create_stateProbs(lexicon):
     longestWord = len(max(lexicon, key=len))
@@ -16,7 +17,7 @@ def create_stateProbs(lexicon):
                     probs[key[index]] = lexicon[key]
         # Calculate state probabilities
         for letter in probs:
-            probs[letter] = float(probs[letter]) / total
+            probs[letter] = np.log10(float(probs[letter]) / total)
     return pi
 
 def create_transProbs(lexicon):
@@ -39,7 +40,7 @@ def create_transProbs(lexicon):
     # Calculate transition probabilities
     for letter in T:
         for letter2 in T[letter]:
-            T[letter][letter2] = float(T[letter][letter2]) / total
+            T[letter][letter2] = np.log10(float(T[letter][letter2]) / total)
     return T
 
 if __name__ == '__main__':

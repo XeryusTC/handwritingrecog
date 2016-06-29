@@ -82,6 +82,7 @@ def main():
     xml = ET.parse(words_file_name).getroot()
     recog = Recognizer(sentenceDir, wordDir, xml, img)
     for word, word_img in recog.next_word():
+        logging.info("\nWord: %s" % word.get('text'))
         cuts = recog.find_cuts(word_img)
         if cuts is not None:
             cuts.insert(0, 0) # Also create a window at the start of the word

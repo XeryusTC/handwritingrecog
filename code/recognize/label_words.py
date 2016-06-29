@@ -4,6 +4,8 @@ from unipath import Path
 import cv2
 import pickle
 import logging
+import numpy as np
+import operator
 
 from . import cut_letters
 from general import hog
@@ -55,7 +57,7 @@ class Recognizer(object):
         predictions = {}
         probs = clf.predict_proba(featureVector)
         for idx, val in enumerate(probs[0]):
-            if val != 0:
+            if val > 0.3 or val == max(probs[0]):
                 predictions[classes[idx]] = val
                 #  print 'prob: %s, class: %s' % (val, classes[idx])
         return predictions
@@ -89,61 +91,70 @@ class Recognizer(object):
         return text, candidates
 
     def recursion(self, word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses):
-
+        # print "currentCut = ", currentCut
         # no cuts possible, return word, probability
         if currentCut == len(cuts)-1:
             if wordString in hypotheses:
                 hypotheses[wordString] = max(hypotheses[wordString], probability)
             else:
                 hypotheses[wordString] = probability
-                logging.info("Found: %s, with prob: %s" % (wordString, probability))
+                #logging.info("Found: %s, with prob: %s" % (wordString, probability))
             return
 
         # Find the next cut
         start = currentCut
         for end in range(start+1, len(cuts)):
-            logging.info("Cuts: %s\nStart: %s, End: %s" % (cuts, start, end))
+            # logging.info("Cuts: %s\nStart: %s, End: %s" % (cuts, start, end))
             if not 10 <= (cuts[end] - cuts[start]) < 80:
-                logging.info("windows not the right size, %s %s " % (cuts[start],cuts[end]))
+                #logging.info("windows not the right size, %s %s " % (cuts[start],cuts[end]))
                 continue
+            # print "start = ", start, "; end = ", end
             window = word_img[:,cuts[start]:cuts[end]]
             window = cut_letters.removeWhitelines(window)
             if not window is None:
                 f = hog.hog_xeryus(window).reshape(1, -1)
                 predictions = self.getPredictions(self.knn, f, classes)
-                logging.info("predictions: %s" % predictions)
+                # logging.info("predictions: %s" % predictions)
                 # predictions, probabilities = self.knn.predict(f)
                 for prediction, prob in predictions.iteritems():
 
                     # Add the predicted character to the word
                     wordString = wordString + prediction
                     # Add the prediction probability to the total probability
-                    probability *= prob
+                    probability += np.log10(prob)
                     # Add the state (position of character) probability to the total probability
-                    if prediction in stateProbabilities[len(wordString)-1]:
-                        probability *= stateProbabilities[len(wordString)-1][prediction]
+                    if len(wordString) <= len(stateProbabilities):
+                        if prediction in stateProbabilities[len(wordString)-1]:
+                            probability += stateProbabilities[len(wordString)-1][prediction]
+                        else:
+                            continue
+                            # probability -= 5
                     else:
-                        probability *= 0.00001
+                        continue
+                        #probability -= 5
                     # Add the transition probability to the total probability
                     if len(wordString) > 1:
                         if wordString[-2] in transProbabilities:
                             if wordString[-1] in transProbabilities[wordString[-2]]:
-                                probability *= transProbabilities[wordString[-2]][wordString[-1]]
+                                probability += transProbabilities[wordString[-2]][wordString[-1]]
                             else:
-                                probability *= 0.00001
+                                continue
+                                # probability -= 5
                         else:
-                            probability *= 0.00001
+                            continue
+                            # probability -= 5
                     # Set the correct cut index
                     currentCut = end
                     # Into recursion, and beyond!
-                    # logging.info("Into recursion with %s, prob: %s" % (wordString, probability))
+                    # logging.info("Into recursion with %s, prob: %s \n" % (wordString, probability))
                     self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses)
 
     def recursiveRecognize(self, word_img, cuts, lexicon, stateProbabilities, transProbabilities, classes):
         # A graph that keeps track of the possible words, and their probabilities
         hypotheses = {}
-        self.recursion(word_img, cuts, cuts[0],    lexicon, "",         1.0,         stateProbabilities, transProbabilities, classes, hypotheses)
+        self.recursion(word_img, cuts, cuts[0],    lexicon, "",         0.0,         stateProbabilities, transProbabilities, classes, hypotheses)
         # self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, hypothese)
+        hypotheses = sorted(hypotheses.items(), key=operator.itemgetter(1), reverse=True)
         return hypotheses
 
     def _hypotheses_graph_to_candidates(self, hypotheses):
