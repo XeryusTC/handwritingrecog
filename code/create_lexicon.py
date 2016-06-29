@@ -28,21 +28,22 @@ def create_own_lexicon():
 
     lexicon = {}
 
-    # Find all the annotated pages in the dataset
-    ann_dir = Path(Path.cwd().ancestor(1), 'data/charannotations')
-    annotations = ann_dir.listdir( '*.words')
+    for dataset in ['KNMP', 'Stanford']:
+        # Find all the annotated pages in the dataset
+        ann_dir = Path(Path.cwd().ancestor(1), 'data/hwr_data/words/' + dataset)
+        annotations = ann_dir.listdir( '*.words')
 
-    for f in annotations:
-        # Segment
-        annotation = ET.parse(f).getroot()
-        for word in annotation.iter('Word'):
-            text = word.get('text')
+        for f in annotations:
+            # Segment
+            annotation = ET.parse(f).getroot()
+            for word in annotation.iter('Word'):
+                text = word.get('text')
 
-            # Add word to lexicon
-            if lexicon.has_key(text):
-                lexicon[text] = lexicon[text] + 1
-            else :
-                lexicon[text] = 1
+                # Add word to lexicon
+                if lexicon.has_key(text):
+                    lexicon[text] += 1
+                else :
+                    lexicon[text] = 1
     return lexicon
 
 def combine_lexicons(orig_lex):

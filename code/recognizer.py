@@ -82,13 +82,12 @@ def main():
     xml = ET.parse(words_file_name).getroot()
     recog = Recognizer(sentenceDir, wordDir, xml, img)
     for word, word_img in recog.next_word():
-        logging.info("\nWord: %s" % word.get('text'))
+        logging.info("Word: %s" % word.get('text'))
         cuts = recog.find_cuts(word_img)
         if cuts is not None:
             cuts.insert(0, 0) # Also create a window at the start of the word
-            hypotheses = recog.recursiveRecognize(word_img, cuts, lexicon, stateProbs, transProbs, classes)
-            logging.info("hypotheses:")
-            logging.info(hypotheses)
+            estimate = recog.recursiveRecognize(word_img, cuts, lexicon, stateProbs, transProbs, classes)
+            logging.info("estimate: %s" % estimate)
             # text, candidates = recog.recognize(word_img, cuts, lexicon, stateProbs, transProbs)
             # correctText = word.get('text')
             # print "Word in candidates: ", correctText in candidates

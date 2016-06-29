@@ -6,6 +6,7 @@ import pickle
 import logging
 import numpy as np
 import operator
+import Levenshtein as Lev
 
 from . import cut_letters
 from general import hog
@@ -90,6 +91,37 @@ class Recognizer(object):
         text = self._select_word(candidates)
         return text, candidates
 
+    def lexiconLevenshtein(self, hypotheses, lexicon):
+        loopWords = lexicon
+        candidates = []
+        while True:
+            if hypotheses:
+                bestString = max(hypotheses.iteritems(), key=operator.itemgetter(1))[0]
+                hypotheses.pop(bestString, None)
+                minDistance = 100
+                for word in loopWords:
+                    distance = Lev.distance(word, bestString)
+                    if distance < minDistance:
+                        candidates = [word]
+                        minDistance = distance
+                    elif distance == minDistance:
+                        candidates.append(word)
+                if len(candidates) == 1:
+                    break
+                if len(candidates) == 0:
+                    candidates = loopWords
+                    break
+                loopWords = candidates
+            else:
+                break
+        return candidates
+
+                #if len(candidates) < 10:
+                #    candidates[word] = distance
+                #elif distance < max(candidates.iteritems(), key=operator.itemgetter(1))[1]:
+                #    candidates.pop(max(candidates.iteritems(), key=operator.itemgetter(1))[0], None)
+                #    candidates[word] = distance
+
     def recursion(self, word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses):
         # print "currentCut = ", currentCut
         # no cuts possible, return word, probability
@@ -154,8 +186,20 @@ class Recognizer(object):
         hypotheses = {}
         self.recursion(word_img, cuts, cuts[0],    lexicon, "",         0.0,         stateProbabilities, transProbabilities, classes, hypotheses)
         # self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, hypothese)
-        hypotheses = sorted(hypotheses.items(), key=operator.itemgetter(1), reverse=True)
-        return hypotheses
+        hypotheses = self.lexiconLevenshtein(hypotheses, lexicon)
+
+        if len(hypotheses) > 1:
+            maxCount = 0
+            for word in hypotheses:
+                if lexicon[word] > maxCount:
+                    estimate = word
+                    maxCount = lexicon[word]
+        elif len(hypotheses) == 0:
+            estimate = max(lexicon.iteritems(), key=operator.itemgetter(1))[0]
+        else:
+            estimate = hypotheses[0]
+
+        return estimate
 
     def _hypotheses_graph_to_candidates(self, hypotheses):
         possible = [("", 0)]

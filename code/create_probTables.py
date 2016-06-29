@@ -54,5 +54,3 @@ if __name__ == '__main__':
     pickle.dump(pi, open("stateProbs.pickle", "wb"))
     T = create_transProbs(lex)
     pickle.dump(T, open("transProbs.pickle", "wb"))
-
-    print T
