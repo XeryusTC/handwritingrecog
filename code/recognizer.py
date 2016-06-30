@@ -71,8 +71,8 @@ def main():
 
     # Get probabiliity tables
     if create_tables:
-        stateProbs = create_probTables.create_stateProbs
-        transProbs = create_probTables.create_transProbs
+        stateProbs = create_probTables.create_stateProbs(lexicon)
+        transProbs = create_probTables.create_transProbs(lexicon)
     else:
         stateProbs = pickle.load(open("stateProbs.pickle"))
         transProbs = pickle.load(open("transProbs.pickle"))
