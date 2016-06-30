@@ -39,6 +39,7 @@ def create():
             lexicon_means_stds[key] = [meanWord, stdWord]
 
     pickle.dump(lexicon_means_stds, open("tmp/lexicon_means_stds.pickle", "wb"))
+    return lexicon_means_stds
 
 if __name__ == '__main__':
     create()

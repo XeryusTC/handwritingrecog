@@ -17,6 +17,22 @@ import cv2
 create_segments = False
 create_lexicon = False
 create_tables = False
+create_lexicon_means_stds = False
+
+def reduce_lexicon(word, word_img, lexicon, lexicon_means_stds):
+    reduced_lexicon = {}
+    # The number of cuts is the max number of letters
+    for word2, number in lexicon.iteritems():
+        if len(word) <= len(cuts):
+            reduced_lexicon[word] = number
+
+    reduction =  (1-float(len(reduced_lexicon))/len(lexicon) )*100
+    cuts.insert(0, 0) # Also create a window at the start of the word
+    estimate = recog.recursiveRecognize(word_img, cuts, reduced_lexicon, stateProbs, transProbs, classes)
+    logging.info("Estimate: %s" % estimate)
+    logging.info("\tReduced lexicon by: %s percent" % reduction )
+
+    return reduced_lexicon
 
 def main():
     # Directories
@@ -95,17 +111,8 @@ def main():
         logging.info("Word: %s" % required_word)
         cuts = recog.find_cuts(word_img)
         if cuts is not None:
-            # The number of cuts is the max number of letters
-            reduced_lexicon = {}
-            for word, number in lexicon.iteritems():
-                if len(word) <= len(cuts):
-                    reduced_lexicon[word] = number
+            reduced_lexicon = reduce_lexicon(word, word_img, lexicon, lexicon_mean_stds)
 
-            reduction =  (1-float(len(reduced_lexicon))/len(lexicon) )*100
-            cuts.insert(0, 0) # Also create a window at the start of the word
-            estimate = recog.recursiveRecognize(word_img, cuts, reduced_lexicon, stateProbs, transProbs, classes)
-            logging.info("Estimate: %s" % estimate)
-            logging.info("\tReduced lexicon by: %s percent" % reduction )
             if required_word in lexicon:
                 logging.info("\tIs the word in lexicon: yes")
             else:
