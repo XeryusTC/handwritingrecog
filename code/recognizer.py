@@ -18,23 +18,18 @@ create_lexicon_stuff = True
 
 def reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds):
     reduced_lexicon = {}
-    counterSteven = 0
     # The number of cuts is the max number of letters
     for word, number in lexicon.iteritems():
         if len(word) <= len(cuts):
-            # reduced_lexicon[word] = number
-            # If the average length of the word in the lexicon is more than 2 stds
-            #less or more than the current word, remove it from the lexicon
 
-            if lexicon_means_stds[word][0] - 1 * lexicon_means_stds[word][1] < word_img.shape[1] and \
-            lexicon_means_stds[word][0] + 1 * lexicon_means_stds[word][1] > word_img.shape[1]:
+            if (
+                lexicon_means_stds[word][0] - 1 * lexicon_means_stds[word][1] < word_img.shape[1] and
+                lexicon_means_stds[word][0] + 1 * lexicon_means_stds[word][1] > word_img.shape[1]
+            ):
                 reduced_lexicon[word] = number
-            else:
-               counterSteven += 1
 
     reduction =  (1-float(len(reduced_lexicon))/len(lexicon) )*100
-    logging.info("\tReduced lexicon by: %s percent" % reduction )
-    logging.info("\tRemoved by Steven: %s words" % counterSteven )
+    # logging.info("\tReduced lexicon by: %s percent" % reduction )
 
     return reduced_lexicon, reduction
 
@@ -92,7 +87,7 @@ def main():
     recog = Recognizer(sentenceDir, wordDir, xml, img)
     for word, word_img in recog.next_word():
         required_word = word.get('text')
-        logging.info("Word: %s" % required_word)
+        logging.info("Word:\t\t%s" % required_word)
         cuts = recog.find_cuts(word_img)
         if cuts is not None:
             reduced_lexicon, reduction = reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds)
@@ -100,25 +95,28 @@ def main():
 
             cuts.insert(0, 0) # Also create a window at the start of the word
             estimate = recog.recursiveRecognize(word_img, cuts, reduced_lexicon, stateProbs, transProbs, classes)
-            logging.info("Estimate: %s" % estimate)
+            logging.info("Estimate:\t%s" % estimate)
 
             if required_word in reduced_lexicon:
-                logging.info("\tIs the word in reduced lexicon: yes")
+                # logging.info("\tIs the word in reduced lexicon: yes")
                 inLex += 1
-            else:
-                logging.info("\tIs the word in reduced lexicon: no")
+            # else:
+                # logging.info("\tIs the word in reduced lexicon: no")
             if required_word == estimate:
                 correct += 1
             else:
                 false += 1
-            print('\n')
+            accuracy = float(correct)/(correct+false) * 100
+            logging.info("Correct: %s\tFalse: %s\tAccuracy: %s\n" % (correct, false, accuracy) )
         else:
             continue
+
+
     ET.ElementTree(recog.words).write(sys.argv[3])
     accuracy = float(correct)/(correct+false) * 100
     totalInLex = float(inLex)/(correct+false) * 100
     avgReduction = avgReduction/float(correct+false)
-    logging.info("Correct: %s, False: %s\n \tAccuracy: %s" % (correct, false, accuracy) )
+    logging.info("Complete results for file: %s, Correct: %s\tFalse: %s \tAccuracy: %s" % (sys.argv[1], correct, false, accuracy) )
     logging.info("In lexicon: %s" % totalInLex)
     logging.info("Average reduction of lexicon: %s" % avgReduction)
 
