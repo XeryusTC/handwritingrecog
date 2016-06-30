@@ -44,8 +44,6 @@ if __name__ == '__main__':
     ### Receive trained kNN (it also tests it on characters)
     logging.info("Running kNN")
     k = 10
-    kNN, accuracy = runKNN(trainDir, testDir, k)
+    kNN = runKNN(trainDir, testDir, k)
     with open('tmp/knn.pickle', 'w') as f:
             pickle.dump(kNN, f)
-
-    print 'Accuracy for kNN: ', accuracy

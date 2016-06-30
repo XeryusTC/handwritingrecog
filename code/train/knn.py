@@ -70,4 +70,5 @@ def getPredictions(clf, featureVector, classes):
 def runKNN(traindir, testdir, k):
     clf = train(traindir, k)
     # accuracy = test(traindir, testdir, clf)
-    return clf, accuracy
+    # print "accuracy = ", accuracy
+    return clf

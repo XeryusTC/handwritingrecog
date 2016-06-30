@@ -9,8 +9,8 @@ def preprocess(img):
     try:
         # result = 255 - otsuContrast(img)
         result = otsu(img)
-        result = speck_removal(result)
-        result = morphology(result)
+        #result = speck_removal(result)
+        #result = morphology(result)
     except:
         logging.error("Unexpected error:", sys.exc_info()[0])
         raise

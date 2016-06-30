@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<Image name="Stanford-CCCC_0028">
+    <TextLine no="1" top="559" bottom="673" left="685" right="893" shear="0">
+        <Word no="1" top="559" bottom="673" left="685" right="893" shear="0" text="thonne"/>
+    </TextLine>
+    <TextLine no="2" top="1070" bottom="1200" left="870" right="1631" shear="0">
+        <Word no="1" top="1085" bottom="1166" left="905" right="954" shear="0" text="h"/>
+        <Word no="2" top="1070" bottom="1200" left="1422" right="1631" shear="0" text="thonne"/>
+        <Word no="3" top="1070" bottom="1200" left="1422" right="1625" shear="0" text="thonne"/>
+        <Word no="4" top="1109" bottom="1163" left="870" right="906" shear="0" text="c"/>
+    </TextLine>
+    <TextLine no="3" top="1494" bottom="1579" left="1115" right="1173" shear="0">
+        <Word no="1" top="1494" bottom="1579" left="1115" right="1173" shear="0" text="S"/>
+    </TextLine>
+    <TextLine no="4" top="1705" bottom="1785" left="1005" right="1061" shear="0">
+        <Word no="1" top="1705" bottom="1785" left="1005" right="1061" shear="0" text="S"/>
+    </TextLine>
+    <TextLine no="5" top="2214" bottom="2298" left="689" right="748" shear="0">
+        <Word no="1" top="2214" bottom="2298" left="689" right="748" shear="0" text="h"/>
+    </TextLine>
+    <TextLine no="6" top="2536" bottom="2606" left="862" right="936" shear="0">
+        <Word no="1" top="2536" bottom="2606" left="862" right="936" shear="0" text="de"/>
+    </TextLine>
+</Image>
