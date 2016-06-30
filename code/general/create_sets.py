@@ -17,7 +17,7 @@ def create_sets(hogDir):
     os.makedirs(hogDir + 'train/')
 
     ### Divide dataset into train and test
-    trainPercentage = 0.7
+    trainPercentage = 1
     features = np.load(hogDir + 'hog.npy')
     labels = np.load(hogDir + 'labels.npy')
 
@@ -27,7 +27,7 @@ def create_sets(hogDir):
     testLabels = []
 
     for sample in range(features.shape[0]):
-        if np.random.random_sample() < trainPercentage:
+        if np.random.random_sample() <= trainPercentage:
             trainFeatures.append(features[sample])
             trainLabels.append(labels[sample])
         else:

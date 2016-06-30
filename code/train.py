@@ -38,7 +38,7 @@ if __name__ == '__main__':
     doHog(segmentDir, featureDir, 'xeryus')
 
     ### Create random train and test sets from the hog features
-    logging.info("Creating train and test set")
+    # logging.info("Creating train and test set")
     create_sets(featureDir)
 
     ### Receive trained kNN (it also tests it on characters)
