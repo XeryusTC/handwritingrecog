@@ -63,34 +63,6 @@ class Recognizer(object):
                 #  print 'prob: %s, class: %s' % (val, classes[idx])
         return predictions
 
-
-    def recognize(self, word_img, cuts, lexicon, stateProbs, transProbs, classes):
-        text = ""
-        hypotheses = {} # A graph that keeps track of all possible words
-        for start in range(len(cuts)):
-            hypotheses[cuts[start]] = []
-            for end in range(start, len(cuts)):
-                if not 10 <= (cuts[end] - cuts[start]) < 80:
-                    continue
-                window = word_img[:,cuts[start]:cuts[end]]
-                window = cut_letters.removeWhitelines(window)
-                if not window is None:
-                    f = hog.hog_xeryus(window).reshape(1, -1)
-                    l = self.getPredictions(self.knn, f, classes)
-                    # l = self.knn.predict(f)
-                    # l = self.svm.predict(f)
-                    text = text + l[0]
-                    hypotheses[cuts[start]].append((l[0], cuts[end]))
-                else:
-                    continue
-
-        # Turn the hypotheses tree into a list of candidates
-        candidates = self._hypotheses_graph_to_candidates(hypotheses)
-        # print candidates
-        candidates =  self._reduce_candidates_with_lexicon(candidates, lexicon)
-        text = self._select_word(candidates)
-        return text, candidates
-
     def lexiconLevenshtein(self, hypotheses, lexicon):
         loopWords = lexicon
         candidates = []
@@ -137,7 +109,7 @@ class Recognizer(object):
         start = currentCut
         for end in range(start+1, len(cuts)):
             # logging.info("Cuts: %s\nStart: %s, End: %s" % (cuts, start, end))
-            if not 10 <= (cuts[end] - cuts[start]) < 80:
+            if not 5 <= (cuts[end] - cuts[start]) < 140:
                 #logging.info("windows not the right size, %s %s " % (cuts[start],cuts[end]))
                 continue
             # print "start = ", start, "; end = ", end

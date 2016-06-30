@@ -63,8 +63,8 @@ def main():
     if create_lexicon_stuff:
         lexicon = create_lexicon.create()
         lexicon_means_stds = create_lexicon_means_stds.create()
-        stateProbs = create_probTables.create_stateProbs(lexicon)
-        transProbs = create_probTables.create_transProbs(lexicon)
+        # stateProbs = create_probTables.create_stateProbs(lexicon)
+        # transProbs = create_probTables.create_transProbs(lexicon)
     else:
         with open("tmp/lexicon.csv") as f:
             for line in f:
@@ -92,7 +92,8 @@ def main():
         if cuts is not None:
             reduced_lexicon, reduction = reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds)
             avgReduction += reduction
-
+            stateProbs = create_probTables.create_stateProbs(reduced_lexicon)
+            transProbs = create_probTables.create_transProbs(reduced_lexicon)
             cuts.insert(0, 0) # Also create a window at the start of the word
             estimate = recog.recursiveRecognize(word_img, cuts, reduced_lexicon, stateProbs, transProbs, classes)
             logging.info("Estimate:\t%s" % estimate)
