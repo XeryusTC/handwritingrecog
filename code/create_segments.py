@@ -27,6 +27,11 @@ def main():
     if sys.argv[1] in ['Stanford', 'both']:
         create('Stanford', work_dir)
 
+def create_seg():
+    work_dir = Path("tmp")
+    create('KNMP', work_dir)
+    create('Stanford', work_dir)
+
 def create(dataset, work_dir):
     # Find all the pages in the dataset
     img_dir = Path(Path.cwd().ancestor(1), 'data/hwr_data/pages', dataset)

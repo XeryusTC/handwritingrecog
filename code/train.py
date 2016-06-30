@@ -12,10 +12,13 @@ from train.svm import runSVM
 from train.knn import runKNN
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2 or sys.argv[1] not in ['KNMP', 'Stanford']:
-        print("Usage: python %s <dataset> <hogtype> <featuretype>" % sys.argv[0])
-        print("\tDataset should be either 'KNMP' or 'Stanford'")
+    if len(sys.argv) > 2 or (len(sys.argv) == 2 and sys.argv[1] != "--create_segments"):
+        print sys.argv[1]
+        print("Usage: python(2) %s (--create_segments)" % sys.argv[0])
         sys.exit(1)
+    createSegments = False
+    if len(sys.argv) == 2:
+        createSegments = True
 
     ### Directories
     segmentDir = 'tmp/segments/'
@@ -24,8 +27,9 @@ if __name__ == '__main__':
     testDir = featureDir + 'test/'
 
     ### First segment the training images
-    # logging.info("Creating segments of the images")
-    # create_segments.create(sys.argv[1])
+    if createSegments:
+        logging.info("Creating segments of the images")
+        create_segments.create_seg()
 
     ### Run hog over the segmented images
     ### Third argument for type of hog ("xeryus" or "other"), default = "xeryus"
@@ -41,6 +45,6 @@ if __name__ == '__main__':
     k = 10
     kNN, accuracy = runKNN(trainDir, testDir, k)
     with open('knn.pickle', 'w') as f:
-        pickle.dump(kNN, f)
+            pickle.dump(kNN, f)
 
     print 'Accuracy for kNN: ', accuracy
