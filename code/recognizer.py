@@ -77,26 +77,43 @@ def main():
         stateProbs = pickle.load(open("stateProbs.pickle"))
         transProbs = pickle.load(open("transProbs.pickle"))
 
+    # Recognition accuracy names
+    correct = 0
+    false = 0
 
     # Recognize the words
     xml = ET.parse(words_file_name).getroot()
     recog = Recognizer(sentenceDir, wordDir, xml, img)
     for word, word_img in recog.next_word():
-        logging.info("Word: %s" % word.get('text'))
+        required_word = word.get('text')
+        logging.info("Word: %s" % required_word)
         cuts = recog.find_cuts(word_img)
         if cuts is not None:
+            # The number of cuts is the max number of letters
+            reduced_lexicon = {}
+            for word, number in lexicon.iteritems():
+                if len(word) <= len(cuts):
+                    reduced_lexicon[word] = number
+
+            reduction =  (1-float(len(reduced_lexicon))/len(lexicon) )*100
             cuts.insert(0, 0) # Also create a window at the start of the word
-            estimate = recog.recursiveRecognize(word_img, cuts, lexicon, stateProbs, transProbs, classes)
-            logging.info("estimate: %s" % estimate)
-            # text, candidates = recog.recognize(word_img, cuts, lexicon, stateProbs, transProbs)
-            # correctText = word.get('text')
-            # print "Word in candidates: ", correctText in candidates
-            # print "Correct text: ", correctText
-            # print "Estimated word: ", text, "\n"
-            # word.set('text', text)
+            estimate = recog.recursiveRecognize(word_img, cuts, reduced_lexicon, stateProbs, transProbs, classes)
+            logging.info("Estimate: %s" % estimate)
+            logging.info("\tReduced lexicon by: %s percent" % reduction )
+            if required_word in lexicon:
+                logging.info("\tIs the word in lexicon: yes")
+            else:
+                logging.info("\tIs the word in lexicon: no")
+            if required_word == estimate:
+                correct += 1
+            else:
+                false += 1
+            print('\n')
         else:
             continue
     ET.ElementTree(recog.words).write(sys.argv[3])
+    accuracy = float(correct)/(correct+false) * 100
+    logging.info("Correct: %s, False: %s\n \tAccuracy: %s" % (correct, false, accuracy) )
 
 if __name__ == '__main__':
     main()

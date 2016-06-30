@@ -157,15 +157,18 @@ class Recognizer(object):
                 # logging.info("predictions: %s" % predictions)
                 # predictions, probabilities = self.knn.predict(f)
                 for prediction, prob in predictions.iteritems():
-
                     # Add the predicted character to the word
                     wordString = wordString + prediction
+                    # Add a factor to overcome advantages for small windows
+                    factor = end-start
+                    print 'Factor ', factor
                     # Add the prediction probability to the total probability
-                    probability += np.log10(prob)
+                    probability += factor * np.log10(prob)
                     # Add the state (position of character) probability to the total probability
+
                     if len(wordString) <= len(stateProbabilities):
                         if prediction in stateProbabilities[len(wordString)-1]:
-                            probability += stateProbabilities[len(wordString)-1][prediction]
+                            probability += factor * stateProbabilities[len(wordString)-1][prediction]
                         else:
                             continue
                             # probability -= 5
@@ -176,7 +179,7 @@ class Recognizer(object):
                     if len(wordString) > 1:
                         if wordString[-2] in transProbabilities:
                             if wordString[-1] in transProbabilities[wordString[-2]]:
-                                probability += transProbabilities[wordString[-2]][wordString[-1]]
+                                probability += factor * transProbabilities[wordString[-2]][wordString[-1]]
                             else:
                                 continue
                                 # probability -= 5
