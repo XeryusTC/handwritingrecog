@@ -29,7 +29,7 @@ def reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds):
                 reduced_lexicon[word] = number
 
     reduction =  (1-float(len(reduced_lexicon))/len(lexicon) )*100
-    logging.info("\tReduced lexicon by: %s percent" % reduction )
+    # logging.info("\tReduced lexicon by: %s percent" % reduction )
 
     return reduced_lexicon, reduction
 
@@ -87,7 +87,7 @@ def main():
     recog = Recognizer(sentenceDir, wordDir, xml, img)
     for word, word_img in recog.next_word():
         required_word = word.get('text')
-        logging.info("Word: %s" % required_word)
+        logging.info("Word:\t\t%s" % required_word)
         cuts = recog.find_cuts(word_img)
         if cuts is not None:
             reduced_lexicon, reduction = reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds)
@@ -95,20 +95,23 @@ def main():
 
             cuts.insert(0, 0) # Also create a window at the start of the word
             estimate = recog.recursiveRecognize(word_img, cuts, reduced_lexicon, stateProbs, transProbs, classes)
-            logging.info("Estimate: %s" % estimate)
+            logging.info("Estimate:\t%s" % estimate)
 
             if required_word in reduced_lexicon:
-                logging.info("\tIs the word in reduced lexicon: yes")
+                # logging.info("\tIs the word in reduced lexicon: yes")
                 inLex += 1
-            else:
-                logging.info("\tIs the word in reduced lexicon: no")
+            # else:
+                # logging.info("\tIs the word in reduced lexicon: no")
             if required_word == estimate:
                 correct += 1
             else:
                 false += 1
-            print('\n')
+            accuracy = float(correct)/(correct+false) * 100
+            logging.info("Correct: %s\tFalse: %s\tAccuracy: %s\n" % (correct, false, accuracy) )
         else:
             continue
+
+
     ET.ElementTree(recog.words).write(sys.argv[3])
     accuracy = float(correct)/(correct+false) * 100
     totalInLex = float(inLex)/(correct+false) * 100
