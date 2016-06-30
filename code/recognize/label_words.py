@@ -161,7 +161,7 @@ class Recognizer(object):
                     wordString = wordString + prediction
                     # Add a factor to overcome advantages for small windows
                     factor = end-start
-                    print 'Factor ', factor
+                    # print 'Factor ', factor
                     # Add the prediction probability to the total probability
                     probability += factor * np.log10(prob)
                     # Add the state (position of character) probability to the total probability

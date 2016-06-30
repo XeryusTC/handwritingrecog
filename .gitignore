@@ -1,3 +1,6 @@
+knn.pickle
+svm.pickle
+*.csv
 opencv-3.1.0/
 ## Self
 *.out
