@@ -74,6 +74,8 @@ def main():
         stateProbs = pickle.load(open("tmp/stateProbs.pickle"))
         transProbs = pickle.load(open("tmp/transProbs.pickle"))
 
+    print lexicon
+
     # Recognition accuracy names
     correct = 0
     false = 0

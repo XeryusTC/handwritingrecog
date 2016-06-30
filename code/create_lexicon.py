@@ -16,7 +16,7 @@ def main():
 
 def create_lexicon():
     lex = {}
-    with open("tmp/lexicon.txt") as f:
+    with open("lexicon.txt") as f:
         for line in f:
             (key, val) = line.split()
             lex[key] = int(val)
