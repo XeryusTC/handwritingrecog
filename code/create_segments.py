@@ -71,8 +71,8 @@ def segment(img, annotation, work_dir, stats):
         for word in sentence:
             for char in word:
                 c = char.get('text')
-                if c in '!-,.':
-                    continue # Skip stupid labels
+                # if c in '!-,.':
+                #     continue # Skip stupid labels
                 cdir = Path(work_dir, c)
                 cdir.mkdir()
                 f = Path(cdir, str(uuid.uuid1()) + '.ppm')

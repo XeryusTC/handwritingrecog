@@ -3,15 +3,12 @@ import numpy as np
 from sklearn import neighbors
 import logging
 
-def train(traindir, featuretype, k):
+def train(traindir, k):
     logging.info("Training kNN!")
 
     n_neighbors = k
     weights = 'uniform' # Other: 'distance'
-    if featuretype == "hog":
-        trainData = np.load(traindir + 'hog.npy')
-    else:
-        trainData = np.load(traindir + 'pca.npy')
+    trainData = np.load(traindir + 'hog.npy')
     trainLabels = np.load(traindir + 'labels.npy')
 
     clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights, n_jobs=-1)#, metric="euclidean")
@@ -20,16 +17,13 @@ def train(traindir, featuretype, k):
     logging.info("Done Training!")
     return clf
 
-def test(traindir, testdir, clf, featuretype):
+def test(traindir, testdir, clf):
     logging.info("Testing kNN!")
 
     accuracy = 0.0
     correct = 0.0
     false = 0.0
-    if featuretype == "hog":
-        testData = np.load(testdir + 'hog.npy')
-    else    :
-        testData = np.load(testdir + 'pca.npy')
+    testData = np.load(testdir + 'hog.npy')
     labels = np.load(testdir + 'labels.npy')
     trainLabels = np.load(traindir + 'labels.npy')
 
@@ -73,7 +67,7 @@ def getPredictions(clf, featureVector, classes):
             #  print 'prob: %s, class: %s' % (val, classes[idx])
     return predictions
 
-def runKNN(traindir, testdir, k, featuretype):
-    clf = train(traindir, featuretype, k)
-    accuracy = test(traindir, testdir, clf, featuretype)
+def runKNN(traindir, testdir, k):
+    clf = train(traindir, k)
+    accuracy = test(traindir, testdir, clf)
     return clf, accuracy
