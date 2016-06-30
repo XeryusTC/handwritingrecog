@@ -16,6 +16,7 @@ if __name__ == '__main__':
         print sys.argv[1]
         print("Usage: python(2) %s (--create_segments)" % sys.argv[0])
         sys.exit(1)
+        
     createSegments = False
     if len(sys.argv) == 2:
         createSegments = True
