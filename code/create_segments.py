@@ -1,5 +1,5 @@
 # Packages
-import sys, os, cv2, uuid, logging
+import sys, os, cv2, uuid, logging, shutil
 import logging.config
 import numpy as np
 from unipath import Path, DIRS_NO_LINKS
@@ -18,6 +18,9 @@ def main():
         sys.exit(1)
 
     # create a clean temporary directory
+    if os.path.exists("tmp"):
+        shutil.rmtree("tmp")
+    os.makedirs("tmp")
     work_dir = Path("tmp")
     work_dir.rmtree()
     work_dir.mkdir()
@@ -28,6 +31,9 @@ def main():
         create('Stanford', work_dir)
 
 def create_seg():
+    if os.path.exists("tmp"):
+        shutil.rmtree("tmp")
+    os.makedirs("tmp")
     work_dir = Path("tmp")
     create('KNMP', work_dir)
     create('Stanford', work_dir)
