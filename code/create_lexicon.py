@@ -67,6 +67,7 @@ def create():
     w = csv.writer(open(lexicon_path, "w"))
     for key, val in lexicon.items():
         w.writerow([key, val])
+    return lexicon
 
     return lexicon
 

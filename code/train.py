@@ -25,7 +25,6 @@ if __name__ == '__main__':
     segmentDir = 'tmp/segments/'
     featureDir = 'tmp/features/'
     trainDir = featureDir + 'train/'
-    testDir = featureDir + 'test/'
 
     ### First segment the training images
     if createSegments:
@@ -35,7 +34,7 @@ if __name__ == '__main__':
     ### Run hog over the segmented images
     ### Third argument for type of hog ("xeryus" or "other"), default = "xeryus"
     logging.info("Doing the HOG")
-    doHog(segmentDir, featureDir, 'xeryus')
+    doHog(segmentDir, featureDir)
 
     ### Create random train and test sets from the hog features
     # logging.info("Creating train and test set")
@@ -44,6 +43,6 @@ if __name__ == '__main__':
     ### Receive trained kNN (it also tests it on characters)
     logging.info("Running kNN")
     k = 10
-    kNN = runKNN(trainDir, testDir, k)
+    kNN = runKNN(trainDir, k)
     with open('tmp/knn.pickle', 'w') as f:
             pickle.dump(kNN, f)
