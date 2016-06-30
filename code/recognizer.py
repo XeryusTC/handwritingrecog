@@ -116,7 +116,7 @@ def main():
     accuracy = float(correct)/(correct+false) * 100
     totalInLex = float(inLex)/(correct+false) * 100
     avgReduction = avgReduction/float(correct+false)
-    logging.info("Correct: %s, False: %s\n \tAccuracy: %s" % (correct, false, accuracy) )
+    logging.info("Complete results for file: %s, Correct: %s\tFalse: %s \tAccuracy: %s" % (sys.argv[1], correct, false, accuracy) )
     logging.info("In lexicon: %s" % totalInLex)
     logging.info("Average reduction of lexicon: %s" % avgReduction)
 
