@@ -19,3 +19,10 @@ correct versions of all other dependencies.
 Running
 =======
 All necessary files to run the code can be found in code/
+First-timers first need to run the train command as following:
+"python train.py --create_segments"
+
+In the future, the "--create_segments" is no longer required.
+
+After this, the recognizer can be run with
+"python recognizer.py image.ppm input.words out.words"
