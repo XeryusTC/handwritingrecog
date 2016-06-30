@@ -4,7 +4,7 @@ import pickle
 def create():
     letters = {}
     for dataset in ['KNMP', 'Stanford']:
-        with open('window_stats_' + dataset + '.csv', 'r') as f:
+        with open('tmp/window_stats_' + dataset + '.csv', 'r') as f:
             f.readline() # read header
             for line in f:
                 values = line.split(',')

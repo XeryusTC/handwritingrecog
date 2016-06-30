@@ -19,12 +19,16 @@ create_lexicon = False
 create_tables = False
 create_lexicon_means_stds = False
 
-def reduce_lexicon(word, word_img, lexicon, lexicon_means_stds):
+def reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds):
     reduced_lexicon = {}
     # The number of cuts is the max number of letters
-    for word2, number in lexicon.iteritems():
+    for word, number in lexicon.iteritems():
         if len(word) <= len(cuts):
-            reduced_lexicon[word] = number
+            # If the average length of the word in the lexicon is more than 2 stds
+            # less or more than the current word, remove it from the lexicon
+            if lexicon_means_stds[word][0] - 2 * lexicon_means_stds[word][1] < word_img.shape[1] and
+            lexicon_means_stds[word][0] + 2 * lexicon_means_stds[word][1] > word_img.shape[1]:
+                reduced_lexicon[word] = number
 
     reduction =  (1-float(len(reduced_lexicon))/len(lexicon) )*100
     cuts.insert(0, 0) # Also create a window at the start of the word
@@ -86,7 +90,7 @@ def main():
                 (key, val) = line.split(',')
                 lexicon[key] = int(val)
 
-    if create_lexicon_means:
+    if create_lexicon_means_stds:
         lexicon_means_stds = create_lexicon_means_stds.create(lexicon)
     else:
         lexicon_means_stds = pickle.load(open("tmp/lexicon_means_stds.pickle"))
