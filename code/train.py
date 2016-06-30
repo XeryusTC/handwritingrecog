@@ -16,7 +16,7 @@ if __name__ == '__main__':
         print sys.argv[1]
         print("Usage: python(2) %s (--create_segments)" % sys.argv[0])
         sys.exit(1)
-        
+
     createSegments = False
     if len(sys.argv) == 2:
         createSegments = True
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     logging.info("Running kNN")
     k = 10
     kNN, accuracy = runKNN(trainDir, testDir, k)
-    with open('knn.pickle', 'w') as f:
+    with open('tmp/knn.pickle', 'w') as f:
             pickle.dump(kNN, f)
 
     print 'Accuracy for kNN: ', accuracy

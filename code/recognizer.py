@@ -18,18 +18,23 @@ create_lexicon_stuff = True
 
 def reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds):
     reduced_lexicon = {}
+    counterSteven = 0
     # The number of cuts is the max number of letters
     for word, number in lexicon.iteritems():
         if len(word) <= len(cuts):
-            reduced_lexicon[word] = number
+            # reduced_lexicon[word] = number
             # If the average length of the word in the lexicon is more than 2 stds
-            # less or more than the current word, remove it from the lexicon
-            #if lexicon_means_stds[word][0] - 2 * lexicon_means_stds[word][1] < word_img.shape[1] and \
-            #   lexicon_means_stds[word][0] + 2 * lexicon_means_stds[word][1] > word_img.shape[1]:
-            #    reduced_lexicon[word] = number
+            #less or more than the current word, remove it from the lexicon
+
+            if lexicon_means_stds[word][0] - 1 * lexicon_means_stds[word][1] < word_img.shape[1] and \
+            lexicon_means_stds[word][0] + 1 * lexicon_means_stds[word][1] > word_img.shape[1]:
+                reduced_lexicon[word] = number
+            else:
+               counterSteven += 1
 
     reduction =  (1-float(len(reduced_lexicon))/len(lexicon) )*100
     logging.info("\tReduced lexicon by: %s percent" % reduction )
+    logging.info("\tRemoved by Steven: %s words" % counterSteven )
 
     return reduced_lexicon, reduction
 
@@ -74,7 +79,7 @@ def main():
         stateProbs = pickle.load(open("tmp/stateProbs.pickle"))
         transProbs = pickle.load(open("tmp/transProbs.pickle"))
 
-    print lexicon
+    # print lexicon
 
     # Recognition accuracy names
     correct = 0
