@@ -61,7 +61,7 @@ def main():
 
     # Get lexicon information
     if create_lexicon_stuff:
-        lexicon = create_lexicon.create_lexicon()
+        lexicon = create_lexicon.create()
         lexicon_means_stds = create_lexicon_means_stds.create()
         stateProbs = create_probTables.create_stateProbs(lexicon)
         transProbs = create_probTables.create_transProbs(lexicon)

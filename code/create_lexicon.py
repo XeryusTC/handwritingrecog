@@ -12,7 +12,7 @@ from general.preprocessor import preprocess
 logging.config.fileConfig('logging.conf')
 
 def main():
-    create()
+    lexicon = create()
 
 def create_lexicon():
     lex = {}
@@ -67,6 +67,8 @@ def create():
     w = csv.writer(open(lexicon_path, "w"))
     for key, val in lexicon.items():
         w.writerow([key, val])
+
+    return lexicon
 
 if __name__ == '__main__':
     main()
