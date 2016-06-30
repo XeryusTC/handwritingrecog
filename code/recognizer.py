@@ -113,7 +113,7 @@ def main():
     avgReduction = avgReduction/float(correct+false)
     logging.info("Correct: %s, False: %s\n \tAccuracy: %s" % (correct, false, accuracy) )
     logging.info("In lexicon: %s" % totalInLex)
-    avgReduction("Average reduction of lexicon: %s" % avgReduction)
+    logging.info("Average reduction of lexicon: %s" % avgReduction)
 
 if __name__ == '__main__':
     main()
