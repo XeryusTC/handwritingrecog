@@ -122,7 +122,7 @@ class Recognizer(object):
                 #    candidates.pop(max(candidates.iteritems(), key=operator.itemgetter(1))[0], None)
                 #    candidates[word] = distance
 
-    def recursion(self, word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses):
+    def recursion(self, word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses, savedPredictions):
         # print "currentCut = ", currentCut
         # no cuts possible, return word, probability
         if currentCut == len(cuts)-1:
@@ -145,7 +145,15 @@ class Recognizer(object):
             window = cut_letters.removeWhitelines(window)
             if not window is None:
                 f = hog.hog_xeryus(window).reshape(1, -1)
-                predictions = self.getPredictions(self.knn, f, classes)
+
+                # First check if the selected combination has been predicted one
+                if str(start) in savedPredictions and str(end) in savedPredictions[str(start)]:
+                    # print("We've been here once, %s to %s" % (start, end))
+                    predictions = savedPredictions[str(start)][str(end)]
+                else:
+                    predictions = self.getPredictions(self.knn, f, classes)
+                    savedPredictions[str(start)][str(end)] = predictions
+
                 # logging.info("predictions: %s" % predictions)
                 # predictions, probabilities = self.knn.predict(f)
                 for prediction, prob in predictions.iteritems():
@@ -179,12 +187,16 @@ class Recognizer(object):
                     currentCut = end
                     # Into recursion, and beyond!
                     # logging.info("Into recursion with %s, prob: %s \n" % (wordString, probability))
-                    self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses)
+                    self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses, savedPredictions)
 
     def recursiveRecognize(self, word_img, cuts, lexicon, stateProbabilities, transProbabilities, classes):
         # A graph that keeps track of the possible words, and their probabilities
         hypotheses = {}
-        self.recursion(word_img, cuts, cuts[0],    lexicon, "",         0.0,         stateProbabilities, transProbabilities, classes, hypotheses)
+        # Save hypotheses per cut combination
+        savedPredictions = {}
+        for x in range(len(cuts)):
+            savedPredictions[str(x)] = {}
+        self.recursion(word_img, cuts, cuts[0],    lexicon, "",         0.0,         stateProbabilities, transProbabilities, classes, hypotheses, savedPredictions)
         # self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, hypothese)
         hypotheses = self.lexiconLevenshtein(hypotheses, lexicon)
 
