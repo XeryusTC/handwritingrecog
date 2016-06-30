@@ -46,7 +46,7 @@ if __name__ == '__main__':
     ### Third argument either "hog" or "pca", default = "hog"
     # logging.info("Running SVM")
     # SVM, accuracy = runSVM(trainDir, testDir, sys.argv[3])
-    # with open('svm.pickle', 'w') as f:
+    # with open('tmp/svm.pickle', 'w') as f:
     #     pickle.dump(SVM, f)
 
     ### Receive trained kNN (it also tests it on characters)
@@ -55,7 +55,7 @@ if __name__ == '__main__':
     k = 10
     kNN, accuracy2 = runKNN(trainDir, testDir, k, sys.argv[3])
     logging.info(kNN)
-    with open('knn.pickle', 'w') as f:
+    with open('tmp/knn.pickle', 'w') as f:
         pickle.dump(kNN, f)
 
     # print 'Accuracy for SVM: ', accuracy

@@ -26,9 +26,9 @@ class Recognizer(object):
         self.img = img
 
         self.logger.info('Loading pretrained models...')
-        with open('svm-pretrained.pickle', 'r') as f:
-            self.svm = pickle.load(f)
-        with open('knn.pickle', 'r') as f:
+        #with open('tmp/svm-pretrained.pickle', 'r') as f:
+        #    self.svm = pickle.load(f)
+        with open('tmp/knn.pickle', 'r') as f:
             self.knn = pickle.load(f)
         self.logger.info('Models loaded')
 

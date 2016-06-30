@@ -54,7 +54,7 @@ def create(dataset, work_dir):
         logging.info("Segmenting %s", str(f[0]))
         segment(img, e, segmentPathFolder, stats)
 
-    print_statistics(stats)
+    print_statistics(stats, dataset)
 
 def merge(images, annotations):
     ret = []
@@ -116,7 +116,7 @@ def segment(img, annotation, work_dir, stats):
                 stats[c]['width'].append(cropped_im.shape[1])
                 stats[c]['height'].append(cropped_im.shape[0])
 
-def print_statistics(stats):
+def print_statistics(stats, dataset):
     min_width   = {}
     min_height  = {}
     max_width   = {}
@@ -127,7 +127,7 @@ def print_statistics(stats):
     med_height  = {}
     all_width   = []
     all_height  = []
-    with open('window_stats.csv', 'w') as f:
+    with open('tmp/window_stats_' + dataset + '.csv', 'w') as f:
         f.write('label,width,height\n')
         for c, v in stats.items():
             for i in range(len(v['width'])):

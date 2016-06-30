@@ -1,7 +1,7 @@
 import numpy as np
 import pickle
 
-if __name__ == '__main__':
+def create():
     letters = {}
     for dataset in ['KNMP', 'Stanford']:
         with open('window_stats_' + dataset + '.csv', 'r') as f:
@@ -13,7 +13,32 @@ if __name__ == '__main__':
                 else:
                     letters[values[0]] = [int(values[1])]
     stats = {}
+    meanLetter = 0
+    stdLetter = 0
     for letter in letters:
         stats[letter] = [np.mean(np.asarray(letters[letter])), np.std(np.asarray(letters[letter]))]
+        meanLetter += np.mean(np.asarray(letters[letter]))
+        stdLetter += np.std(np.asarray(letters[letter]))
 
-    pickle.dump(stats, open("window_means.pickle", "wb"))
+    meanLetter /= len(letters)
+    stdLetter /= len(letters)
+
+    lexicon_means_stds = {}
+    with open("tmp/lexicon.csv") as l:
+        for line in l:
+            (key, val) = line.split(',')
+            meanWord = 0
+            stdWord = 0
+            for letter in key:
+                if letter in stats:
+                    meanWord += stats[letter][0]
+                    stdWord += stats[letter][1]
+                else:
+                    meanWord += meanLetter
+                    stdWord += stdLetter
+            lexicon_means_stds[key] = [meanWord, stdWord]
+
+    pickle.dump(lexicon_means_stds, open("tmp/lexicon_means_stds.pickle", "wb"))
+
+if __name__ == '__main__':
+    create()

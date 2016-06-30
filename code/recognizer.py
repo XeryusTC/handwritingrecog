@@ -7,6 +7,7 @@ from recognize.label_words import Recognizer
 import pickle
 import create_lexicon
 import create_probTables
+import create_lexicon_means_stds
 
 import xml.etree.ElementTree as ET
 from unipath import Path, DIRS_NO_LINKS
@@ -69,13 +70,18 @@ def main():
                 (key, val) = line.split(',')
                 lexicon[key] = int(val)
 
+    if create_lexicon_means:
+        lexicon_means_stds = create_lexicon_means_stds.create(lexicon)
+    else:
+        lexicon_means_stds = pickle.load(open("tmp/lexicon_means_stds.pickle"))
+
     # Get probabiliity tables
     if create_tables:
         stateProbs = create_probTables.create_stateProbs(lexicon)
         transProbs = create_probTables.create_transProbs(lexicon)
     else:
-        stateProbs = pickle.load(open("stateProbs.pickle"))
-        transProbs = pickle.load(open("transProbs.pickle"))
+        stateProbs = pickle.load(open("tmp/stateProbs.pickle"))
+        transProbs = pickle.load(open("tmp/transProbs.pickle"))
 
     # Recognition accuracy names
     correct = 0

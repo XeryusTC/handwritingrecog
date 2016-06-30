@@ -51,6 +51,6 @@ if __name__ == '__main__':
             lex[key] = int(val)
 
     pi = create_stateProbs(lex)
-    pickle.dump(pi, open("stateProbs.pickle", "wb"))
+    pickle.dump(pi, open("tmp/stateProbs.pickle", "wb"))
     T = create_transProbs(lex)
-    pickle.dump(T, open("transProbs.pickle", "wb"))
+    pickle.dump(T, open("tmp/transProbs.pickle", "wb"))
