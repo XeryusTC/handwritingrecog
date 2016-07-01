@@ -88,56 +88,41 @@ class Recognizer(object):
                 break
         return candidates
 
-                #if len(candidates) < 10:
-                #    candidates[word] = distance
-                #elif distance < max(candidates.iteritems(), key=operator.itemgetter(1))[1]:
-                #    candidates.pop(max(candidates.iteritems(), key=operator.itemgetter(1))[0], None)
-                #    candidates[word] = distance
-
     def recursion(self, word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses, savedPredictions):
-        # print "currentCut = ", currentCut
-        # no cuts possible, return word, probability
         if currentCut == len(cuts)-1:
             if wordString in hypotheses:
                 hypotheses[wordString] = max(hypotheses[wordString], probability)
             else:
                 hypotheses[wordString] = probability
-                #logging.info("Found: %s, with prob: %s" % (wordString, probability))
             return
 
         # Find the next cut
         start = currentCut
         for end in range(start+1, len(cuts)):
-            # logging.info("Cuts: %s\nStart: %s, End: %s" % (cuts, start, end))
             if not 10 <= (cuts[end] - cuts[start]) < 200:
-                #logging.info("windows not the right size, %s %s " % (cuts[start],cuts[end]))
                 continue
-            # print "start = ", start, "; end = ", end
             window = word_img[:,cuts[start]:cuts[end]]
             window = cut_letters.removeWhitelines(window)
+
             if not window is None:
                 f = hog.hog_xeryus(window).reshape(1, -1)
 
-                # First check if the selected combination has been predicted one
+                # First check if the selected combination has been predicted before
                 if str(start) in savedPredictions and str(end) in savedPredictions[str(start)]:
-                    # print("We've been here once, %s to %s" % (start, end))
                     predictions = savedPredictions[str(start)][str(end)]
-                else:
+                else: # Else calculate it and add to database
                     predictions = self.getPredictions(self.knn, f, classes)
                     savedPredictions[str(start)][str(end)] = predictions
 
-                # logging.info("predictions: %s" % predictions)
-                # predictions, probabilities = self.knn.predict(f)
                 for prediction, prob in predictions.iteritems():
                     # Add the predicted character to the word
                     wordString = wordString + prediction
-                    # Add a factor to overcome advantages for small windows
+                    # Add a factor to overcome advantages for large windows
                     factor = end-start
-                    # print 'Factor ', factor
                     # Add the prediction probability to the total probability
                     probability += factor * np.log10(prob)
-                    # Add the state (position of character) probability to the total probability
 
+                    # Add the state (position of character) probability to the total probability
                     if len(wordString) <= len(stateProbabilities):
                         if prediction in stateProbabilities[len(wordString)-1]:
                             probability += factor * stateProbabilities[len(wordString)-1][prediction]
@@ -147,6 +132,7 @@ class Recognizer(object):
                     else:
                         continue
                         #probability -= 5
+
                     # Add the transition probability to the total probability
                     if len(wordString) > 1:
                         if wordString[-2] in transProbabilities:
@@ -158,10 +144,10 @@ class Recognizer(object):
                         else:
                             continue
                             # probability -= 5
+
                     # Set the correct cut index
                     currentCut = end
                     # Into recursion, and beyond!
-                    # logging.info("Into recursion with %s, prob: %s \n" % (wordString, probability))
                     self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, classes, hypotheses, savedPredictions)
 
     def recursiveRecognize(self, word_img, cuts, lexicon, stateProbabilities, transProbabilities, classes):
@@ -172,9 +158,10 @@ class Recognizer(object):
         for x in range(len(cuts)):
             savedPredictions[str(x)] = {}
         self.recursion(word_img, cuts, cuts[0],    lexicon, "",         0.0,         stateProbabilities, transProbabilities, classes, hypotheses, savedPredictions)
-        # self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, hypothese)
+        # self.recursion(word_img, cuts, currentCut, lexicon, wordString, probability, stateProbabilities, transProbabilities, hypotheses)
         hypotheses = self.lexiconLevenshtein(hypotheses, lexicon)
 
+        # If Levenshtein returns one hypothesis return it, else return the most probable one
         if len(hypotheses) > 1:
             maxCount = 0
             for word in hypotheses:
