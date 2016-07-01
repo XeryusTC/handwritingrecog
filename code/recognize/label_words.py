@@ -45,10 +45,14 @@ class Recognizer(object):
                 yield word, word_img
 
     def find_cuts(self, word_img):
+        window = 19
         img = cut_letters.removeWhitelines(word_img)
         if img is not None:
-            hist = cut_letters.makeHist(img)
-            cuts = cut_letters.findMaxima(hist)
+            if len(img[0]) <= window:
+                cuts = [0, len(img[0])-1]
+            else:
+                hist = cut_letters.makeHist(img, window)
+                cuts = cut_letters.findMaxima(hist)
             return cuts
         else:
             print "image not good for classifying"

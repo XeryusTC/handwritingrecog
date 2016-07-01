@@ -25,12 +25,12 @@ def removeWhitelines(cropped_im):
         return None
     return cropped_im
 
-def makeHist(img):
+def makeHist(img, window):
     hist = np.zeros(len(img[0]))
     for row in img:
         hist = [x + y for x, y in zip(hist, row)]
     # Smoothing
-    hist = savgol_filter(hist, 19, 3)
+    hist = savgol_filter(hist, window, 3)
     return hist
 
 def findMaxima(hist):
@@ -49,10 +49,14 @@ def showCuts(img, cuts):
     return img
 
 def cutLetters(img):
+    window = 19
     img = removeWhitelines(img)
     if not img is None:
-        hist = makeHist(img)
-        cuts = findMaxima(hist)
+        if len(img[0]) <= window:
+            cuts = [0, len(img[0])-1]
+        else:
+            hist = makeHist(img, window)
+            cuts = findMaxima(hist)
         return cuts
     else:
         print "image not good for classifying"
