@@ -13,15 +13,11 @@ import xml.etree.ElementTree as ET
 from unipath import Path, DIRS_NO_LINKS
 import cv2
 
-# Set to True if run for the first time
-create_lexicon_stuff = True
-
 def reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds):
     reduced_lexicon = {}
     # The number of cuts is the max number of letters
     for word, number in lexicon.iteritems():
         if len(word) <= len(cuts):
-
             if (
                 lexicon_means_stds[word][0] - 1 * lexicon_means_stds[word][1] < word_img.shape[1] and
                 lexicon_means_stds[word][0] + 1 * lexicon_means_stds[word][1] > word_img.shape[1]
@@ -60,21 +56,10 @@ def main():
     classes = sorted(set(trainLabels))
 
     # Get lexicon information
-    if create_lexicon_stuff:
-        lexicon = create_lexicon.create()
-        lexicon_means_stds = create_lexicon_means_stds.create()
-        # stateProbs = create_probTables.create_stateProbs(lexicon)
-        # transProbs = create_probTables.create_transProbs(lexicon)
-    else:
-        with open("tmp/lexicon.csv") as f:
-            for line in f:
-                (key, val) = line.split(',')
-                lexicon[key] = int(val)
-        lexicon_means_stds = pickle.load(open("tmp/lexicon_means_stds.pickle"))
-        stateProbs = pickle.load(open("tmp/stateProbs.pickle"))
-        transProbs = pickle.load(open("tmp/transProbs.pickle"))
-
-    # print lexicon
+    lexicon = create_lexicon.create()
+    lexicon_means_stds = create_lexicon_means_stds.create()
+    stateProbs = create_probTables.create_stateProbs(lexicon)
+    transProbs = create_probTables.create_transProbs(lexicon)
 
     # Recognition accuracy names
     correct = 0
@@ -92,17 +77,14 @@ def main():
         if cuts is not None:
             reduced_lexicon, reduction = reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds)
             avgReduction += reduction
-            stateProbs = create_probTables.create_stateProbs(reduced_lexicon)
-            transProbs = create_probTables.create_transProbs(reduced_lexicon)
+            #stateProbs = create_probTables.create_stateProbs(reduced_lexicon)
+            #transProbs = create_probTables.create_transProbs(reduced_lexicon)
             cuts.insert(0, 0) # Also create a window at the start of the word
             estimate = recog.recursiveRecognize(word_img, cuts, reduced_lexicon, stateProbs, transProbs, classes)
             logging.info("Estimate:\t%s" % estimate)
 
             if required_word in reduced_lexicon:
-                # logging.info("\tIs the word in reduced lexicon: yes")
                 inLex += 1
-            # else:
-                # logging.info("\tIs the word in reduced lexicon: no")
             if required_word == estimate:
                 correct += 1
             else:
@@ -112,7 +94,7 @@ def main():
         else:
             continue
 
-
+    # Logging
     ET.ElementTree(recog.words).write(sys.argv[3])
     accuracy = float(correct)/(correct+false) * 100
     totalInLex = float(inLex)/(correct+false) * 100

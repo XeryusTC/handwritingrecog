@@ -109,7 +109,7 @@ class Recognizer(object):
         start = currentCut
         for end in range(start+1, len(cuts)):
             # logging.info("Cuts: %s\nStart: %s, End: %s" % (cuts, start, end))
-            if not 5 <= (cuts[end] - cuts[start]) < 140:
+            if not 10 <= (cuts[end] - cuts[start]) < 200:
                 #logging.info("windows not the right size, %s %s " % (cuts[start],cuts[end]))
                 continue
             # print "start = ", start, "; end = ", end
