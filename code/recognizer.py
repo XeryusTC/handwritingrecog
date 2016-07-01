@@ -12,6 +12,7 @@ import create_lexicon_means_stds
 import xml.etree.ElementTree as ET
 from unipath import Path, DIRS_NO_LINKS
 import cv2
+import numpy as np
 
 # Set to True if run for the first time
 create_lexicon_stuff = True
@@ -33,7 +34,10 @@ def reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds):
 
     return reduced_lexicon, reduction
 
-def main():
+def main(
+        state="external", img=None, words_file_name=None,
+        minCutWindow = 10, maxCutWindow = 140, globalLexicon=False
+    ):
     # Directories
     sentenceDir = Path('tmp/sentences/')
     wordDir = Path('tmp/words/')
@@ -42,13 +46,16 @@ def main():
     logging.basicConfig(format='%(asctime)s %(levelname)-8s: %(message)s', level=logging.DEBUG, datefmt='%m/%d/%Y %I:%M:%S %p')
 
     # Check commandline parameters
-    if len(sys.argv) != 4:
-        print "Usage: python %s image.ppm input.words out.words" % sys.argv[0]
-        sys.exit(1)
+    #   if state is external
+    if state == "external":
+        if len(sys.argv) != 4:
+            print "Usage: python %s image.ppm input.words out.words" % sys.argv[0]
+            sys.exit(1)
 
-    # Read input files
-    img = cv2.imread(sys.argv[1], 0)
-    words_file_name = sys.argv[2]
+        # Read input files
+        img = cv2.imread(sys.argv[1], 0)
+        words_file_name = sys.argv[2]
+
 
     # Preprocess image
     img = prep.preprocess(img)
@@ -63,8 +70,10 @@ def main():
     if create_lexicon_stuff:
         lexicon = create_lexicon.create()
         lexicon_means_stds = create_lexicon_means_stds.create()
-        # stateProbs = create_probTables.create_stateProbs(lexicon)
-        # transProbs = create_probTables.create_transProbs(lexicon)
+
+        if globalLexicon == True:
+            stateProbs = create_probTables.create_stateProbs(lexicon)
+            transProbs = create_probTables.create_transProbs(lexicon)
     else:
         with open("tmp/lexicon.csv") as f:
             for line in f:
@@ -92,8 +101,10 @@ def main():
         if cuts is not None:
             reduced_lexicon, reduction = reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds)
             avgReduction += reduction
-            stateProbs = create_probTables.create_stateProbs(reduced_lexicon)
-            transProbs = create_probTables.create_transProbs(reduced_lexicon)
+
+            if globalLexicon == False:
+                stateProbs = create_probTables.create_stateProbs(reduced_lexicon)
+                transProbs = create_probTables.create_transProbs(reduced_lexicon)
             cuts.insert(0, 0) # Also create a window at the start of the word
             estimate = recog.recursiveRecognize(word_img, cuts, reduced_lexicon, stateProbs, transProbs, classes)
             logging.info("Estimate:\t%s" % estimate)
@@ -113,13 +124,18 @@ def main():
             continue
 
 
-    ET.ElementTree(recog.words).write(sys.argv[3])
     accuracy = float(correct)/(correct+false) * 100
     totalInLex = float(inLex)/(correct+false) * 100
     avgReduction = avgReduction/float(correct+false)
-    logging.info("Complete results for file: %s, Correct: %s\tFalse: %s \tAccuracy: %s" % (sys.argv[1], correct, false, accuracy) )
-    logging.info("In lexicon: %s" % totalInLex)
-    logging.info("Average reduction of lexicon: %s" % avgReduction)
+
+    if state == "external":
+        logging.info("Complete results for file: %s, Correct: %s\tFalse: %s \tAccuracy: %s" % (sys.argv[1], correct, false, accuracy) )
+        ET.ElementTree(recog.words).write(sys.argv[3])
+    else:
+        return (correct, false)
+        logging.info("Complete results for file: Correct: %s\tFalse: %s \tAccuracy: %s" % (correct, false, accuracy) )
+    # logging.info("In lexicon: %s" % totalInLex)
+    # logging.info("Average reduction of lexicon: %s" % avgReduction)
 
 if __name__ == '__main__':
     main()
