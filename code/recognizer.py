@@ -30,7 +30,7 @@ def reduce_lexicon(cuts, word_img, lexicon, lexicon_means_stds):
 
 def main(
         state="external", img=None, words_file_name=None,
-        minCutWindow = 10, maxCutWindow = 140, globalLexicon=False
+        minCutWindow = 20, maxCutWindow = 80, globalLexicon=True
     ):
     # Directories
     sentenceDir = Path('tmp/sentences/')
