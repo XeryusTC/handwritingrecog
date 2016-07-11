@@ -44,7 +44,7 @@ def doHog(imgDir, hogDir):
             # logging.info("Hogging file %s" % f)
             img = cv2.imread(os.path.join(subdir, f))
             hist = hog_xeryus(img)
-            print(hist.shape)
+            #print(hist.shape)
             features.append(hist[:,0])
 
             labels.append(os.path.basename(os.path.normpath(subdir)))

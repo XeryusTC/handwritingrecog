@@ -2,7 +2,7 @@ import os, shutil
 import numpy as np
 import logging
 
-def create_sets(hogDir):
+def create_sets(hogDir, trainPercentage = 1):
     ### Directory stuff
     if not os.path.exists(hogDir):
         print "You must first create HOG features"
@@ -17,7 +17,6 @@ def create_sets(hogDir):
     os.makedirs(hogDir + 'train/')
 
     ### Divide dataset into train and test
-    trainPercentage = 1
     features = np.load(hogDir + 'hog.npy')
     labels = np.load(hogDir + 'labels.npy')
 
