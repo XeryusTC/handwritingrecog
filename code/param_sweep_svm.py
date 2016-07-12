@@ -61,7 +61,7 @@ if __name__ == '__main__':
     target_height = int(sys.argv[2])
 
     block_sizes = ((1, 1), (2, 2), (3, 3), (4, 4))
-    cell_sizes = ((4, 4), (6, 6), (8, 8), (12, 12), (16, 16))
+    cell_sizes = ((4, 4), (6, 6), (8, 8), (10, 10), (12, 12), (14, 14))
 
     with open(RESULTS_FILE, 'w') as f:
         f.write('num,cell_width,cell_height,block_width,block_height,' + \
@@ -71,8 +71,6 @@ if __name__ == '__main__':
     start_time = time.time()
     for cell_size in cell_sizes:
         for block_size in block_sizes:
-            svm_time = time.time()
-
             logging.info("Block size: %s Cell size: %s", block_size, cell_size)
             logging.debug("Creating HOG features")
             w = (cell_size[0] - (target_width % cell_size[0])) + target_width
@@ -83,7 +81,9 @@ if __name__ == '__main__':
                 logging.info("Skipping parameters")
                 continue
 
-            for i in range(1):
+            for i in range(10):
+                svm_time = time.time()
+
                 do_hog(block_size=block_size, cell_size=cell_size,
                         char_size=(w, h),
                         window_size=(w+cell_size[0], h+cell_size[1]))
@@ -101,4 +101,4 @@ if __name__ == '__main__':
                         accuracy))
                 num += 1
 
-    logging.log("Total running time: %f s", time.time() - start_time)
+    logging.info("Total running time: %f s", time.time() - start_time)
