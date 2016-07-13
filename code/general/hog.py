@@ -6,7 +6,7 @@ import logging
 # from scipy.spatial.distance import cdist, pdist
 from unipath import Path, DIRS_NO_LINKS
 
-def hog_xeryus(img, char_size=(72, 72), window_size=(80, 80), block_size=(2, 2),
+def hog_xeryus(img, char_size=(32, 40), window_size=(40, 48), block_size=(3, 3),
         cell_size=(8, 8), nbins=9):
     scale = max(img.shape[0] / float(char_size[0]),
         img.shape[1] / float(char_size[1]))
