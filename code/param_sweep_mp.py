@@ -69,7 +69,7 @@ def test_worker(taskqueue, resultqueue, logqueue):
             global_right += right
             global_wrong += wrong
         # Return the results
-        accuracy = global_right / (global_right + global_wrong)
+        accuracy = global_right / float(global_right + global_wrong)
         result = (num, min_cut, max_cut, lexicon, global_right, global_wrong,
                 accuracy)
         resultqueue.put(result)
@@ -147,6 +147,7 @@ def process_results_queue(resultqueue, logs):
         with open('param_sweep_results.csv', 'a') as f:
             while True:
                 record = resultqueue.get_nowait()
+                print record
                 f.write(','.join([str(r) for r in record]) + '\n')
     except Queue.Empty:
         pass
@@ -156,5 +157,5 @@ if __name__ == '__main__':
         print "Usage: python {} <num_processes>".format(sys.argv[0])
         sys.exit(1)
 
-    setup_logging()
+    #setup_logging()
     experiment_runner()
